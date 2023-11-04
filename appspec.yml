@@ -3,9 +3,9 @@ os: linux
 
 files:
   - source: /
-    destination: /artgarden
+    destination: /home/ubuntu/artgarden
 permissions:
-  - object: /artgarden/
+  - object: /home/ubuntu/artgarden/
     owner: ubuntu
     group: ubuntu
 hooks:
