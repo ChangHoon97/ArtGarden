@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-REPOSITORY=/home/ubuntu/artgarden
+REPOSITORY=/home/ubuntu/artgarden/server
 cd $REPOSITORY
 
 APP_NAME=server
