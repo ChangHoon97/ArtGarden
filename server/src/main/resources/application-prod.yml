@@ -3,7 +3,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: ${MY_SQL_ADDRESS}
     username: ${MY_SQL_ID}
-    password: ${MY_SQL_PASSWROD}
+    password: ${MY_SQL_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: update  # 서버 시작 시 변경사항만 update
