@@ -14,8 +14,8 @@ on:
 env:
   PROJECT_NAME: artgarden
   BUCKET_NAME: artgardenserver
-  CODE_DEPLOY_APP_NAME: artgarden
-  DEPLOYMENT_GROUP_NAME: artgarden_deploy
+  CODE_DEPLOY_APP_NAME: artgardenapp
+  DEPLOYMENT_GROUP_NAME: artgarden_codedeploy
 
 jobs:
   build:
@@ -31,11 +31,12 @@ jobs:
         distribution: 'temurin'
 
     - name: Grant execute permission for gradlew
-      run: chmod +x ./gradlew
+      run: chmod +x ./server/gradlew
       shell: bash
 
     - name: Build with Gradle
       run: ./gradlew build
+      working-directory: server
       shell: bash
 
     - name: Make Zip File
@@ -45,7 +46,7 @@ jobs:
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
-        aws-access-key-id: ${{ secrets.ARTGARDEN_AWS_ACCESS_KEY_ID }}
+        aws-access-key-id: ${{ secrets.ARTGARDEN_AWS_ACCESS_KEY }}
         aws-secret-access-key: ${{ secrets.ARTGARDEN_AWS_SECRET_ACCESS_KEY }}
         aws-region: ap-northeast-2
       
