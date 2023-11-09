@@ -1,4 +1,4 @@
-//package artgarden.server.entity;
+//package artgarden.server.entity.dto;
 //
 //public class UserProfile {
 //    private final String oauthId;
