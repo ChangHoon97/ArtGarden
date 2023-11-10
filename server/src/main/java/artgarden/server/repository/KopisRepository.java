@@ -12,7 +12,7 @@ public interface KopisRepository extends JpaRepository<Performance, Long> {
 
     List<Performance> findAllByOrderByEndDateAsc();
 
-    Optional<Performance> findById(String id);
+    Performance findById(String id);
 
 
 }
