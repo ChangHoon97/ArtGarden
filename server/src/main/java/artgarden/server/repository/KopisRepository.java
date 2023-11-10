@@ -1,19 +1,15 @@
 package artgarden.server.repository;
 
-import artgarden.server.entity.Perforamnce;
-import jakarta.persistence.EntityManager;
-import lombok.RequiredArgsConstructor;
+import artgarden.server.entity.Performance;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.lang.NonNullApi;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
-public interface KopisRepository extends JpaRepository<Perforamnce, Long> {
+public interface KopisRepository extends JpaRepository<Performance, Long> {
 
-    List<Perforamnce> findAllByOrderByEndDateAsc();
+    List<Performance> findAllByOrderByEndDateAsc();
 
 
 }

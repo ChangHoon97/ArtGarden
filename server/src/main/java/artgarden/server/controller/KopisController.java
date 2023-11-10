@@ -15,8 +15,9 @@ public class KopisController {
     private final KopisService kopisService;
 
     @GetMapping("/api")
-    public ResponseEntity<String> kopisAPI(){
+    public ResponseEntity<String> kopisAPISave(){
 
+        kopisService.apiSave();
 
         return ResponseEntity.ok("Data save successfully");
     }
