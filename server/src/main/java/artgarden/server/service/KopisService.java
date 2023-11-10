@@ -1,7 +1,6 @@
 package artgarden.server.service;
 
 import artgarden.server.entity.Performance;
-import artgarden.server.entity.TestEntity;
 import artgarden.server.entity.dto.PerformanceDto;
 import artgarden.server.repository.KopisRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -65,8 +65,13 @@ public class KopisService {
         kopisRepository.saveAll(performances);
     }
 
-    public void findAll() {
-        kopisRepository.findAllByOrderByEndDateAsc();
+    public List<Performance> findAll() {
+        return kopisRepository.findAllByOrderByEndDateAsc();
+    }
+
+    public Optional<Performance> findById(String id){
+
+        return kopisRepository.findById(id);
     }
 
     public String getPerformanceId(int cpage) {
@@ -74,7 +79,7 @@ public class KopisService {
         URI uri = UriComponentsBuilder.fromUriString("http://www.kopis.or.kr")
                 .path("/openApi/restful/pblprfr")
                 .queryParam("service", "86fdb34b92254e1b84343a5c323e3314")
-                .queryParam("stdate", 20230101)
+                .queryParam("stdate", 20230601)
                 .queryParam("eddate", 20231108)
                 .queryParam("cpage", cpage)
                 .queryParam("rows", 100)

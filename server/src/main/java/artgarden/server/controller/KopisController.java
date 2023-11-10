@@ -1,23 +1,23 @@
 package artgarden.server.controller;
 
 import artgarden.server.entity.Performance;
-import artgarden.server.entity.TestEntity;
 import artgarden.server.service.KopisService;
-import artgarden.server.service.TestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.net.URL;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
 public class KopisController {
 
     private final KopisService kopisService;
-    private final TestService testService;
 
+    //초기 DB에 전체 데이터 저장(06/01~11/08)
     @GetMapping("/api")
     public ResponseEntity<String> kopisAPISave(){
 
@@ -26,14 +26,20 @@ public class KopisController {
         return ResponseEntity.ok("Data save successfully");
     }
 
-    @GetMapping("/test")
-    public ResponseEntity<String> testme(){
-        TestEntity test = new TestEntity();
-        test.setId(1);
-        test.setName("창훈");
-
-        testService.testSave(test);
-
-        return ResponseEntity.ok("test success");
+    @GetMapping("/performances")
+    public ResponseEntity<List<Performance>> getAllList(){
+        List<Performance> performanceList = kopisService.findAll();
+        return ResponseEntity.ok(performanceList);
     }
+
+    @GetMapping("/performances/{id}")
+    public ResponseEntity<Optional<Performance>> getPerformance(@PathVariable String id){
+
+        Optional<Performance> performance = kopisService.findById(id);
+
+        return ResponseEntity.ok(performance);
+    }
+
+
+
 }
