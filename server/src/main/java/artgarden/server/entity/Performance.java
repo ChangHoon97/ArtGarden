@@ -18,7 +18,7 @@ public class Performance {
     private Date startDate;
     private Date endDate;
     private String place;
-    @Column(length = 512)
+    @Column(length = 1024)
     private String time;
     private String age;
     private String price;
