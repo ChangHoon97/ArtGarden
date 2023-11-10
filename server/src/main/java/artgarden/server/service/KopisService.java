@@ -1,6 +1,7 @@
 package artgarden.server.service;
 
 import artgarden.server.entity.Performance;
+import artgarden.server.entity.TestEntity;
 import artgarden.server.entity.dto.PerformanceDto;
 import artgarden.server.repository.KopisRepository;
 import lombok.RequiredArgsConstructor;
