@@ -5,6 +5,7 @@ import artgarden.server.entity.dto.performanceDto.PerformanceDetailDto;
 import artgarden.server.entity.dto.performanceDto.PerformanceListDto;
 import artgarden.server.service.KopisService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,23 +17,26 @@ import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class KopisController {
 
     private final KopisService kopisService;
 
     //초기 DB에 전체 데이터 저장(06/01~11/09)
-    @GetMapping("/api")
-    public ResponseEntity<String> kopisApiSave(){
+    @GetMapping("/manualUpcomingUpdate")
+    public ResponseEntity<String> manualUpcomingUpdate(){
+        log.info("manualUpcomingUpdate Start");
 
-        kopisService.apiSave();
+        kopisService.updateUpcoming();
 
         return ResponseEntity.ok("Data save successfully");
     }
 
-    @GetMapping("/updateDB")
-    public ResponseEntity<String> kopisApiUpdate(){
+    @GetMapping("/manualOngoingUpdate")
+    public ResponseEntity<String> manualOngoingUpdate(){
+        log.info("manualOngoingUpdate Start");
 
-        kopisService.updatePerformance();
+        kopisService.updateOngoing();
 
         return ResponseEntity.ok("Data update successfully");
     }
