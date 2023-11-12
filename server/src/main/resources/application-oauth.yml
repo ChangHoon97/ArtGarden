@@ -10,6 +10,3 @@ spring:
             scope:
               - profile
               - email
-logging:
-  level:
-    org.springframework.security: TRACE

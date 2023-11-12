@@ -5,6 +5,7 @@ import artgarden.server.entity.dto.performanceDto.PerformanceApiDto;
 import artgarden.server.repository.KopisRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cglib.core.Local;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,37 +35,6 @@ public class KopisService {
 
     private final KopisRepository kopisRepository;
 
-
-    @Transactional
-    public void apiSave() {
-        // performId가 모두 저장되는 String 리스트
-        List<String> performId = new ArrayList<>();
-        //perfomance가 저장되는 performance 리스트
-        List<Performance> performances = new ArrayList<>();
-
-        int cpage = 1;
-        // 모든 performId가 저장될떄까지 while문 돌아감
-        while (true) {
-            String responsebody = getPerformId(cpage, "20230601", formatDate());
-
-            List<String> newIdList = idXmlParsing(responsebody);
-            if(CollectionUtils.isEmpty(newIdList)){
-                break;
-            }
-            performId.addAll(newIdList);
-
-            cpage++;
-        }
-
-        for (String id : performId) {
-            Performance performance = new Performance();
-            performance.updateFromApiDto(detailXmlParsing(getPerformanceDetail(id)));
-            performances.add(performance);
-        }
-
-        kopisRepository.saveAll(performances);
-    }
-
     public List<Performance> findAll() {
         return kopisRepository.findAllByOrderByEndDateAsc();
     }
@@ -74,74 +44,92 @@ public class KopisService {
         return kopisRepository.findById(id);
     }
 
+    //오늘~ 한달 뒤 공연 정보 업데이트
     @Transactional
-    public void updatePerformance(){
+    public void updateUpcoming(){
+        getApi(formatDate(LocalDate.now()), formatDate(LocalDate.now().plusMonths(1)), "01");   //01: 공연예정
+        log.info("updateUpcoming finish");
+    }
 
+    //현재 공연중인 정보 업데이트
+    @Transactional
+    public void updateOngoing(){
+        getApi(formatDate(LocalDate.now()), formatDate(LocalDate.now()), "02"); //02: 공연중
+        log.info("updateOncoming finish");
+    }
+
+
+    //Date format change
+    private String formatDate(LocalDate date){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        return date.format(formatter);
+    }
+
+    @Transactional
+    public void getApi(String startDate, String endDate, String perform_status){
         // performId가 모두 저장되는 String 리스트
-        List<String> performId = new ArrayList<>();
-        //perfomance가 저장되는 performance 리스트
-        List<Performance> performances = new ArrayList<>();
+        List<String> performIdList = getPerformanceId(startDate, endDate, perform_status);
 
+        //OpenApi에서 performId를 이용해 performDetail을 리스트에 저장
+        List<Performance> performances = getPerformanceDetail(performIdList);
+
+        //DB저장
+        kopisRepository.saveAll(performances);
+    }
+
+    private List<String> getPerformanceId(String startDate, String endDate, String perform_status) {
+        List<String> performIdList = new ArrayList<>();
         int cpage = 1;
-        // 모든 performId가 저장될떄까지 while문 돌아감
-        while (true) {
-            String responsebody = getPerformId(cpage, formatDate(), formatDate());
+        while(true) {
+            RestTemplate restTemplate = new RestTemplate();
+            URI uri = UriComponentsBuilder.fromUriString("http://www.kopis.or.kr")
+                    .path("/openApi/restful/pblprfr")
+                    .queryParam("service", "86fdb34b92254e1b84343a5c323e3314")
+                    .queryParam("stdate", startDate)
+                    .queryParam("eddate", endDate)
+                    .queryParam("cpage", cpage)
+                    .queryParam("rows", 1000)
+                    .queryParam("prfstate", perform_status)
+                    .encode()
+                    .build()
+                    .toUri();
 
-            List<String> newIdList = idXmlParsing(responsebody);
-            if(CollectionUtils.isEmpty(newIdList)){
+            String url = uri.toString();
+            String responseBody = restTemplate.getForEntity(url, String.class).getBody();
+            //xnmlParsing
+            List<String> newIdList = idXmlParsing(responseBody);
+            //endPoint check
+            if (CollectionUtils.isEmpty(newIdList)) {
                 break;
             }
-            performId.addAll(newIdList);
+
+            performIdList.addAll(newIdList);
 
             cpage++;
         }
 
-        for (String id : performId) {
+        return performIdList;
+    }
+
+    private List<Performance> getPerformanceDetail(List<String> performIdList){
+        List<Performance> performances = new ArrayList<>();
+
+        for(String id : performIdList){
             Performance performance = new Performance();
-            performance.updateFromApiDto(detailXmlParsing(getPerformanceDetail(id)));
+            RestTemplate restTemplate = new RestTemplate();
+            URI uri = UriComponentsBuilder.fromUriString("http://www.kopis.or.kr")
+                    .path("/openApi/restful/pblprfr/{id}")
+                    .queryParam("service","86fdb34b92254e1b84343a5c323e3314")
+                    .buildAndExpand(id)
+                    .toUri();
+            String url = uri.toString();
+            String responseBody = restTemplate.getForEntity(url, String.class).getBody();
+            //xmlParsing
+            performance.updateFromApiDto(detailXmlParsing(responseBody));
             performances.add(performance);
         }
 
-        kopisRepository.saveAll(performances);
-    }
-
-    //하루 전 날짜 계산
-    private String formatDate(){
-        LocalDate currentDate = LocalDate.now().minusDays(1);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-        return currentDate.format(formatter);
-    }
-
-    private String getPerformId(int cpage, String startDate, String endDate) {
-        RestTemplate restTemplate = new RestTemplate();
-        URI uri = UriComponentsBuilder.fromUriString("http://www.kopis.or.kr")
-                .path("/openApi/restful/pblprfr")
-                .queryParam("service", "86fdb34b92254e1b84343a5c323e3314")
-                .queryParam("stdate", startDate)
-                .queryParam("eddate", endDate)
-                .queryParam("cpage", cpage)
-                .queryParam("rows", 100)
-                .encode()
-                .build()
-                .toUri();
-
-        String url = uri.toString();
-        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
-
-        return response.getBody();
-    }
-
-    private String getPerformanceDetail(String id){
-        RestTemplate restTemplate = new RestTemplate();
-        URI uri = UriComponentsBuilder.fromUriString("http://www.kopis.or.kr")
-                .path("/openApi/restful/pblprfr/{id}")
-                .queryParam("service","86fdb34b92254e1b84343a5c323e3314")
-                .buildAndExpand(id)
-                .toUri();
-        String url = uri.toString();
-        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
-
-        return response.getBody();
+        return performances;
     }
 
     private List<String> idXmlParsing(String responsebody){
