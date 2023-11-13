@@ -68,15 +68,15 @@ public class KopisService {
     }
 
     @Transactional
-    public List<Performance> getPerformanceList(String startDate, String endDate, String perform_status){
+    public List<Performance> getPerformanceList(String startDate, String endDate, String performStatus){
         // performId가 모두 저장되는 String 리스트
-        List<String> performIdList = getPerformanceId(startDate, endDate, perform_status);
+        List<String> performIdList = getPerformanceId(startDate, endDate, performStatus);
 
         //OpenApi에서 performId를 이용해 performDetail을 리스트에 저장
         return getPerformanceDetail(performIdList);
     }
 
-    private List<String> getPerformanceId(String startDate, String endDate, String perform_status) {
+    private List<String> getPerformanceId(String startDate, String endDate, String performStatus) {
         List<String> performIdList = new ArrayList<>();
         int cpage = 1;
         while(true) {
@@ -88,7 +88,7 @@ public class KopisService {
                     .queryParam("eddate", endDate)
                     .queryParam("cpage", cpage)
                     .queryParam("rows", 1000)
-                    .queryParam("prfstate", perform_status)
+                    .queryParam("prfstate", performStatus)
                     .encode()
                     .build()
                     .toUri();
@@ -181,14 +181,15 @@ public class KopisService {
             String casting = performanceElement.getElementsByTagName("prfcast").item(0).getTextContent();
             String production = performanceElement.getElementsByTagName("entrpsnm").item(0).getTextContent();
             String genre = performanceElement.getElementsByTagName("genrenm").item(0).getTextContent();
-            String perform_status = performanceElement.getElementsByTagName("prfstate").item(0).getTextContent();
+            String performStatus = performanceElement.getElementsByTagName("prfstate").item(0).getTextContent();
             String posterUrl = performanceElement.getElementsByTagName("poster").item(0).getTextContent();
+            String openRun = performanceElement.getElementsByTagName("openrun").item(0).getTextContent();
 
             LocalDate startDate = LocalDate.parse(start, formatter);
-            LocalDate endDate = LocalDate.parse(start, formatter);
+            LocalDate endDate = LocalDate.parse(end, formatter);
 
 
-            return new PerformanceApiDto(id, name, startDate, endDate, place, time, age, price, casting, production, genre, perform_status, posterUrl);
+            return new PerformanceApiDto(id, name, startDate, endDate, place, time, age, price, casting, production, genre, performStatus, posterUrl, openRun);
         }catch(Exception e){
             e.printStackTrace();
             return null;

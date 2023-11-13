@@ -13,8 +13,8 @@ public class PerformanceDetailDto {
 
     private String id;
     private String name;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private String startDate;
+    private String endDate;
     private String place;
     private String time;
     private String age;
@@ -22,7 +22,7 @@ public class PerformanceDetailDto {
     private String casting;
     private String production;
     private String genre;
-    private String perform_status;
+    private String performStatus;
     private String posterUrl;
 
     public void fromEntity(Performance performance){
@@ -37,7 +37,7 @@ public class PerformanceDetailDto {
         this.setCasting(performance.getCasting());
         this.setProduction(performance.getProduction());
         this.setGenre(performance.getGenre());
-        this.setPerform_status(performance.getPerform_status());
+        this.setPerformStatus(performance.getPerformStatus());
         this.setPosterUrl(performance.getPosterUrl());
 
     }

@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 @Getter
@@ -13,8 +14,8 @@ public class PerformanceListDto {
 
     private String id;
     private String name;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private String startDate;
+    private String endDate;
     private String place;
     private String price;
     private String posterUrl;
@@ -30,5 +31,9 @@ public class PerformanceListDto {
         dto.setPosterUrl(performance.getPosterUrl());
 
         return dto;
+    }
+
+    private void dateFormat(LocalDate localdate){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     }
 }
