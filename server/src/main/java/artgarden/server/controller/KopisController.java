@@ -41,35 +41,6 @@ public class KopisController {
         return ResponseEntity.ok("Data update successfully");
     }
 
-    @GetMapping("/performances")
-    public ResponseEntity<List<PerformanceListDto>> getAllList(){
-        List<PerformanceListDto> dtoList= new ArrayList<>();
-        PerformanceListDto dto = new PerformanceListDto();
-
-        List<Performance> performanceList = kopisService.findAll();
-        for(Performance performance : performanceList){
-            dtoList.add(dto.fromEntity(performance));
-        }
-        return ResponseEntity.ok(dtoList);
-    }
-
-    @GetMapping("/performances/{id}")
-    public ResponseEntity<PerformanceDetailDto> getPerformance(@PathVariable String id){
-
-        PerformanceDetailDto dto = new PerformanceDetailDto();
-
-        Performance performance = kopisService.findById(id);
-
-        //null일때 예외처리
-        if(performance == null){
-            return ResponseEntity.notFound().build();
-        }
-
-        dto.fromEntity(performance);
-
-        return ResponseEntity.ok(dto);
-    }
-
 
 
 

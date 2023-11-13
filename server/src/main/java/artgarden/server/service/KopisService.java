@@ -2,11 +2,9 @@ package artgarden.server.service;
 
 import artgarden.server.entity.Performance;
 import artgarden.server.entity.dto.performanceDto.PerformanceApiDto;
-import artgarden.server.repository.KopisRepository;
+import artgarden.server.repository.PerformanceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.cglib.core.Local;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -33,16 +31,8 @@ import java.util.List;
 @Slf4j
 public class KopisService {
 
-    private final KopisRepository kopisRepository;
+    private final PerformanceRepository performanceRepository;
 
-    public List<Performance> findAll() {
-        return kopisRepository.findAllByOrderByEndDateAsc();
-    }
-
-    public Performance findById(String id){
-
-        return kopisRepository.findById(id);
-    }
 
     //오늘~ 한달 뒤 공연 정보 업데이트
     @Transactional
@@ -74,7 +64,7 @@ public class KopisService {
         List<Performance> performances = getPerformanceDetail(performIdList);
 
         //DB저장
-        kopisRepository.saveAll(performances);
+        performanceRepository.saveAll(performances);
     }
 
     private List<String> getPerformanceId(String startDate, String endDate, String perform_status) {
