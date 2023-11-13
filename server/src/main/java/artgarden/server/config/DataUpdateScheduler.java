@@ -5,7 +5,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDate;
 
 @Component
 @RequiredArgsConstructor
@@ -14,15 +15,16 @@ public class DataUpdateScheduler {
 
     private final KopisService kopisService;
 
-    @Scheduled(cron = "0 0 10 * * ?", zone = "Asia/Seoul")
-    public void updateData(){
-        log.info("Scheduling start");
-        kopisService.updateOngoing();
-        log.info("Scheduling finish");
+    @Scheduled(cron = "0 0 10 * * ?")
+    public void weeklyUpdate(){
+        kopisService.updateUpcoming();
+        kopisService.deletePerformed(LocalDate.now().minusMonths(1));   //한달 이전 정보 삭제
     }
 
-    @Scheduled(cron = "0 30 16 * *?")
-    public void schedulerTes(){
-        log.info("스케줄링 테스트입니다.");
+    @Scheduled(cron = "0 0 12 ? * 2")
+    public void dailyUpdate(){
+        kopisService.updateOngoing();
+        kopisService.updatePerformStatus();
+
     }
 }

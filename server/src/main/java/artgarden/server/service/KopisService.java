@@ -20,6 +20,7 @@ import java.io.ByteArrayInputStream;
 import java.net.URI;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
@@ -46,6 +47,18 @@ public class KopisService {
     public void updateOngoing(){
         getApi(formatDate(LocalDate.now()), formatDate(LocalDate.now()), "02"); //02: 공연중
         log.info("updateOncoming finish");
+    }
+
+    //standardDate 이전 공연 정보 삭제
+    @Transactional
+    public void deletePerformed(LocalDate standardDate){
+        performanceRepository.deleteByEndDateBefore(standardDate);
+    }
+
+    //endDate가 지난 공연 상태 공연완료로 변경
+    @Transactional
+    public void updatePerformStatus(){
+        performanceRepository.updatePerformStatusForExpiredPerformances(LocalDate.now());
     }
 
 
@@ -152,7 +165,7 @@ public class KopisService {
 
     private PerformanceApiDto detailXmlParsing(String responsebody){
         try {
-            SimpleDateFormat format = new SimpleDateFormat("yyyy.MM.dd");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
 
             ByteArrayInputStream inputStream = new ByteArrayInputStream(responsebody.getBytes());
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -175,8 +188,8 @@ public class KopisService {
             String perform_status = performanceElement.getElementsByTagName("prfstate").item(0).getTextContent();
             String posterUrl = performanceElement.getElementsByTagName("poster").item(0).getTextContent();
 
-            Date startDate = format.parse(start);
-            Date endDate = format.parse(end);
+            LocalDate startDate = LocalDate.parse(start, formatter);
+            LocalDate endDate = LocalDate.parse(start, formatter);
 
 
             return new PerformanceApiDto(id, name, startDate, endDate, place, time, age, price, casting, production, genre, perform_status, posterUrl);
