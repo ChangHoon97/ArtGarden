@@ -24,16 +24,22 @@ public class PerformanceListDto {
         PerformanceListDto dto = new PerformanceListDto();
         dto.setId(performance.getId());
         dto.setName(performance.getName());
-        dto.setStartDate(performance.getStartDate());
-        dto.setEndDate(performance.getEndDate());
+        dto.setStartDate(dateFormat(performance.getStartDate()));
         dto.setPlace(performance.getPlace());
         dto.setPrice(performance.getPrice());
         dto.setPosterUrl(performance.getPosterUrl());
 
+        if(performance.getOpenRun().equals("Y")){
+            dto.setEndDate("오픈런");
+        }else{
+            dto.setEndDate(dateFormat(performance.getEndDate()));
+        }
+
         return dto;
     }
 
-    private void dateFormat(LocalDate localdate){
+    private String dateFormat(LocalDate localdate){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return localdate.format(formatter);
     }
 }
