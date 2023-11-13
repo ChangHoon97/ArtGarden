@@ -44,7 +44,7 @@ public class PerformanceController {
             return ResponseEntity.ok(dtoList);
         }
 
-        if(sort.equals("expect")){
+        if(sort.equals("upcoming")){
             List<Performance> performances = performanceService.findExpectPerformanceList(pageable).getContent();
             for(Performance performance : performances){
                 dtoList.add(dto.fromEntity(performance));
