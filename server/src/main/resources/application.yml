@@ -1,4 +1,10 @@
 spring:
   profiles:
-    active: local # 로컬 환경에서 사용할 프로파일
+    active: prod # 로컬 환경에서 사용할 프로파일
     include: oauth
+
+springdoc:
+  swagger-ui:
+    operations-sorter: method
+  default-produces-media-type: application/json
+  default-consumes-media-type: application/json

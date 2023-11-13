@@ -24,8 +24,8 @@ public class PerformanceService {
         return performanceRepository.findById(id);
     }
 
-    public Page<Performance> getPerformances(String keyword, String status, int startDate, Pageable pageable){
-        LocalDate expectDate = LocalDate.now().plusDays(startDate);
+    public Page<Performance> getPerformances(String keyword, String status, int days, Pageable pageable){
+        LocalDate expectDate = LocalDate.now().plusDays(days);
         return performanceRepository.getPerformances(keyword, status, expectDate, pageable);
     }
 }

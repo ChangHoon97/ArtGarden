@@ -1,6 +1,7 @@
 package artgarden.server.controller;
 
 import artgarden.server.service.KopisService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import java.time.format.DateTimeFormatter;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@Tag(name = "KopisApi", description = "Kopis OpenApi를 활용한 API")
 public class KopisController {
 
     private final KopisService kopisService;
