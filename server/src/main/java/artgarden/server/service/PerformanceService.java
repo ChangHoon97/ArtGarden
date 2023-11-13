@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -20,24 +19,13 @@ public class PerformanceService {
 
     private final PerformanceRepository performanceRepository;
 
-    public Page<Performance> findAllPerformanceList(Pageable pageable) {
-        return performanceRepository.findAll(pageable);
-    }
-
-    public Page<Performance> findOngoingPerformanceList(Pageable pageable){
-
-        return performanceRepository.findByPerformStatus("공연중", pageable);
-
-    }
-
-    public Page<Performance> findExpectPerformanceList(Pageable pageable){
-        LocalDate expectDate = LocalDate.now().plusMonths(1);
-        return performanceRepository.findByPerformStatusBeforeStartDate("공연예정", expectDate, pageable);
-    }
-
-
     public Performance findById(String id){
 
         return performanceRepository.findById(id);
+    }
+
+    public Page<Performance> getPerformances(String keyword, String status, int startDate, Pageable pageable){
+        LocalDate expectDate = LocalDate.now().plusDays(startDate);
+        return performanceRepository.getPerformances(keyword, status, expectDate, pageable);
     }
 }
