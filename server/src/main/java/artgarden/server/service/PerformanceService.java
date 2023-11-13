@@ -21,12 +21,12 @@ public class PerformanceService {
     private final PerformanceRepository performanceRepository;
 
     public Page<Performance> findAllPerformanceList(Pageable pageable) {
-        return performanceRepository.findAllByOrderByEndDateAsc(pageable);
+        return performanceRepository.findAll(pageable);
     }
 
     public Page<Performance> findOngoingPerformanceList(Pageable pageable){
 
-        return performanceRepository.findByPerformStatusOrderByEndDateAsc("공연중", pageable);
+        return performanceRepository.findByPerformStatus("공연중", pageable);
 
     }
 

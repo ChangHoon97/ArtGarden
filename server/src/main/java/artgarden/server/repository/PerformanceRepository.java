@@ -14,10 +14,9 @@ import java.util.List;
 
 public interface PerformanceRepository extends JpaRepository<Performance, Long> {
 
-    Page<Performance> findAllByOrderByEndDateAsc(Pageable pageable);
-    Page<Performance> findByPerformStatusOrderByEndDateAsc(String performStatus, Pageable pageable);
+    Page<Performance> findByPerformStatus(String performStatus, Pageable pageable);
 
-    @Query("SELECT e FROM Performance e WHERE e.startDate BETWEEN CURRENT_DATE AND :expectDate AND e.performStatus = :performStatus ORDER BY e.startDate ASC ")
+    @Query("SELECT e FROM Performance e WHERE e.startDate BETWEEN CURRENT_DATE AND :expectDate AND e.performStatus = :performStatus")
     Page<Performance> findByPerformStatusBeforeStartDate(@Param("performStatus")String performStatus, @Param("expectDate") LocalDate expectDate, Pageable pageable);
 
     Performance findById(String id);
