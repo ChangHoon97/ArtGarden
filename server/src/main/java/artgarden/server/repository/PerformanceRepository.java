@@ -10,7 +10,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.List;
 
 public interface PerformanceRepository extends JpaRepository<Performance, Long> {
 
@@ -30,5 +29,10 @@ public interface PerformanceRepository extends JpaRepository<Performance, Long> 
     @Modifying
     @Query("UPDATE Performance e SET e.performStatus = '공연완료' WHERE e.endDate <= :today AND e.performStatus <> '공연완료'")
     void updatePerformStatusForExpiredPerformances(LocalDate today);
+
+    @Query("SELECT e FROM Performance e WHERE e.name LIKE %:keyword AND e.startDate < :expectDate" +
+            " AND (:status = 'all' OR e.performStatus = :status)")
+    Page<Performance> getPerformances(@Param("keyword") String keyword, @Param("status") String status, @Param("expectDate") LocalDate expectDate, Pageable pageable);
+
 
 }
