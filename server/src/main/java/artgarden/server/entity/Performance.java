@@ -42,8 +42,9 @@ public class Performance {
         this.casting = dto.getCasting();
         this.production = dto.getProduction();
         this.genre = dto.getGenre();
-        this.performStatus=dto.getPerformStatus();
-        this.posterUrl=dto.getPosterUrl();
+        this.performStatus = dto.getPerformStatus();
+        this.posterUrl = dto.getPosterUrl();
+        this.openRun = dto.getOpenRun();
     }
 
 

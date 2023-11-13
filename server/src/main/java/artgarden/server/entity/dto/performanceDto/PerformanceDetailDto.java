@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 @Getter
@@ -28,8 +29,7 @@ public class PerformanceDetailDto {
     public void fromEntity(Performance performance){
         this.setId(performance.getId());
         this.setName(performance.getName());
-        this.setStartDate(performance.getStartDate());
-        this.setEndDate(performance.getEndDate());
+        this.setStartDate(dateFormat(performance.getStartDate()));
         this.setPlace(performance.getPlace());
         this.setTime(performance.getTime());
         this.setAge(performance.getAge());
@@ -40,5 +40,15 @@ public class PerformanceDetailDto {
         this.setPerformStatus(performance.getPerformStatus());
         this.setPosterUrl(performance.getPosterUrl());
 
+        if(performance.getOpenRun().equals("Y")){
+            this.setEndDate("오픈런");
+        }else{
+            this.setEndDate(dateFormat(performance.getEndDate()));
+        }
+    }
+
+    private String dateFormat(LocalDate localdate){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return localdate.format(formatter);
     }
 }
