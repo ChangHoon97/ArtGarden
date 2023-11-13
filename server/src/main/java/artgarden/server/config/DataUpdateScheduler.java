@@ -18,7 +18,7 @@ public class DataUpdateScheduler {
 
     @Scheduled(cron = "0 0 10 * * ?")
     public void dailyUpdate(){
-        kopisService.updateUpcoming( formatDate(LocalDate.now().plusMonths(2)));    //standard = 한달 이후
+        kopisService.updateUpcoming( formatDate(LocalDate.now().plusMonths(1)));    //standard = 한달 이후
         kopisService.deletePerformed(LocalDate.now().minusMonths(1));   //standard = 한달 이전
         kopisService.updatePerformStatus();
         kopisService.updateOngoing();
