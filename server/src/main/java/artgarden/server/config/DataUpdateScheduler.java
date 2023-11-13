@@ -20,4 +20,9 @@ public class DataUpdateScheduler {
         kopisService.updateOngoing();
         log.info("Scheduling finish");
     }
+
+    @Scheduled(cron = "0 30 16 * *?")
+    public void schedulerTes(){
+        log.info("스케줄링 테스트입니다.");
+    }
 }
