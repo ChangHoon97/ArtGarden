@@ -17,15 +17,11 @@ public class DataUpdateScheduler {
     private final KopisService kopisService;
 
     @Scheduled(cron = "0 0 10 * * ?")
-    public void weeklyUpdate(){
-        kopisService.updateUpcoming( formatDate(LocalDate.now().plusMonths(1)));    //standard = 한달 이후
-        kopisService.deletePerformed(LocalDate.now().minusMonths(1));   //standard = 한달 이전
-    }
-
-    @Scheduled(cron = "0 0 12 ? * 2")
     public void dailyUpdate(){
-        kopisService.updateOngoing();
+        kopisService.updateUpcoming( formatDate(LocalDate.now().plusMonths(2)));    //standard = 한달 이후
+        kopisService.deletePerformed(LocalDate.now().minusMonths(1));   //standard = 한달 이전
         kopisService.updatePerformStatus();
+        kopisService.updateOngoing();
     }
 
     //LocalDate -> String
