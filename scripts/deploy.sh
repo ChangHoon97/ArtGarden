@@ -19,5 +19,6 @@ else
 fi
 
 echo "> $JAR_PATH 배포"
+sudo rm /home/ubuntu/logfile.log
 sudo nohup java -jar -Dspring.profiles.active=prod $JAR_PATH >> /home/ubuntu/logfile.log 2>&1 &
 
