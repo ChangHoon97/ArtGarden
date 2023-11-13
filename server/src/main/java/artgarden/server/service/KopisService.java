@@ -34,19 +34,18 @@ public class KopisService {
 
     private final PerformanceRepository performanceRepository;
 
-
     //오늘~ 한달 뒤 공연 정보 업데이트
     @Transactional
-    public void updateUpcoming(){
-        getApi(formatDate(LocalDate.now()), formatDate(LocalDate.now().plusMonths(1)), "01");   //01: 공연예정
-        log.info("updateUpcoming finish");
+    public void updateUpcoming(String standardDate){
+        List<Performance> performanceList = getPerformanceList(formatDate(LocalDate.now()), standardDate, "01");   //01: 공연예정
+        performanceRepository.saveAll(performanceList);
     }
 
-    //현재 공연중인 정보 업데이트
+    //오늘 공연중인 정보 업데이트
     @Transactional
     public void updateOngoing(){
-        getApi(formatDate(LocalDate.now()), formatDate(LocalDate.now()), "02"); //02: 공연중
-        log.info("updateOncoming finish");
+        List<Performance> performanceList = getPerformanceList(formatDate(LocalDate.now()), formatDate(LocalDate.now()), "02"); //02: 공연중
+        performanceRepository.saveAll(performanceList);
     }
 
     //standardDate 이전 공연 정보 삭제
@@ -62,22 +61,19 @@ public class KopisService {
     }
 
 
-    //Date format change
+    //LocalDate -> String
     private String formatDate(LocalDate date){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         return date.format(formatter);
     }
 
     @Transactional
-    public void getApi(String startDate, String endDate, String perform_status){
+    public List<Performance> getPerformanceList(String startDate, String endDate, String perform_status){
         // performId가 모두 저장되는 String 리스트
         List<String> performIdList = getPerformanceId(startDate, endDate, perform_status);
 
         //OpenApi에서 performId를 이용해 performDetail을 리스트에 저장
-        List<Performance> performances = getPerformanceDetail(performIdList);
-
-        //DB저장
-        performanceRepository.saveAll(performances);
+        return getPerformanceDetail(performIdList);
     }
 
     private List<String> getPerformanceId(String startDate, String endDate, String perform_status) {

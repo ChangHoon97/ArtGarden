@@ -7,6 +7,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Component
 @RequiredArgsConstructor
@@ -17,14 +18,19 @@ public class DataUpdateScheduler {
 
     @Scheduled(cron = "0 0 10 * * ?")
     public void weeklyUpdate(){
-        kopisService.updateUpcoming();
-        kopisService.deletePerformed(LocalDate.now().minusMonths(1));   //한달 이전 정보 삭제
+        kopisService.updateUpcoming( formatDate(LocalDate.now().plusMonths(1)));    //standard = 한달 이후
+        kopisService.deletePerformed(LocalDate.now().minusMonths(1));   //standard = 한달 이전
     }
 
     @Scheduled(cron = "0 0 12 ? * 2")
     public void dailyUpdate(){
         kopisService.updateOngoing();
         kopisService.updatePerformStatus();
+    }
 
+    //LocalDate -> String
+    private String formatDate(LocalDate date){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        return date.format(formatter);
     }
 }
