@@ -7,6 +7,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Component
@@ -22,6 +23,7 @@ public class DataUpdateScheduler {
         kopisService.deletePerformed(LocalDate.now().minusMonths(1));   //standard = 한달 이전
         kopisService.updatePerformStatus();
         kopisService.updateOngoing();
+        log.info("스케쥴링 자동 업데이트 : " + LocalDateTime.now());
     }
 
     //LocalDate -> String
