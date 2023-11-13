@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,9 +27,10 @@ public class KopisController {
     //초기 DB에 전체 데이터 저장(06/01~11/09)
     @GetMapping("/manualUpcomingUpdate")
     public ResponseEntity<String> manualUpcomingUpdate(){
-        log.info("manualUpcomingUpdate Start");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        String standardDate = LocalDate.now().plusMonths(1).format(formatter);
 
-        kopisService.updateUpcoming();
+        kopisService.updateUpcoming(standardDate);
 
         return ResponseEntity.ok("Data save successfully");
     }
