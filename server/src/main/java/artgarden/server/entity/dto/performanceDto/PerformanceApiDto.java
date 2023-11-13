@@ -24,6 +24,7 @@ public class PerformanceApiDto {
     private String casting;
     private String production;
     private String genre;
-    private String perform_status;
+    private String performStatus;
     private String posterUrl;
+    private String openRun;
 }

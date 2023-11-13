@@ -26,8 +26,9 @@ public class Performance {
     private String casting;
     private String production;
     private String genre;
-    private String perform_status;
+    private String performStatus;
     private String posterUrl;
+    private String openRun;
 
     public void updateFromApiDto(PerformanceApiDto dto){
         this.id = dto.getId();
@@ -41,7 +42,7 @@ public class Performance {
         this.casting = dto.getCasting();
         this.production = dto.getProduction();
         this.genre = dto.getGenre();
-        this.perform_status=dto.getPerform_status();
+        this.performStatus=dto.getPerformStatus();
         this.posterUrl=dto.getPosterUrl();
     }
 
