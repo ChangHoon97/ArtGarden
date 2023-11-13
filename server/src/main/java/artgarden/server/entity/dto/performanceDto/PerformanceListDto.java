@@ -4,6 +4,7 @@ import artgarden.server.entity.Performance;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -12,8 +13,8 @@ public class PerformanceListDto {
 
     private String id;
     private String name;
-    private Date startDate;
-    private Date endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private String place;
     private String price;
     private String posterUrl;

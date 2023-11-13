@@ -6,6 +6,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Getter;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -15,8 +16,8 @@ public class Performance {
     @Id
     private String id;
     private String name;
-    private Date startDate;
-    private Date endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private String place;
     @Column(length = 1024)
     private String time;
