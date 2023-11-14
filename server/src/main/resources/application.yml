@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: prod # 로컬 환경에서 사용할 프로파일
+    active: local # 로컬 환경에서 사용할 프로파일
     include: oauth
 
 springdoc:
