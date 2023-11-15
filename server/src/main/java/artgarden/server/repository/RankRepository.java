@@ -9,5 +9,5 @@ import java.util.Optional;
 
 public interface RankRepository extends JpaRepository<Rank, Long> {
 
-    List<Rank> findAllByRankDate(LocalDate rankDate);
+    Rank findByRankDate(LocalDate rankDate);
 }

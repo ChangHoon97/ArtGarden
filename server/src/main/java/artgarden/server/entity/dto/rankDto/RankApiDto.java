@@ -14,5 +14,5 @@ import java.util.List;
 @NoArgsConstructor
 public class RankApiDto {
     private LocalDate rankDate;
-    private String performId;
+    private List<String> performId;
 }

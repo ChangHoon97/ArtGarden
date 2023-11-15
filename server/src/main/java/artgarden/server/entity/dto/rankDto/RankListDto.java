@@ -1,7 +1,13 @@
 package artgarden.server.entity.dto.rankDto;
 
+import artgarden.server.entity.Performance;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Getter;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+@Getter
 public class RankListDto {
 
     @Schema(description = "공연 ID", example = "PF216230")
@@ -20,4 +26,25 @@ public class RankListDto {
     private String posterUrl;
     @Schema(description = "순위", example = "1")
     private int rankNum;
+
+    public RankListDto(Performance performance, int rankNumber){
+        this.id = performance.getId();
+        this.name = performance.getName();
+        this.startDate = dateFormat(performance.getStartDate());
+        this.place = performance.getPlace();
+        this.price = performance.getPrice();
+        this.posterUrl = performance.getPosterUrl();
+        this.rankNum = rankNumber;
+
+        if(performance.getOpenRun().equals("Y")){
+            this.endDate = "오픈런";
+        }else{
+            this.endDate = dateFormat(performance.getEndDate());
+        }
+    }
+
+    private String dateFormat(LocalDate localdate){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        return localdate.format(formatter);
+    }
 }
