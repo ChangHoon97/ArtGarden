@@ -1,24 +1,18 @@
 package artgarden.server.controller;
 
 import artgarden.server.entity.Performance;
-import artgarden.server.entity.Rank;
-import artgarden.server.entity.dto.performanceDto.PerformanceListDto;
+import artgarden.server.entity.WeeklyRank;
 import artgarden.server.entity.dto.rankDto.RankListDto;
 import artgarden.server.service.KopisService;
 import artgarden.server.service.PerformanceService;
 import artgarden.server.service.RankService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.ArraySchema;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
@@ -41,9 +35,9 @@ public class RankController {
             @Parameter(description = "조회 날짜, rankDate-7 ~ rankDate 기간의 순위 조회")
             @PathVariable String rankDate){
         LocalDate dates = StringToLocalDate(rankDate);
-        Rank rank = rankService.findByRankDate(dates);
+        WeeklyRank weeklyRank = rankService.findByRankDate(dates);
 
-        List<String> performIds = rank.getPerformId();
+        List<String> performIds = weeklyRank.getPerformId();
         List<RankListDto> dtoList = new ArrayList<>();
 
         for(String performId : performIds){

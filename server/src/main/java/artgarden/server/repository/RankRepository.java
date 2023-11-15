@@ -1,13 +1,11 @@
 package artgarden.server.repository;
 
-import artgarden.server.entity.Rank;
+import artgarden.server.entity.WeeklyRank;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.Optional;
 
-public interface RankRepository extends JpaRepository<Rank, Long> {
+public interface RankRepository extends JpaRepository<WeeklyRank, Long> {
 
-    Rank findByRankDate(LocalDate rankDate);
+    WeeklyRank findByRankDate(LocalDate rankDate);
 }

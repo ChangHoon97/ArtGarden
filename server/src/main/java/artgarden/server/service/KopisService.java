@@ -1,7 +1,7 @@
 package artgarden.server.service;
 
 import artgarden.server.entity.Performance;
-import artgarden.server.entity.Rank;
+import artgarden.server.entity.WeeklyRank;
 import artgarden.server.entity.dto.performanceDto.PerformanceApiDto;
 import artgarden.server.entity.dto.rankDto.RankApiDto;
 import artgarden.server.repository.PerformanceRepository;
@@ -63,13 +63,13 @@ public class KopisService {
 
     @Transactional
     public void updateRank(String ststype, String rankDate){
-        Rank rank = getRank(ststype, rankDate);
-        Rank checkRank = rankRepository.findByRankDate(rank.getRankDate());
-        if(checkRank != null){
-            checkRank.updateFromRank(rank);
-            rankRepository.save(checkRank);
+        WeeklyRank weeklyRank = getRank(ststype, rankDate);
+        WeeklyRank checkWeeklyRank = rankRepository.findByRankDate(weeklyRank.getRankDate());
+        if(checkWeeklyRank != null){
+            checkWeeklyRank.updateFromRank(weeklyRank);
+            rankRepository.save(checkWeeklyRank);
         }else{
-            rankRepository.save(rank);
+            rankRepository.save(weeklyRank);
         }
     }
 
@@ -171,7 +171,7 @@ public class KopisService {
         return performance;
     }
 
-    private Rank getRank(String ststype, String rankDate) {
+    private WeeklyRank getRank(String ststype, String rankDate) {
 
         RestTemplate restTemplate = new RestTemplate();
         URI uri = UriComponentsBuilder.fromUriString("http://www.kopis.or.kr")
@@ -186,10 +186,10 @@ public class KopisService {
         String url = uri.toString();
         String responseBody = restTemplate.getForEntity(url, String.class).getBody();
         RankApiDto dto = rankXmlParsing(responseBody, formatString(rankDate));
-        Rank rank = new Rank();
-        rank.updateFromApiDto(dto);
+        WeeklyRank weeklyRank = new WeeklyRank();
+        weeklyRank.updateFromApiDto(dto);
 
-        return rank;
+        return weeklyRank;
     }
 
     private List<String> idXmlParsing(String responsebody){
