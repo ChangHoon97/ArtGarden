@@ -7,6 +7,13 @@ import artgarden.server.entity.dto.rankDto.RankListDto;
 import artgarden.server.service.KopisService;
 import artgarden.server.service.PerformanceService;
 import artgarden.server.service.RankService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,14 +28,18 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@Tag(name = "Rank", description = "공연 순위 조회 API")
 public class RankController {
 
     private final RankService rankService;
     private final PerformanceService performanceService;
     private final KopisService kopisService;
 
+    @Operation(summary = "공연 순위 조회", description = "/ranks/20231114")
     @GetMapping("/ranks/{rankDate}")
-    public ResponseEntity<List<RankListDto>> getRank(@PathVariable String rankDate){
+    public ResponseEntity<List<RankListDto>> getRank(
+            @Parameter(description = "조회 날짜, rankDate-7 ~ rankDate 기간의 순위 조회")
+            @PathVariable String rankDate){
         LocalDate dates = StringToLocalDate(rankDate);
         Rank rank = rankService.findByRankDate(dates);
 
