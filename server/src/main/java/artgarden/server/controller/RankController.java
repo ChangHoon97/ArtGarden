@@ -27,8 +27,13 @@ public class RankController {
     @GetMapping("/ranks/{rankDate}")
     public ResponseEntity<List<PerformanceListDto>> getRank(@PathVariable String rankDate){
         LocalDate dates = StringToLocalDate(rankDate);
-        Rank rank = rankService.findByRankDate(dates);
-        List<String> performIds = rank.getPerformIds();
+        List<Rank> ranks = rankService.findByRankDate(dates);
+
+        List<String> performIds = new ArrayList<>();
+
+        for(Rank rank : ranks){
+
+        }
         List<PerformanceListDto> dtoList= new ArrayList<>();
         PerformanceListDto dto = new PerformanceListDto();
         for(String performId : performIds){

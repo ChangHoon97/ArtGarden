@@ -1,8 +1,10 @@
 package artgarden.server.service;
 
 import artgarden.server.entity.Performance;
+import artgarden.server.entity.Rank;
 import artgarden.server.entity.dto.performanceDto.PerformanceApiDto;
 import artgarden.server.repository.PerformanceRepository;
+import artgarden.server.repository.RankRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -30,6 +32,7 @@ import java.util.List;
 public class KopisService {
 
     private final PerformanceRepository performanceRepository;
+    private final RankRepository rankRepository;
 
     //오늘~ 한달 뒤 공연 정보 업데이트
     @Transactional
@@ -55,6 +58,11 @@ public class KopisService {
     @Transactional
     public void updatePerformStatus(){
         performanceRepository.updatePerformStatusForExpiredPerformances(LocalDate.now());
+    }
+
+    @Transactional
+    public void updateRank(){
+
     }
 
 
@@ -128,6 +136,37 @@ public class KopisService {
         return performances;
     }
 
+    private List<String> getRankId(String ststype, String rankDate) {
+        List<String> performIdList = new ArrayList<>();
+        int cpage = 1;
+        while(true) {
+            RestTemplate restTemplate = new RestTemplate();
+            URI uri = UriComponentsBuilder.fromUriString("http://www.kopis.or.kr")
+                    .path("/openApi/restful/boxoffice")
+                    .queryParam("service", "86fdb34b92254e1b84343a5c323e3314")
+                    .queryParam("ststype", ststype)
+                    .queryParam("date", rankDate)
+                    .encode()
+                    .build()
+                    .toUri();
+
+            String url = uri.toString();
+            String responseBody = restTemplate.getForEntity(url, String.class).getBody();
+            //xnmlParsing
+            List<String> newIdList = idXmlParsing(responseBody);
+            //endPoint check
+            if (CollectionUtils.isEmpty(newIdList)) {
+                break;
+            }
+
+            performIdList.addAll(newIdList);
+
+            cpage++;
+        }
+
+        return performIdList;
+    }
+
     private List<String> idXmlParsing(String responsebody){
         try {
             List<String> performId = new ArrayList<>();
@@ -193,5 +232,21 @@ public class KopisService {
         }
 
     }
+
+//    private Rank rankXmlParsing(String responsebody){
+//        try{
+//            ByteArrayInputStream inputStream = new ByteArrayInputStream(responsebody.getBytes());
+//            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+//            DocumentBuilder build = factory.newDocumentBuilder();
+//            Document doc = build.parse(inputStream);
+//
+//            Element performanceElement = (Element) doc.getElementsByTagName("boxof").item(0);
+//
+//            String id = performanceElement.getElementsByTagName("mt20id").item(0).getTextContent();
+//
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
+//    }
 
 }

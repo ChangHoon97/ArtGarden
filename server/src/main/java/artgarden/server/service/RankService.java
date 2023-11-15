@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.Optional;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -15,7 +15,7 @@ import java.util.Optional;
 public class RankService {
     private final RankRepository rankRepository;
 
-    public Rank findByRankDate(LocalDate rankDate){
-        return rankRepository.findByRankDate(rankDate);
+    public List<Rank> findByRankDate(LocalDate rankDate){
+        return rankRepository.findAllByRankDate(rankDate);
     }
 }
