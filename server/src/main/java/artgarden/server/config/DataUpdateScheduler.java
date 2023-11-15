@@ -23,6 +23,7 @@ public class DataUpdateScheduler {
         kopisService.deletePerformed(LocalDate.now().minusMonths(1));   //standard = 한달 이전
         kopisService.updatePerformStatus();
         kopisService.updateOngoing();
+        kopisService.updateRank("week", formatDate(LocalDate.now().minusDays(1)));
         log.info("스케쥴링 자동 업데이트 : " + LocalDateTime.now());
     }
 

@@ -3,6 +3,7 @@ package artgarden.server.service;
 import artgarden.server.entity.Performance;
 import artgarden.server.entity.Rank;
 import artgarden.server.entity.dto.performanceDto.PerformanceApiDto;
+import artgarden.server.entity.dto.rankDto.RankApiDto;
 import artgarden.server.repository.PerformanceRepository;
 import artgarden.server.repository.RankRepository;
 import lombok.RequiredArgsConstructor;
@@ -61,8 +62,21 @@ public class KopisService {
     }
 
     @Transactional
-    public void updateRank(){
+    public void updateRank(String ststype, String rankDate){
+        Rank rank = getRank(ststype, rankDate);
+        Rank checkRank = rankRepository.findByRankDate(rank.getRankDate());
+        if(checkRank != null){
+            checkRank.updateFromRank(rank);
+            rankRepository.save(checkRank);
+        }else{
+            rankRepository.save(rank);
+        }
+    }
 
+    @Transactional
+    public void saveSinglePerformance(String performId){
+        Performance performance = getSinglePerformance(performId);
+        performanceRepository.save(performance);
     }
 
 
@@ -70,6 +84,11 @@ public class KopisService {
     private String formatDate(LocalDate date){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         return date.format(formatter);
+    }
+
+    private LocalDate formatString(String date){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+        return LocalDate.parse(date,formatter);
     }
 
     @Transactional
@@ -136,35 +155,41 @@ public class KopisService {
         return performances;
     }
 
-    private List<String> getRankId(String ststype, String rankDate) {
-        List<String> performIdList = new ArrayList<>();
-        int cpage = 1;
-        while(true) {
-            RestTemplate restTemplate = new RestTemplate();
-            URI uri = UriComponentsBuilder.fromUriString("http://www.kopis.or.kr")
-                    .path("/openApi/restful/boxoffice")
-                    .queryParam("service", "86fdb34b92254e1b84343a5c323e3314")
-                    .queryParam("ststype", ststype)
-                    .queryParam("date", rankDate)
-                    .encode()
-                    .build()
-                    .toUri();
+    private Performance getSinglePerformance(String performId){
 
-            String url = uri.toString();
-            String responseBody = restTemplate.getForEntity(url, String.class).getBody();
-            //xnmlParsing
-            List<String> newIdList = idXmlParsing(responseBody);
-            //endPoint check
-            if (CollectionUtils.isEmpty(newIdList)) {
-                break;
-            }
+        Performance performance = new Performance();
+        RestTemplate restTemplate = new RestTemplate();
+        URI uri = UriComponentsBuilder.fromUriString("http://www.kopis.or.kr")
+                .path("/openApi/restful/pblprfr/{id}")
+                .queryParam("service", "86fdb34b92254e1b84343a5c323e3314")
+                .buildAndExpand(performId)
+                .toUri();
+        String url = uri.toString();
+        String responseBody = restTemplate.getForEntity(url, String.class).getBody();
+        //xmlParsing
+        performance.updateFromApiDto(detailXmlParsing(responseBody));
+        return performance;
+    }
 
-            performIdList.addAll(newIdList);
+    private Rank getRank(String ststype, String rankDate) {
 
-            cpage++;
-        }
+        RestTemplate restTemplate = new RestTemplate();
+        URI uri = UriComponentsBuilder.fromUriString("http://www.kopis.or.kr")
+                .path("/openApi/restful/boxoffice")
+                .queryParam("service", "86fdb34b92254e1b84343a5c323e3314")
+                .queryParam("ststype", ststype)
+                .queryParam("date", rankDate)
+                .encode()
+                .build()
+                .toUri();
 
-        return performIdList;
+        String url = uri.toString();
+        String responseBody = restTemplate.getForEntity(url, String.class).getBody();
+        RankApiDto dto = rankXmlParsing(responseBody, formatString(rankDate));
+        Rank rank = new Rank();
+        rank.updateFromApiDto(dto);
+
+        return rank;
     }
 
     private List<String> idXmlParsing(String responsebody){
@@ -233,20 +258,24 @@ public class KopisService {
 
     }
 
-//    private Rank rankXmlParsing(String responsebody){
-//        try{
-//            ByteArrayInputStream inputStream = new ByteArrayInputStream(responsebody.getBytes());
-//            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-//            DocumentBuilder build = factory.newDocumentBuilder();
-//            Document doc = build.parse(inputStream);
-//
-//            Element performanceElement = (Element) doc.getElementsByTagName("boxof").item(0);
-//
-//            String id = performanceElement.getElementsByTagName("mt20id").item(0).getTextContent();
-//
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-//    }
+    private RankApiDto rankXmlParsing(String responsebody, LocalDate rankDate){
+        try{
+            List<String> performIds = new ArrayList<>();
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(responsebody.getBytes());
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder build = factory.newDocumentBuilder();
+            Document doc = build.parse(inputStream);
+
+            Element rankElement = (Element) doc.getElementsByTagName("boxofs").item(0);
+            for(int i=0; i<10; i++){
+                performIds.add(rankElement.getElementsByTagName("mt20id").item(i).getTextContent());
+            }
+            return new RankApiDto(rankDate, performIds);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 }
