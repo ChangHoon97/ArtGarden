@@ -15,7 +15,7 @@ import java.util.List;
 public class RankService {
     private final RankRepository rankRepository;
 
-    public List<Rank> findByRankDate(LocalDate rankDate){
-        return rankRepository.findAllByRankDate(rankDate);
+    public Rank findByRankDate(LocalDate rankDate){
+        return rankRepository.findByRankDate(rankDate);
     }
 }
