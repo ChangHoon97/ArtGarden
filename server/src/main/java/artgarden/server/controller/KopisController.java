@@ -21,7 +21,7 @@ public class KopisController {
     private final KopisService kopisService;
 
     //초기 DB에 전체 데이터 저장(06/01~11/09)
-    @GetMapping("/manualUpcomingUpdate")
+    @GetMapping("/manual/update/upcoming")
     public ResponseEntity<String> manualUpcomingUpdate(){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         String standardDate = LocalDate.now().plusMonths(1).format(formatter);
@@ -31,7 +31,7 @@ public class KopisController {
         return ResponseEntity.ok("Data save successfully");
     }
 
-    @GetMapping("/manualOngoingUpdate")
+    @GetMapping("/manual/update/ongoing")
     public ResponseEntity<String> manualOngoingUpdate(){
 
         kopisService.updateOngoing();
@@ -39,7 +39,7 @@ public class KopisController {
         return ResponseEntity.ok("Data update successfully");
     }
 
-    @GetMapping("/manualRankUpdate/{rankDate}")
+    @GetMapping("/manual/update/rank/{rankDate}")
     public ResponseEntity<String> manualRankUpdate(@PathVariable String rankDate){
 //        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 //        String standardDate = LocalDate.now().minusDays(1).format(formatter);
