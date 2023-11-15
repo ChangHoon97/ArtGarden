@@ -4,6 +4,7 @@ import artgarden.server.entity.Performance;
 import artgarden.server.entity.Rank;
 import artgarden.server.entity.dto.performanceDto.PerformanceListDto;
 import artgarden.server.entity.dto.rankDto.RankListDto;
+import artgarden.server.service.KopisService;
 import artgarden.server.service.PerformanceService;
 import artgarden.server.service.RankService;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ public class RankController {
 
     private final RankService rankService;
     private final PerformanceService performanceService;
+    private final KopisService kopisService;
 
     @GetMapping("/ranks/{rankDate}")
     public ResponseEntity<List<RankListDto>> getRank(@PathVariable String rankDate){
@@ -34,8 +36,11 @@ public class RankController {
         List<RankListDto> dtoList = new ArrayList<>();
 
         for(String performId : performIds){
+            if(performanceService.findById(performId) == null){
+                kopisService.saveSinglePerformance(performId);
+            }
             Performance performance = performanceService.findById(performId);
-            RankListDto dto = new RankListDto(performance, performIds.indexOf(performId));
+            RankListDto dto = new RankListDto(performance, performIds.indexOf(performId)+1);
             dtoList.add(dto);
         }
         return ResponseEntity.ok(dtoList);

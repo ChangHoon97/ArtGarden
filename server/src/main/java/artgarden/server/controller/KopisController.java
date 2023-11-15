@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
@@ -32,9 +33,17 @@ public class KopisController {
 
     @GetMapping("/manualOngoingUpdate")
     public ResponseEntity<String> manualOngoingUpdate(){
-        log.info("manualOngoingUpdate Start");
 
         kopisService.updateOngoing();
+
+        return ResponseEntity.ok("Data update successfully");
+    }
+
+    @GetMapping("/manualRankUpdate/{rankDate}")
+    public ResponseEntity<String> manualRankUpdate(@PathVariable String rankDate){
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
+//        String standardDate = LocalDate.now().minusDays(1).format(formatter);
+        kopisService.updateRank("week",rankDate);
 
         return ResponseEntity.ok("Data update successfully");
     }
