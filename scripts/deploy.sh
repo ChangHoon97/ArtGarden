@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-REPOSITORY=/home/ubuntu/cicdproject
+REPOSITORY=/home/ubuntu/artgarden/server
 cd $REPOSITORY
 
-APP_NAME=cicdproject
+APP_NAME=server
 JAR_NAME=$(ls $REPOSITORY/build/libs/ | grep 'SNAPSHOT.jar' | tail -n 1)
 JAR_PATH=$REPOSITORY/build/libs/$JAR_NAME
 
@@ -19,4 +19,5 @@ else
 fi
 
 echo "> $JAR_PATH 배포"
-sudo nohup java -jar $JAR_PATH > /dev/null 2> /dev/null < /dev/null &
+sudo nohup java -jar -Dspring.profiles.active=prod $JAR_PATH >> /home/ubuntu/logfile.log 2>&1 &
+
