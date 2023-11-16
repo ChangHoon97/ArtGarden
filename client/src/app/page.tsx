@@ -1,13 +1,19 @@
 import { use } from "react";
+import MainVision from "./components/MainVision";
+import TalkVision from "./components/TalkVision";
+import PerformIntro from "./components/perform/PerformIntro";
+import PerformInfo from "./components/perform/PerformInfo";
+import PerformRank from "./components/perform/PerfromRank";
+import ReviewMain from "./components/review/ReviewMain";
 export default function Home() {
-  // let showdata = use(getShowData());
-  return <div>메인페이지임</div>;
+  return (
+    <>
+      <MainVision />
+      <TalkVision />
+      <PerformIntro />
+      <PerformInfo />
+      <PerformRank />
+      <ReviewMain />
+    </>
+  );
 }
-
-// export async function getShowData() {
-//   const res = await fetch("http://artgarden.co.kr", {
-//     cache: "no-store",
-//   });
-//   const data = await res.json();
-//   return data;
-// }
