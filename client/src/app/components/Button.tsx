@@ -25,12 +25,12 @@ function Button({
   switch (color) {
     case "black": {
       combinedClassName =
-        "text-mainyellow rounded-2xl border-2 border-mainyellow bg-mainblack ml-40";
+        "text-mainyellow rounded-2xl border-2 border-mainyellow bg-mainrealblack ml-40";
       break;
     }
     case "white": {
       combinedClassName =
-        "text-mainwhite rounded-2xl border-2 border-mainwhite bg-mainred ml-40";
+        "text-white rounded-2xl border-2 border-mainwhite bg-mainred ml-40";
       break;
     }
   }
