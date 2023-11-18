@@ -1,3 +1,5 @@
+import Providers from "@/utils/provider";
+import React from "react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -23,7 +25,7 @@ export default async function RootLayout({
         <SessionProvider session={session}>
           <main className="text-2xl flex-col gap-2 text-white">
             <NavMenu />
-            {children}
+            <Providers>{children}</Providers>
           </main>
         </SessionProvider>
       </body>
