@@ -30,21 +30,21 @@ function Button({
     }
     case "white": {
       combinedClassName =
-        "text-white rounded-2xl border-2 border-mainwhite bg-mainred ml-40";
+        "text-mainwhite rounded-2xl border-2 border-mainwhite bg-mainred ml-40";
       break;
     }
   }
   switch (size) {
     case "sm": {
-      combinedClassName += "w-58 h-12 text-xl font-semibold px-3";
+      combinedClassName += "w-62 h-12 text-xl font-semibold px-6 ";
       break;
     }
     case "md": {
-      combinedClassName += "w-58 h-12 text-xl font-semibold px-3";
+      combinedClassName += "w-58 h-12 text-xl font-semibold px-3 ";
       break;
     }
     case "lg": {
-      combinedClassName += "w-58 h-12 text-xl font-semibold px-3 mr-6";
+      combinedClassName += "w-58 h-12 text-xl font-semibold px-3 mr-6 ";
       break;
     }
   }
