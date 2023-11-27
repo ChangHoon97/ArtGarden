@@ -1,11 +1,10 @@
 "use client";
 import { Perform_Info } from "@/app/types";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import React from "react";
 
 async function getPerForm() {
-  return (await fetch(`${process.env.BACKEND_URL}/performances`).then((res) =>
+  return (await fetch(`http://13.125.213.95:8080/performances`).then((res) =>
     res.json()
   )) as Perform_Info[];
 }
