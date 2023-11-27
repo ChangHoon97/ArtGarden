@@ -30,7 +30,7 @@ public class ReviewController {
     }
 
     @PostMapping("/reviews")
-    public ResponseEntity<String> createReview(ReviewDto review){
+    public ResponseEntity<String> createReview(@RequestBody ReviewDto review){
         reviewService.createReview(review);
         return new ResponseEntity<>(HttpStatus.OK);
     }
