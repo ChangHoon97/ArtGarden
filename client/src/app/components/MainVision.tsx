@@ -6,10 +6,13 @@ export default function MainVision() {
         <div className="ml-80 pl-10">
           <div>
             <div className="mb-0">
-              <span className="text-mainyellow text-5xl mb-0 pb-0">
+              <span className="text-mainyellow text-5xl mb-0 pb-0 ">
                 THE FUTURE
               </span>
-              <span className="text-mainbrown text-4xl"> of </span>
+              <span className="text-mainbrown text-4xl italic font-medium ">
+                {" "}
+                of{" "}
+              </span>
               <div />
               <span className="text-mainyellow text-5xl mt-0">
                 DESIGN IS HERE

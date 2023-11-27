@@ -25,7 +25,7 @@ function Button({
   switch (color) {
     case "black": {
       combinedClassName =
-        "text-mainyellow rounded-2xl border-2 border-mainyellow bg-mainblack ml-40";
+        "text-mainyellow rounded-2xl border-2 border-mainyellow bg-mainrealblack ml-40";
       break;
     }
     case "white": {
@@ -36,15 +36,15 @@ function Button({
   }
   switch (size) {
     case "sm": {
-      combinedClassName += "w-58 h-12 text-xl font-semibold px-3";
+      combinedClassName += "w-62 h-12 text-xl font-semibold px-6 ";
       break;
     }
     case "md": {
-      combinedClassName += "w-58 h-12 text-xl font-semibold px-3";
+      combinedClassName += "w-58 h-12 text-xl font-semibold px-3 ";
       break;
     }
     case "lg": {
-      combinedClassName += "w-58 h-12 text-xl font-semibold px-3 mr-6";
+      combinedClassName += "w-58 h-12 text-xl font-semibold px-3 mr-6 ";
       break;
     }
   }

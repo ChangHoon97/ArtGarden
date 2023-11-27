@@ -5,22 +5,24 @@ import { usePathname } from "next/navigation";
 import Button from "./Button";
 
 const ACTIVE_ROUTE =
-  "py-1 px-2 text-mainwhite hover:text-mainyellow  hover:bg-gray-700 ml-20";
+  "py-1 px-2 text-mainwhite hover:text-mainyellow  hover:bg-gray-700 ml-20 font-medium";
 const INACTIVE_ROUTE =
-  "py-1 px-2 text-mainwhite hover:text-mainyellow hover:bg-gray-700  ml-20";
+  "py-1 px-2 text-mainwhite hover:text-mainyellow hover:bg-gray-700  ml-20 font-medium";
 function AuthButton() {
   const { data: session } = useSession();
 
   if (session) {
     return (
       <>
-        <div className="text-xl font-medium hover:text-mainyellow">
+        {/* <div className="text-xl font-medium hover:text-mainyellow">
           {session?.user?.name}님
-        </div>{" "}
+        </div>{" "} */}
         <br />
-        <Button color="black" size="sm" onClick={() => signOut()}>
-          Sign out
-        </Button>
+        <div className="ml-16">
+          <Button color="black" size="sm" onClick={() => signOut()}>
+            Sign out
+          </Button>
+        </div>
       </>
     );
   }
@@ -37,13 +39,13 @@ function AuthButton() {
 export default function NavMenu() {
   const pathname = usePathname();
   return (
-    <div className="flex  bg-mainred pt-16 pb-6 px-20">
+    <div className="bg-mainred pt-16 pb-6 grid place-items-center">
       <div className="flex flex-row mx-60 px-8 ">
         <img src="logo.jpg" alt="ArtGarden 로고 이미지" className="w-44 h-8" />
         <ul className="flex space-x-4 text-base ">
           <Link href="/">
             <li className={pathname === "/" ? ACTIVE_ROUTE : INACTIVE_ROUTE}>
-              <p className="text-white">Home</p>
+              <p className="text-white font-medium">Home</p>
             </li>
           </Link>
           <Link href="/protected">

@@ -6,7 +6,7 @@ const config: Config = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/**/*.{js,jsx,ts,tsx}",
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     screens: {
@@ -35,7 +35,7 @@ const config: Config = {
       xl: "1.25rem",
       "2xl": "1.563rem",
       "3xl": "1.953rem",
-      "4xl": "2.441rem",
+      "4xl": "4.441rem",
       "5xl": "5.552rem",
     },
     fontWeight: {
