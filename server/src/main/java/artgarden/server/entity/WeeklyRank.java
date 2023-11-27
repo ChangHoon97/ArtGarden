@@ -14,7 +14,7 @@ import java.util.List;
 public class WeeklyRank {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(unique = true)
     private LocalDate rankDate;
