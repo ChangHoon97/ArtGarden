@@ -5,6 +5,7 @@ import artgarden.server.entity.dto.reviewDto.ReviewDto;
 import artgarden.server.entity.dto.reviewDto.ReviewUpdateDto;
 import artgarden.server.service.ReviewService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +15,7 @@ import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 public class ReviewController {
     private final ReviewService reviewService;
 
@@ -30,13 +32,13 @@ public class ReviewController {
     }
 
     @PostMapping("/reviews")
-    public ResponseEntity<String> createReview(ReviewDto review){
+    public ResponseEntity<String> createReview(@RequestBody ReviewDto review){
         reviewService.createReview(review);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PatchMapping("/reviews/{id}")
-    public ResponseEntity<String> updateReview(ReviewUpdateDto review){
+    public ResponseEntity<String> updateReview(@RequestBody ReviewUpdateDto review){
         reviewService.updateReview(review);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -44,12 +46,7 @@ public class ReviewController {
 
     @GetMapping("/reviews/{id}")
     public ResponseEntity<Review> getReview(@PathVariable Long id){
-        Optional<Review> optionalReview = reviewService.getReview(id);
-        if(optionalReview.isPresent()){
-            Review review = optionalReview.get();
-            return ResponseEntity.ok(review);
-        }else{
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        Review review = reviewService.getReview(id);
+        return ResponseEntity.ok(review);
     }
 }

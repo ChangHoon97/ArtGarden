@@ -38,8 +38,10 @@ public class ReviewService {
 
     }
 
-    public Optional<Review> getReview(Long id){
-        return reviewRepository.findById(id);
+    public Review getReview(Long id){
+        Optional<Review> review = reviewRepository.findById(id);
+
+        return review.orElseThrow();
     }
 
     public List<Review> getAllReview(){
