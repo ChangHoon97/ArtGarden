@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 @Setter
 public class ReviewDto {
 
-    private Long id;
     private String perform_id;
     private String content;
     private Long rate;
