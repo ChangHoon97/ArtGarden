@@ -19,6 +19,21 @@ import java.util.Optional;
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;
+
+    public List<Review> getAllReview(){
+        return reviewRepository.findAll();
+    }
+
+    public List<Review> getAllReviewByPerformId(String id){
+        return reviewRepository.findAllByPerform_id(id);
+    }
+
+    public Review getReview(Long id){
+        Optional<Review> review = reviewRepository.findById(id);
+
+        return review.orElseThrow();
+    }
+
     @Transactional
     public void createReview(ReviewDto dto){
         dto.setCreated_at(LocalDateTime.now());
@@ -41,19 +56,5 @@ public class ReviewService {
     @Transactional
     public void deleteReview(Long id){
         reviewRepository.deleteById(id);
-    }
-
-    public Review getReview(Long id){
-        Optional<Review> review = reviewRepository.findById(id);
-
-        return review.orElseThrow();
-    }
-
-    public List<Review> getAllReview(){
-        return reviewRepository.findAll();
-    }
-
-    public List<Review> getAllReviewByPerformId(String id){
-        return reviewRepository.findAllByPerform_id(id);
     }
 }
