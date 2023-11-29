@@ -31,6 +31,12 @@ public class ReviewController {
         return ResponseEntity.ok(reviews);
     }
 
+    @GetMapping("/reviews/{id}")
+    public ResponseEntity<Review> getReview(@PathVariable Long id){
+        Review review = reviewService.getReview(id);
+        return ResponseEntity.ok(review);
+    }
+
     @PostMapping("/reviews")
     public ResponseEntity<String> createReview(@RequestBody ReviewDto review){
         reviewService.createReview(review);
@@ -47,12 +53,5 @@ public class ReviewController {
     public ResponseEntity<String> deleteReview(@PathVariable Long id){
         reviewService.deleteReview(id);
         return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-
-    @GetMapping("/reviews/{id}")
-    public ResponseEntity<Review> getReview(@PathVariable Long id){
-        Review review = reviewService.getReview(id);
-        return ResponseEntity.ok(review);
     }
 }

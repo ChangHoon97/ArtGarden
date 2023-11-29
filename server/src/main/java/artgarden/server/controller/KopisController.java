@@ -23,7 +23,6 @@ public class KopisController {
     private final KopisService kopisService;
 
     @Operation(summary = "이후 한달간 공연 예정 상태의 공연 저장", description = "/manual/update/upcoming")
-    @ApiResponse()
     @GetMapping("/manual/update/upcoming")
     public ResponseEntity<String> manualUpcomingUpdate(){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
