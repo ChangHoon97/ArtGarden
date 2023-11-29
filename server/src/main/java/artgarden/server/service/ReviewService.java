@@ -38,6 +38,11 @@ public class ReviewService {
 
     }
 
+    @Transactional
+    public void deleteReview(Long id){
+        reviewRepository.deleteById(id);
+    }
+
     public Review getReview(Long id){
         Optional<Review> review = reviewRepository.findById(id);
 
