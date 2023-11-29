@@ -8,8 +8,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class ReviewUpdateDto {
-    private Long id;
     private String content;
-    private Long rate;
+    private Double rate;
     private LocalDateTime modified_at;
 }

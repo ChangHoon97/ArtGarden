@@ -38,8 +38,8 @@ public class ReviewController {
     }
 
     @PatchMapping("/reviews/{id}")
-    public ResponseEntity<String> updateReview(@RequestBody ReviewUpdateDto review){
-        reviewService.updateReview(review);
+    public ResponseEntity<String> updateReview(@PathVariable Long id,@RequestBody ReviewUpdateDto review){
+        reviewService.updateReview(id, review);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

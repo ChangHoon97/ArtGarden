@@ -29,9 +29,9 @@ public class ReviewService {
     }
 
     @Transactional
-    public void updateReview(ReviewUpdateDto dto){
+    public void updateReview(Long id, ReviewUpdateDto dto){
         dto.setModified_at(LocalDateTime.now());
-        Review review = reviewRepository.findById(dto.getId()).get();
+        Review review = reviewRepository.findById(id).orElseThrow();
         review.updateFromDto(dto);
 
         reviewRepository.save(review);
