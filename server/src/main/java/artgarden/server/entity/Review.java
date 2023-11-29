@@ -19,7 +19,7 @@ public class Review {
     private Long id;
     private String perform_id;
     private String content;
-    private Long rate;
+    private Double rate;
     private Long member_id;
     private LocalDateTime created_at;
     private LocalDateTime modified_at;
