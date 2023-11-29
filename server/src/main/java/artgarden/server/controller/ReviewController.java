@@ -43,6 +43,12 @@ public class ReviewController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    @DeleteMapping("/reviews/{id}")
+    public ResponseEntity<String> deleteReview(@PathVariable Long id){
+        reviewService.deleteReview(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
     @GetMapping("/reviews/{id}")
     public ResponseEntity<Review> getReview(@PathVariable Long id){
