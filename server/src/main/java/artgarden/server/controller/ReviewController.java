@@ -25,6 +25,7 @@ public class ReviewController {
     @GetMapping("/reviews")
     public ResponseEntity<List<Review>> getAllReview(){
         List<Review> reviews = reviewService.getAllReview();
+        System.out.println("전체 리뷰 조회");
         return ResponseEntity.ok(reviews);
     }
 
