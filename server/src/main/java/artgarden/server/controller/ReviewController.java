@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -26,6 +27,7 @@ public class ReviewController {
     public ResponseEntity<List<Review>> getAllReview(){
         List<Review> reviews = reviewService.getAllReview();
         System.out.println("전체 리뷰 조회");
+        System.out.println("현재 시간은 : " + LocalDateTime.now());
         return ResponseEntity.ok(reviews);
     }
 
