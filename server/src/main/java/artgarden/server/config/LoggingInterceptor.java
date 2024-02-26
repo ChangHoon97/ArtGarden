@@ -12,7 +12,13 @@ public class LoggingInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String uri = request.getRequestURI();
         LocalDateTime currentTime = LocalDateTime.now();
-        System.out.println("["+ currentTime + "] 호출한 controller: " + uri);
+        //클라이언트의 IP 주소 가져오기
+        String clientIP = request.getRemoteAddr();
+
+        // Referer 헤더 가져오기(이전 웹 주소)
+        String referer = request.getHeader("Referer");
+        System.out.println("["+ currentTime + "] controller: " + uri + " IP: " + clientIP);
+        System.out.println("Referer : " + referer);
         return true;
     }
 
