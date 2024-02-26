@@ -12,7 +12,7 @@ public class LoggingInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String uri = request.getRequestURI();
         LocalDateTime currentTime = LocalDateTime.now();
-        System.out.println("Request to " + uri + " at " + currentTime);
+        System.out.println("["+ currentTime + "] 호출한 controller: " + uri);
         return true;
     }
 
