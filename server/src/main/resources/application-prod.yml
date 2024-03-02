@@ -16,3 +16,4 @@ spring:
 logging:
   level:
     root: INFO
+DomainURL : http://15.164.102.207:8080/

@@ -1,16 +1,15 @@
 package artgarden.server.entity;
 
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+
+@Getter
+@RequiredArgsConstructor
 public enum Role {
-    GUEST("ROLE_GUEST"),
-    USER("ROLE_USER");
+    GUEST("ROLE_GUEST", "비회원"),
+    USER("ROLE_USER", "일반사용자"),
+    ADMIN("ROLE_ADMIN","관리자");
 
     private final String key;
-
-    Role(String key) {
-        this.key = key;
-    }
-
-    public String getKey() {
-        return key;
-    }
+    private final String title;
 }
