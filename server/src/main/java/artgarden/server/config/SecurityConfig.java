@@ -25,7 +25,6 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests((authorizeRequests) ->
                         authorizeRequests
-                                .requestMatchers(PathRequest.toH2Console()).permitAll()
 //                                .requestMatchers(new MvcRequestMatcher(introspector,"login/**")).permitAll()
                                 .requestMatchers(new MvcRequestMatcher(introspector, "/")).permitAll()
 //                                .requestMatchers("/posts/**", "/api/v1/posts/**").hasRole(Role.USER.name())
