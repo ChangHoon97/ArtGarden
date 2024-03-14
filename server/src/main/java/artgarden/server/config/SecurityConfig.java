@@ -62,7 +62,7 @@ public class SecurityConfig {
                 // 스프링에서는 csrf 기본은 활성화 (보안 목적) ---> csrf 토큰을 url에 포함해야 서버는 응답
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests((requests)->requests
-                        .requestMatchers("/").permitAll())
+                        .requestMatchers("/**").permitAll())
                 .formLogin(Customizer.withDefaults())
                 .httpBasic(Customizer.withDefaults());
         return http.build();
