@@ -18,15 +18,6 @@ else
   sleep 5
 fi
 
-# 현재 시간을 기반으로 로그 파일 이름 생성
-LOG_FILE="/home/ubuntu/logs/logfile_$(date '+%Y-%m-%d').log"
-
 echo "> $JAR_PATH 배포"
-# 이전 로그 파일이 삭제되지 않도록 로그 파일 경로를 추가하여 백그라운드에서 실행
-nohup java -jar -Dspring.profiles.active=prod $JAR_PATH >> $LOG_FILE 2>&1 &
-
-# 이전 로그 파일이 삭제되지 않도록 해당 날짜의 로그 파일을 심볼릭 링크로 연결
-ln -sf $LOG_FILE /home/ubuntu/logs/logfile.log
-
-echo "> 서버가 시작되었습니다. 로그 파일: $LOG_FILE"
-
+sudo rm /home/ubuntu/logfile.log
+sudo nohup java -jar -Dspring.profiles.active=prod $JAR_PATH >> /home/ubuntu/logs/logfile.log 2>&1 &
