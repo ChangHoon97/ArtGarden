@@ -2,7 +2,7 @@ package artgarden.server.service;
 
 import artgarden.server.entity.Performance;
 import artgarden.server.entity.WeeklyRank;
-import artgarden.server.entity.dto.performanceDto.PerformanceApiDto;
+import artgarden.server.entity.dto.performanceDto.PerformanceApiDTO;
 import artgarden.server.entity.dto.rankDto.RankApiDto;
 import artgarden.server.repository.PerformanceRepository;
 import artgarden.server.repository.RankRepository;
@@ -220,7 +220,7 @@ public class KopisService {
         }
     }
 
-    private PerformanceApiDto detailXmlParsing(String responsebody){
+    private PerformanceApiDTO detailXmlParsing(String responsebody){
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
 
@@ -250,7 +250,7 @@ public class KopisService {
             LocalDate endDate = LocalDate.parse(end, formatter);
 
 
-            return new PerformanceApiDto(id, name, startDate, endDate, place, time, age, price, casting, production, genre, performStatus, posterUrl, openRun);
+            return new PerformanceApiDTO(id, name, startDate, endDate, place, time, age, price, casting, production, genre, performStatus, posterUrl, openRun);
         }catch(Exception e){
             e.printStackTrace();
             return null;

@@ -11,7 +11,7 @@ import java.time.format.DateTimeFormatter;
 @Getter
 @Setter
 @Schema(description = "공연 상세 정보 DTO")
-public class PerformanceDetailDto {
+public class PerformanceDetailDTO {
 
     @Schema(description = "공연 ID", example = "PF216230")
     private String id;

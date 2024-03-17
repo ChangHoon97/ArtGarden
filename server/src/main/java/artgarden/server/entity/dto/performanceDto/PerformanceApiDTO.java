@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PerformanceApiDto {
+public class PerformanceApiDTO {
     private String id;
     private String name;
     private LocalDate startDate;

@@ -1,6 +1,6 @@
 package artgarden.server.entity;
 
-import artgarden.server.entity.dto.performanceDto.PerformanceApiDto;
+import artgarden.server.entity.dto.performanceDto.PerformanceApiDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -44,7 +44,7 @@ public class Performance {
     @Schema(description = "오픈런", example = "N")
     private String openRun;
 
-    public void updateFromApiDto(PerformanceApiDto dto){
+    public void updateFromApiDto(PerformanceApiDTO dto){
         this.id = dto.getId();
         this.name = dto.getName();
         this.startDate = dto.getStartDate();

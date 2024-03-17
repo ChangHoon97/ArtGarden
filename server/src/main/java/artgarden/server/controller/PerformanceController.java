@@ -1,8 +1,9 @@
 package artgarden.server.controller;
 
 import artgarden.server.entity.Performance;
-import artgarden.server.entity.dto.performanceDto.PerformanceDetailDto;
-import artgarden.server.entity.dto.performanceDto.PerformanceListDto;
+import artgarden.server.entity.dto.performanceDto.PerformanceDetailDTO;
+import artgarden.server.entity.dto.performanceDto.PerformanceListDTO;
+import artgarden.server.entity.dto.performanceDto.PerformanceResponseDTO;
 import artgarden.server.service.PerformanceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -32,7 +33,7 @@ public class PerformanceController {
     @Operation(summary = "공연 목록 조회(검색)", description = "/performances?keyword=키워드&status=공연중&startDate=30&page=1&size=30")
     @ApiResponse(responseCode = "200", description = "성공")
     @GetMapping("performances")
-    public ResponseEntity<List<PerformanceListDto>> getPerformances(
+    public ResponseEntity<PerformanceResponseDTO> getPerformances(
             @Parameter(description = "제목 검색 키워드")
             @RequestParam(defaultValue = "") String keyword,
             @Parameter(description = "공연 상태(all, 공연완료, 공연중, 공연예정), all은 모든 공연상태")
@@ -45,23 +46,17 @@ public class PerformanceController {
             @RequestParam(defaultValue = "30") int size){
         Pageable pageable = PageRequest.of(page-1, size);
 
-        List<PerformanceListDto> dtoList= new ArrayList<>();
-        PerformanceListDto dto = new PerformanceListDto();
+        PerformanceResponseDTO performances = performanceService.getPerformances(keyword, status, days, pageable);
 
-        List<Performance> performances = performanceService.getPerformances(keyword, status, days, pageable).getContent();
-        for(Performance performance : performances){
-            dtoList.add(dto.fromEntity(performance));
-        }
-
-        return ResponseEntity.ok(dtoList);
+        return ResponseEntity.ok(performances);
     }
 
     @Operation(summary = "공연 상세 조회", description = "/performances/PF216230")
     @ApiResponse(responseCode = "200", description = "성공")
     @GetMapping("/performances/{id}")
-    public ResponseEntity<PerformanceDetailDto> getPerformance(@PathVariable String id){
+    public ResponseEntity<PerformanceDetailDTO> getPerformance(@PathVariable String id){
 
-        PerformanceDetailDto dto = new PerformanceDetailDto();
+        PerformanceDetailDTO dto = new PerformanceDetailDTO();
 
         Performance performance = performanceService.findById(id);
 

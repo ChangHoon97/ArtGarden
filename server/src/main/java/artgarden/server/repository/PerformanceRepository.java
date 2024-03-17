@@ -15,19 +15,23 @@ public interface PerformanceRepository extends JpaRepository<Performance, Long> 
 
     Page<Performance> findByPerformStatus(String performStatus, Pageable pageable);
 
-    @Query("SELECT e FROM Performance e WHERE e.startDate BETWEEN CURRENT_DATE AND :expectDate AND e.performStatus = :performStatus")
+    @Query("SELECT e " +
+            "FROM Performance e " +
+            "WHERE e.startDate BETWEEN CURRENT_DATE AND :expectDate AND e.performStatus = :performStatus")
     Page<Performance> findByPerformStatusBeforeStartDate(@Param("performStatus")String performStatus, @Param("expectDate") LocalDate expectDate, Pageable pageable);
 
     Performance findById(String id);
 
     @Transactional
     @Modifying
-    @Query("DELETE FROM Performance e WHERE e.endDate <= :deleteDateStandard")
+    @Query("DELETE FROM Performance e " +
+            "WHERE e.endDate <= :deleteDateStandard")
     void deleteByEndDateBefore(LocalDate deleteDateStandard);
 
     @Transactional
     @Modifying
-    @Query("UPDATE Performance e SET e.performStatus = '공연완료' WHERE e.endDate <= :today AND e.performStatus <> '공연완료'")
+    @Query("UPDATE Performance e SET e.performStatus = '공연완료' " +
+            "WHERE e.endDate <= :today AND e.performStatus <> '공연완료'")
     void updatePerformStatusForExpiredPerformances(LocalDate today);
 
     @Query("SELECT e FROM Performance e WHERE e.name LIKE %:keyword% AND e.startDate < :expectDate" +
