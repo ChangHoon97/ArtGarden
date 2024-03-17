@@ -1,18 +1,20 @@
 package artgarden.server.entity.dto.performanceDto;
 
 import artgarden.server.entity.Performance;
+import artgarden.server.entity.dto.PagingDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Getter
 @Setter
 @Schema(description = "공연 목록 this")
 @NoArgsConstructor
 @AllArgsConstructor
-public class PerformanceListDTO{
+public class PerformanceListDTO {
 
     @Schema(description = "공연 ID", example = "PF216230")
     private String id;

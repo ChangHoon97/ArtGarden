@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PageDTO {
+public class PagingDTO {
 
     @Schema(description = "현재 페이지 번호", example = "1")
     public int pageNo;
@@ -17,6 +17,6 @@ public class PageDTO {
     @Schema(description = "총 데이터 수", example = "192")
     public Long totalElements;
     @Schema(description = "다음 페이지 존재여부", example = "true")
-    public Boolean hasNext;
+    public boolean hasNext;
     
 }
