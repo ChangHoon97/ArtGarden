@@ -49,7 +49,7 @@ public class PerformanceController {
         return ResponseEntity.ok(performances);
     }
 
-    @Operation(summary = "공연 목록 조회(검색)", description = "/performances?keyword=키워드&status=공연중&startDate=30&page=1&size=30")
+    @Operation(summary = "공연 목록 조회(검색) 무한스크롤", description = "/performances_infinite?keyword=키워드&status=공연중&startDate=30&page=1&size=30")
     @ApiResponse(responseCode = "200", description = "성공")
     @GetMapping("performances_infinite")
     public ResponseEntity<PerformancePageDTO> getInfinitePerformances(

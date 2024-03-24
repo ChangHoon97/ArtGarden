@@ -114,6 +114,7 @@ public class KopisService {
                     .queryParam("cpage", cpage)
                     .queryParam("rows", 1000)
                     .queryParam("prfstate", performStatus)
+                    .queryParam("newsql", "Y")
                     .encode()
                     .build()
                     .toUri();
@@ -144,6 +145,7 @@ public class KopisService {
             URI uri = UriComponentsBuilder.fromUriString("http://www.kopis.or.kr")
                     .path("/openApi/restful/pblprfr/{id}")
                     .queryParam("service","86fdb34b92254e1b84343a5c323e3314")
+                    .queryParam("newsql","Y")
                     .buildAndExpand(id)
                     .toUri();
             String url = uri.toString();
@@ -164,6 +166,7 @@ public class KopisService {
         URI uri = UriComponentsBuilder.fromUriString("http://www.kopis.or.kr")
                 .path("/openApi/restful/pblprfr/{id}")
                 .queryParam("service", "86fdb34b92254e1b84343a5c323e3314")
+                .queryParam("newsql", "Y")
                 .buildAndExpand(performId)
                 .toUri();
         String url = uri.toString();
@@ -181,6 +184,7 @@ public class KopisService {
                 .queryParam("service", "86fdb34b92254e1b84343a5c323e3314")
                 .queryParam("ststype", ststype)
                 .queryParam("date", rankDate)
+                .queryParam("newsql", "Y")
                 .encode()
                 .build()
                 .toUri();
