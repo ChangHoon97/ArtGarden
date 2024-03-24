@@ -32,14 +32,14 @@ public class PerformanceService {
         return performanceRepository.findById(id);
     }
 
-    /*public PerformanceResponseDTO getPerformances(String keyword, String status, int days, Pageable pageable){
-        PerformanceResponseDTO data = new PerformanceResponseDTO();
+    public PerformancePage2DTO getPerformances(String keyword, String status, int days, Pageable pageable){
+        PerformancePage2DTO data = new PerformancePage2DTO();
 
         LocalDate expectDate = LocalDate.now().plusDays(days);
         Page<Performance> performances = performanceRepository.getPerformances(keyword, status, expectDate, pageable);
 
         for(Performance performance : performances.getContent()){
-            data.getList().add(new PerformanceListDTO(performance));
+            data.getData().add(new PerformanceListDTO(performance));
         }
 
         data.setPageNo(performances.getNumber()+1);
@@ -49,7 +49,7 @@ public class PerformanceService {
         data.setHasNext(performances.hasNext());
 
         return data;
-    }*/
+    }
 
     public PerformancePageDTO getInfinitePerformances(String keyword, String status, int days, int size){
         int page = 0;

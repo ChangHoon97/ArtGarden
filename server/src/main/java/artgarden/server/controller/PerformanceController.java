@@ -1,10 +1,7 @@
 package artgarden.server.controller;
 
 import artgarden.server.entity.Performance;
-import artgarden.server.entity.dto.performanceDto.PerformanceDetailDTO;
-import artgarden.server.entity.dto.performanceDto.PerformanceListDTO;
-import artgarden.server.entity.dto.performanceDto.PerformancePageDTO;
-import artgarden.server.entity.dto.performanceDto.PerformanceResponseDTO;
+import artgarden.server.entity.dto.performanceDto.*;
 import artgarden.server.service.PerformanceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -31,10 +28,10 @@ public class PerformanceController {
 
     private final PerformanceService performanceService;
 
-    /*@Operation(summary = "공연 목록 조회(검색)", description = "/performances?keyword=키워드&status=공연중&startDate=30&page=1&size=30")
+    @Operation(summary = "공연 목록 조회(검색)", description = "/performances?keyword=키워드&status=공연중&startDate=30&page=1&size=30")
     @ApiResponse(responseCode = "200", description = "성공")
     @GetMapping("performances")
-    public ResponseEntity<PerformanceResponseDTO> getPerformances(
+    public ResponseEntity<PerformancePage2DTO> getPerformances(
             @Parameter(description = "제목 검색 키워드")
             @RequestParam(defaultValue = "") String keyword,
             @Parameter(description = "공연 상태(all, 공연완료, 공연중, 공연예정), all은 모든 공연상태")
@@ -47,14 +44,14 @@ public class PerformanceController {
             @RequestParam(defaultValue = "30") int size){
         Pageable pageable = PageRequest.of(page-1, size);
 
-        PerformanceResponseDTO performances = performanceService.getPerformances(keyword, status, days, pageable);
+        PerformancePage2DTO performances = performanceService.getPerformances(keyword, status, days, pageable);
 
         return ResponseEntity.ok(performances);
-    }*/
+    }
 
     @Operation(summary = "공연 목록 조회(검색)", description = "/performances?keyword=키워드&status=공연중&startDate=30&page=1&size=30")
     @ApiResponse(responseCode = "200", description = "성공")
-    @GetMapping("performances")
+    @GetMapping("performances_infinite")
     public ResponseEntity<PerformancePageDTO> getInfinitePerformances(
             @Parameter(description = "제목 검색 키워드")
             @RequestParam(defaultValue = "") String keyword,
