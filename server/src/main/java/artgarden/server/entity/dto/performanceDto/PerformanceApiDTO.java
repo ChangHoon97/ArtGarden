@@ -26,4 +26,5 @@ public class PerformanceApiDTO {
     private String performStatus;
     private String posterUrl;
     private String openRun;
+    private String area;
 }

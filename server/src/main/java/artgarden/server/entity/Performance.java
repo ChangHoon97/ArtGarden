@@ -43,6 +43,8 @@ public class Performance {
     private String posterUrl;
     @Schema(description = "오픈런", example = "N")
     private String openRun;
+    @Schema(description = "지역", example = "서울특별시")
+    private String area;
 
     public void updateFromApiDto(PerformanceApiDTO dto){
         this.id = dto.getId();
@@ -59,6 +61,7 @@ public class Performance {
         this.performStatus = dto.getPerformStatus();
         this.posterUrl = dto.getPosterUrl();
         this.openRun = dto.getOpenRun();
+        this.area = dto.getArea();
     }
 
 
