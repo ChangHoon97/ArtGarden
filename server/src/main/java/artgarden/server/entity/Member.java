@@ -2,7 +2,9 @@ package artgarden.server.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
+import lombok.Getter;
 
+@Getter
 @Entity
 public class Member {
     @Id
@@ -47,27 +49,4 @@ public class Member {
         return this.role.getKey();
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getOauthId() {
-        return oauthId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public Role getRole() {
-        return role;
-    }
 }
