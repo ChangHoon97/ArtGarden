@@ -19,5 +19,5 @@ else
 fi
 
 echo "> $JAR_PATH 배포"
-chmod +x /home/ubuntu/artgarden/server/src/main/resources/scripts/log.sh
+chmod +x /home/ubuntu/artgarden/scripts/log.sh
 sudo nohup java -jar -Dspring.profiles.active=prod $JAR_PATH >> /home/ubuntu/logs/logfile.log 2>&1 &
