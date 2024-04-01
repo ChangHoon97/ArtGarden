@@ -24,6 +24,8 @@ public class DataUpdateScheduler {
         kopisService.updatePerformStatus();
         kopisService.updateOngoing();
         kopisService.updateRank("week", formatDate(LocalDate.now().minusDays(1)));
+        kopisService.updateAreaCode();
+        kopisService.updateGenreCode();
         log.info("스케쥴링 자동 업데이트 : " + LocalDateTime.now());
     }
 

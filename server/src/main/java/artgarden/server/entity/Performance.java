@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -37,6 +38,8 @@ public class Performance {
     private String production;
     @Schema(description = "공연 장르", example = "뮤지컬")
     private String genre;
+    @Schema(description = "공연 장르코드", example = "GENRE01")
+    private String genrecd;
     @Schema(description = "공연 상태", example = "공연중")
     private String performStatus;
     @Schema(description = "공연 포스터 url", example = "http://www.kopis.or.kr/upload/pfmPoster/PF_PF216230_230405_125449.gif")
@@ -45,6 +48,20 @@ public class Performance {
     private String openRun;
     @Schema(description = "지역", example = "서울특별시")
     private String area;
+    @Schema(description = "지역코드", example = "AREA01")
+    private String areacd;
+    @Schema(description = "공연 게시글 조회수", example = "127")
+    private int visitCnt;
+    @Schema(description = "공연 스크랩 수", example = "13")
+    private int scrapCnt;
+    @Schema(description = "작성자", example = "CHANGHOON")
+    private String regid;
+    @Schema(description = "작성일", example = "2024-04-01 23:48:30")
+    private LocalDateTime regdt;
+    @Schema(description = "수정자", example = "CHANGHOON")
+    private String updid;
+    @Schema(description = "수정일", example = "2024-04-01 23:48:30")
+    private LocalDateTime upddt;
 
     public void updateFromApiDto(PerformanceApiDTO dto){
         this.id = dto.getId();
@@ -58,10 +75,12 @@ public class Performance {
         this.casting = dto.getCasting();
         this.production = dto.getProduction();
         this.genre = dto.getGenre();
+        this.genrecd = dto.getGenrecd();
         this.performStatus = dto.getPerformStatus();
         this.posterUrl = dto.getPosterUrl();
         this.openRun = dto.getOpenRun();
         this.area = dto.getArea();
+        this.areacd = dto.getAreacd();
     }
 
 

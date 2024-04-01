@@ -22,6 +22,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.ByteArrayInputStream;
 import java.net.URI;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -78,6 +79,16 @@ public class KopisService {
     public void saveSinglePerformance(String performId){
         Performance performance = getSinglePerformance(performId);
         performanceRepository.save(performance);
+    }
+
+    @Transactional
+    public void updateAreaCode(){
+        performanceRepository.updateAreaCode();
+    }
+
+    @Transactional
+    public void updateGenreCode(){
+        performanceRepository.updateGenreCode();
     }
 
 
@@ -256,16 +267,26 @@ public class KopisService {
             String performStatus = performanceElement.getElementsByTagName("prfstate").item(0).getTextContent();
             String posterUrl = performanceElement.getElementsByTagName("poster").item(0).getTextContent();
             String openRun = performanceElement.getElementsByTagName("openrun").item(0).getTextContent();
-            String area = null;
-            if(performIdList != null){
+            String area = performanceElement.getElementsByTagName("openrun").item(0).getTextContent();
+            if(performIdList != null && area == null){
                 area = performIdList.get(id);
             }
+            if(area.equals("강원도")){
+                area = "강원특별자치도";
+            }
+            if(area.equals("전라북도")){
+                area = "전북특별자치도";
+            }
+            String areacd = null;
+            String genrecd = null;
+            String regid = "Scheduler";
+            LocalDateTime regdt = LocalDateTime.now();
 
             LocalDate startDate = LocalDate.parse(start, formatter);
             LocalDate endDate = LocalDate.parse(end, formatter);
 
 
-            return new PerformanceApiDTO(id, name, startDate, endDate, place, time, age, price, casting, production, genre, performStatus, posterUrl, openRun, area);
+            return new PerformanceApiDTO(id, name, startDate, endDate, place, time, age, price, casting, production, genre, genrecd, performStatus, posterUrl, openRun, area, areacd, regid, regdt);
         }catch(Exception e){
             e.printStackTrace();
             return null;
