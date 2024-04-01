@@ -18,8 +18,12 @@ public class ReviewDto {
     private Double rate;
     @Schema(description = "회원 ID", example = "1")
     private Long member_id;
-    @Schema(description = "작성 날짜", example = "2023-11-29 08:35:26.182549")
-    private LocalDateTime created_at;
-    @Schema(description = "수정 날짜", example = "2023-11-29 18:32:58.187159")
-    private LocalDateTime modified_at;
+    @Schema(description = "작성자", example = "이창훈")
+    private String regid;
+    @Schema(description = "작성일", example = "2023-11-29 08:35:26.182549")
+    private LocalDateTime regdt;
+    @Schema(description = "수정자", example = "이창훈")
+    private String updid;
+    @Schema(description = "수정일", example = "2023-11-29 18:32:58.187159")
+    private LocalDateTime upddt;
 }
