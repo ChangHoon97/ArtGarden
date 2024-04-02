@@ -267,16 +267,13 @@ public class KopisService {
             String performStatus = performanceElement.getElementsByTagName("prfstate").item(0).getTextContent();
             String posterUrl = performanceElement.getElementsByTagName("poster").item(0).getTextContent();
             String openRun = performanceElement.getElementsByTagName("openrun").item(0).getTextContent();
-            String area = performanceElement.getElementsByTagName("openrun").item(0).getTextContent();
+            String area = performanceElement.getElementsByTagName("area").item(0).getTextContent();
             if(performIdList != null && area == null){
                 area = performIdList.get(id);
             }
-            if(area.equals("강원도")){
-                area = "강원특별자치도";
-            }
-            if(area.equals("전라북도")){
-                area = "전북특별자치도";
-            }
+            area = areaHandler(id, area);
+            Double parsedage = ageHandler(id, age);
+
             String areacd = null;
             String genrecd = null;
             String regid = "Scheduler";
@@ -286,7 +283,7 @@ public class KopisService {
             LocalDate endDate = LocalDate.parse(end, formatter);
 
 
-            return new PerformanceApiDTO(id, name, startDate, endDate, place, time, age, price, casting, production, genre, genrecd, performStatus, posterUrl, openRun, area, areacd, regid, regdt);
+            return new PerformanceApiDTO(id, name, startDate, endDate, place, time, parsedage, price, casting, production, genre, genrecd, performStatus, posterUrl, openRun, area, areacd, regid, regdt);
         }catch(Exception e){
             e.printStackTrace();
             return null;
@@ -313,5 +310,39 @@ public class KopisService {
             return null;
         }
     }
+
+    private String areaHandler(String id, String area){
+        String result = "";
+        if(area.equals("강원도")){
+            result = "강원특별자치도";
+        } else if(area.equals("전라북도")){
+            result = "전북특별자치도";
+        } else{
+            if(area != null || area == ""){
+                log.error("[Exception(Area)] " + id + " / " + area);
+            }
+            result = area;
+        }
+        return result;
+    }
+
+    private Double ageHandler(String id, String age){
+        double result = 0;
+            if (age.matches(".*전체.*")) {
+                result = -1;
+            } else if (age.matches(".*세.*")) {
+                age = age.replaceAll("[^0-9]","");
+                result = Double.parseDouble(age);
+            } else if (age.matches(".*개월.*") || age.matches(".*게월.*")) {
+                age = age.replaceAll("[^0-9]","");
+                result = Double.parseDouble(age) / 100;
+            } else {
+                log.error("[Exception(Age)] " + id + " : " + age);
+                result = 0;
+            }
+        return result;
+    }
+
+
 
 }

@@ -29,7 +29,7 @@ public class Performance {
     @Column(length = 1024)
     private String time;
     @Schema(description = "제한 연령", example = "만 13세 이상")
-    private String age;
+    private Double age;
     @Schema(description = "공연 가격", example = "전석 50,000원")
     private String price;
     @Schema(description = "출연진", example = "이다은, 이서정, 정세지, 김하준, 최우성, 노혜성, 표헤미 등")

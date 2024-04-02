@@ -38,11 +38,13 @@ public interface PerformanceRepository extends JpaRepository<Performance, Long> 
             " AND (:status = 'all' OR e.performStatus = :status)")
     Page<Performance> getPerformances(@Param("keyword") String keyword, @Param("status") String status, @Param("expectDate") LocalDate expectDate, Pageable pageable);
 
+    @Modifying
     @Query("UPDATE Performance p " +
             "SET p.areacd = (SELECT c.code FROM Code c WHERE p.area = c.cdnm) " +
             "WHERE p.areacd is null")
     void updateAreaCode();
 
+    @Modifying
     @Query("UPDATE Performance p " +
             "SET p.genrecd = (SELECT c.code FROM Code c WHERE p.genre = c.cdnm) " +
             "WHERE p.genrecd is null")

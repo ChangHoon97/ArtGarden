@@ -26,7 +26,7 @@ public class PerformanceDetailDTO {
     @Schema(description = "공연 시간", example = "수요일 ~ 금요일(19:30), 토요일(14:00,17:00,17:30), 일요일(13:00,15:00,16:00), HOL(15:00,16:00)")
     private String time;
     @Schema(description = "제한 연령", example = "만 13세 이상")
-    private String age;
+    private Double age;
     @Schema(description = "공연 가격", example = "전석 50,000원")
     private String price;
     @Schema(description = "출연진", example = "이다은, 이서정, 정세지, 김하준, 최우성, 노혜성, 표헤미 등")

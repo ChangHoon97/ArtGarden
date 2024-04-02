@@ -20,7 +20,7 @@ public class PerformanceApiDTO {
     private LocalDate endDate;
     private String place;
     private String time;
-    private String age;
+    private Double age;
     private String price;
     private String casting;
     private String production;

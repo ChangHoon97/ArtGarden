@@ -17,8 +17,9 @@ public class DataUpdateScheduler {
 
     private final KopisService kopisService;
 
-    @Scheduled(cron = "0 0 10 * * ?")
+    @Scheduled(cron = "0 00 10 * * ?")
     public void dailyUpdate(){
+        log.info("스케쥴링 자동 업데이트 시작 : " + LocalDateTime.now());
         kopisService.updateUpcoming( formatDate(LocalDate.now().plusMonths(1)));    //standard = 한달 이후
         kopisService.deletePerformed(LocalDate.now().minusMonths(1));   //standard = 한달 이전
         kopisService.updatePerformStatus();
@@ -26,7 +27,7 @@ public class DataUpdateScheduler {
         kopisService.updateRank("week", formatDate(LocalDate.now().minusDays(1)));
         kopisService.updateAreaCode();
         kopisService.updateGenreCode();
-        log.info("스케쥴링 자동 업데이트 : " + LocalDateTime.now());
+        log.info("스케쥴링 자동 업데이트 종료 : " + LocalDateTime.now());
     }
 
     //LocalDate -> String
