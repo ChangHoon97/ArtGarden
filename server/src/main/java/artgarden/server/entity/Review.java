@@ -21,21 +21,24 @@ public class Review {
     private String content;
     private Double rate;
     private Long member_id;
-    private LocalDateTime created_at;
-    private LocalDateTime modified_at;
+    private String regid;
+    private LocalDateTime regdt;
+    private String updid;
+    private LocalDateTime upddt;
 
     public void createFromDto(ReviewDto dto){
         this.perform_id = dto.getPerform_id();
         this.content = dto.getContent();
         this.rate = dto.getRate();
         this.member_id = dto.getMember_id();
-        this.created_at = dto.getCreated_at();
+        this.regdt = dto.getRegdt();
     }
 
     public void updateFromDto(ReviewUpdateDto dto){
         this.content = dto.getContent();
         this.rate = dto.getRate();
-        this.modified_at = dto.getModified_at();
+        this.updid = dto.getUpdid();
+        this.upddt = dto.getUpddt();
     }
 
 }

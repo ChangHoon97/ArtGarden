@@ -13,6 +13,8 @@ public class ReviewUpdateDto {
     private String content;
     @Schema(description = "리뷰 별점", example = "2.5")
     private Double rate;
-    @Schema(description = "수정 날짜", example = "2023-11-29 18:32:58.187159")
-    private LocalDateTime modified_at;
+    @Schema(description = "수정자", example = "이창훈")
+    private String updid;
+    @Schema(description = "수정일", example = "2023-11-29 18:32:58.187159")
+    private LocalDateTime upddt;
 }

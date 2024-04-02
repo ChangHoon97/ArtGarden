@@ -22,8 +22,10 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.ByteArrayInputStream;
 import java.net.URI;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -79,6 +81,16 @@ public class KopisService {
         performanceRepository.save(performance);
     }
 
+    @Transactional
+    public void updateAreaCode(){
+        performanceRepository.updateAreaCode();
+    }
+
+    @Transactional
+    public void updateGenreCode(){
+        performanceRepository.updateGenreCode();
+    }
+
 
     //LocalDate -> String
     private String formatDate(LocalDate date){
@@ -94,14 +106,14 @@ public class KopisService {
     @Transactional
     public List<Performance> getPerformanceList(String startDate, String endDate, String performStatus){
         // performId가 모두 저장되는 String 리스트
-        List<String> performIdList = getPerformanceId(startDate, endDate, performStatus);
+        HashMap<String, String> performIdList = getPerformanceId(startDate, endDate, performStatus);
 
         //OpenApi에서 performId를 이용해 performDetail을 리스트에 저장
         return getPerformanceDetail(performIdList);
     }
 
-    private List<String> getPerformanceId(String startDate, String endDate, String performStatus) {
-        List<String> performIdList = new ArrayList<>();
+    private HashMap<String, String> getPerformanceId(String startDate, String endDate, String performStatus) {
+        HashMap<String, String> performIdList = new HashMap<String, String>();
         int cpage = 1;
         while(true) {
             RestTemplate restTemplate = new RestTemplate();
@@ -113,6 +125,7 @@ public class KopisService {
                     .queryParam("cpage", cpage)
                     .queryParam("rows", 1000)
                     .queryParam("prfstate", performStatus)
+                    .queryParam("newsql", "Y")
                     .encode()
                     .build()
                     .toUri();
@@ -120,13 +133,13 @@ public class KopisService {
             String url = uri.toString();
             String responseBody = restTemplate.getForEntity(url, String.class).getBody();
             //xnmlParsing
-            List<String> newIdList = idXmlParsing(responseBody);
+            HashMap<String, String> newIdList = idXmlParsing(responseBody);
             //endPoint check
             if (CollectionUtils.isEmpty(newIdList)) {
                 break;
             }
 
-            performIdList.addAll(newIdList);
+            performIdList.putAll(newIdList);
 
             cpage++;
         }
@@ -134,21 +147,22 @@ public class KopisService {
         return performIdList;
     }
 
-    private List<Performance> getPerformanceDetail(List<String> performIdList){
+    private List<Performance> getPerformanceDetail(HashMap<String, String> performIdList){
         List<Performance> performances = new ArrayList<>();
 
-        for(String id : performIdList){
+        for(String id : performIdList.keySet()){
             Performance performance = new Performance();
             RestTemplate restTemplate = new RestTemplate();
             URI uri = UriComponentsBuilder.fromUriString("http://www.kopis.or.kr")
                     .path("/openApi/restful/pblprfr/{id}")
                     .queryParam("service","86fdb34b92254e1b84343a5c323e3314")
+                    .queryParam("newsql","Y")
                     .buildAndExpand(id)
                     .toUri();
             String url = uri.toString();
             String responseBody = restTemplate.getForEntity(url, String.class).getBody();
             //xmlParsing
-            performance.updateFromApiDto(detailXmlParsing(responseBody));
+            performance.updateFromApiDto(detailXmlParsing(responseBody, performIdList));
             performances.add(performance);
         }
 
@@ -158,16 +172,18 @@ public class KopisService {
     private Performance getSinglePerformance(String performId){
 
         Performance performance = new Performance();
+        HashMap<String,String> map = new HashMap<>();
         RestTemplate restTemplate = new RestTemplate();
         URI uri = UriComponentsBuilder.fromUriString("http://www.kopis.or.kr")
                 .path("/openApi/restful/pblprfr/{id}")
                 .queryParam("service", "86fdb34b92254e1b84343a5c323e3314")
+                .queryParam("newsql", "Y")
                 .buildAndExpand(performId)
                 .toUri();
         String url = uri.toString();
         String responseBody = restTemplate.getForEntity(url, String.class).getBody();
         //xmlParsing
-        performance.updateFromApiDto(detailXmlParsing(responseBody));
+        performance.updateFromApiDto(detailXmlParsing(responseBody, map));
         return performance;
     }
 
@@ -179,6 +195,7 @@ public class KopisService {
                 .queryParam("service", "86fdb34b92254e1b84343a5c323e3314")
                 .queryParam("ststype", ststype)
                 .queryParam("date", rankDate)
+                .queryParam("newsql", "Y")
                 .encode()
                 .build()
                 .toUri();
@@ -192,9 +209,10 @@ public class KopisService {
         return weeklyRank;
     }
 
-    private List<String> idXmlParsing(String responsebody){
+    private HashMap<String, String> idXmlParsing(String responsebody){
         try {
             List<String> performId = new ArrayList<>();
+            HashMap<String, String> map = new HashMap<>();
 
             ByteArrayInputStream inputStream = new ByteArrayInputStream(responsebody.getBytes());
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
@@ -206,21 +224,25 @@ public class KopisService {
             for (int i = 0; i < itemList.getLength(); i++) {
                 Element item = (Element) itemList.item(i);
                 NodeList mt20idNodeList = item.getElementsByTagName("mt20id");
+                NodeList areaNodeList = item.getElementsByTagName("area");
 
                 if (mt20idNodeList.getLength() > 0) {
                     Element mt20idElement = (Element) mt20idNodeList.item(0);
+                    Element areaElement = (Element) areaNodeList.item(0);
                     String mt20idValue = mt20idElement.getTextContent();
+                    String areaValue = areaElement.getTextContent();
                     performId.add(mt20idValue);
+                    map.put(mt20idValue, areaValue);
                 }
             }
-            return performId;
+            return map;
         }catch (Exception e){
             e.printStackTrace();
             return null;
         }
     }
 
-    private PerformanceApiDTO detailXmlParsing(String responsebody){
+    private PerformanceApiDTO detailXmlParsing(String responsebody, HashMap<String, String> performIdList){
         try {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd");
 
@@ -245,12 +267,26 @@ public class KopisService {
             String performStatus = performanceElement.getElementsByTagName("prfstate").item(0).getTextContent();
             String posterUrl = performanceElement.getElementsByTagName("poster").item(0).getTextContent();
             String openRun = performanceElement.getElementsByTagName("openrun").item(0).getTextContent();
+            String area = performanceElement.getElementsByTagName("openrun").item(0).getTextContent();
+            if(performIdList != null && area == null){
+                area = performIdList.get(id);
+            }
+            if(area.equals("강원도")){
+                area = "강원특별자치도";
+            }
+            if(area.equals("전라북도")){
+                area = "전북특별자치도";
+            }
+            String areacd = null;
+            String genrecd = null;
+            String regid = "Scheduler";
+            LocalDateTime regdt = LocalDateTime.now();
 
             LocalDate startDate = LocalDate.parse(start, formatter);
             LocalDate endDate = LocalDate.parse(end, formatter);
 
 
-            return new PerformanceApiDTO(id, name, startDate, endDate, place, time, age, price, casting, production, genre, performStatus, posterUrl, openRun);
+            return new PerformanceApiDTO(id, name, startDate, endDate, place, time, age, price, casting, production, genre, genrecd, performStatus, posterUrl, openRun, area, areacd, regid, regdt);
         }catch(Exception e){
             e.printStackTrace();
             return null;

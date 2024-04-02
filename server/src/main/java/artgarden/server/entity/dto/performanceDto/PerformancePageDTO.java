@@ -9,7 +9,6 @@ import java.util.List;
 
 @Getter
 @Setter
-public class PerformancePageDTO {
-
-    public List<PerformancePage2DTO> pages = new ArrayList<>();
+public class PerformancePageDTO extends PagingDTO {
+    public List<PerformanceListDTO> data = new ArrayList<>();
 }

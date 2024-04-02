@@ -36,7 +36,7 @@ public class ReviewService {
 
     @Transactional
     public void createReview(ReviewDto dto){
-        dto.setCreated_at(LocalDateTime.now());
+        dto.setRegdt(LocalDateTime.now());
         Review review = new Review();
         review.createFromDto(dto);
 
@@ -45,7 +45,7 @@ public class ReviewService {
 
     @Transactional
     public void updateReview(Long id, ReviewUpdateDto dto){
-        dto.setModified_at(LocalDateTime.now());
+        dto.setUpddt(LocalDateTime.now());
         Review review = reviewRepository.findById(id).orElseThrow();
         review.updateFromDto(dto);
 

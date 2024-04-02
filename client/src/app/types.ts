@@ -15,5 +15,5 @@ export interface Review_Info {
   rate: number;
   member_id: number;
   created_at: string;
-  modified_at: string;
+  _at: string;
 }
