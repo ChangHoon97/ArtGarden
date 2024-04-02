@@ -30,6 +30,10 @@ public class PerformanceListDTO {
     private String price;
     @Schema(description = "공연 포스터 url", example = "http://www.kopis.or.kr/upload/pfmPoster/PF_PF216230_230405_125449.gif")
     private String posterUrl;
+    @Schema(description = "장르", example = "뮤지컬")
+    private String genre;
+    @Schema(description = "공연상태", example = "공연중")
+    private String performStatus;
 
     public PerformanceListDTO(Performance performance){
         this.setId(performance.getId());
@@ -38,6 +42,8 @@ public class PerformanceListDTO {
         this.setPlace(performance.getPlace());
         this.setPrice(performance.getPrice());
         this.setPosterUrl(performance.getPosterUrl());
+        this.setGenre(performance.getGenre());
+        this.setPerformStatus(performance.getPerformStatus());
 
         if(performance.getOpenRun().equals("Y")){
             this.setEndDate("오픈런");
