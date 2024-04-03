@@ -17,7 +17,11 @@ public class LoggingInterceptor implements HandlerInterceptor {
 
         // Referer 헤더 가져오기(이전 웹 주소)
         String referer = request.getHeader("Referer");
-        System.out.println("["+ currentTime + "] controller: " + uri + " IP: " + clientIP);
+        
+        //aws에서 healthcheck하는 로그 안 찍기
+        if(!uri.equals("/aws/healthcheck")){
+            System.out.println("["+ currentTime + "] controller: " + uri + " IP: " + clientIP);
+        }
         return true;
     }
 
