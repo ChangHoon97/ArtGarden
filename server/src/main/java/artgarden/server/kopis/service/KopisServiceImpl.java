@@ -1,5 +1,6 @@
 package artgarden.server.kopis.service;
 
+import artgarden.server.common.util.UtilBean;
 import artgarden.server.performance.entity.Performance;
 import artgarden.server.rank.entity.WeeklyRank;
 import artgarden.server.performance.entity.dto.PerformanceApiDTO;
@@ -41,7 +42,7 @@ public class KopisServiceImpl implements  KopisService{
     @Transactional
     public void updateUpcoming(String standardDate){
         try{
-            List<Performance> performanceList = getPerformanceList(formatDate(LocalDate.now()), standardDate, "01");   //01: 공연예정
+            List<Performance> performanceList = getPerformanceList(UtilBean.formatDate(LocalDate.now()), standardDate, "01");   //01: 공연예정
             for(Performance performance : performanceList){
                 if(performance.getPrice().length() >= 20){
                     System.out.println(performance.getPrice());
@@ -57,7 +58,7 @@ public class KopisServiceImpl implements  KopisService{
     //오늘 공연중인 정보 업데이트
     @Transactional
     public void updateOngoing(){
-        List<Performance> performanceList = getPerformanceList(formatDate(LocalDate.now()), formatDate(LocalDate.now()), "02"); //02: 공연중
+        List<Performance> performanceList = getPerformanceList(UtilBean.formatDate(LocalDate.now()), UtilBean.formatDate(LocalDate.now()), "02"); //02: 공연중
         performanceRepository.saveAll(performanceList);
     }
 
@@ -99,18 +100,6 @@ public class KopisServiceImpl implements  KopisService{
     @Transactional
     public void updateGenreCode(){
         performanceRepository.updateGenreCode();
-    }
-
-
-    //LocalDate -> String
-    private String formatDate(LocalDate date){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-        return date.format(formatter);
-    }
-
-    private LocalDate formatString(String date){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-        return LocalDate.parse(date,formatter);
     }
 
     @Transactional
@@ -212,7 +201,7 @@ public class KopisServiceImpl implements  KopisService{
 
         String url = uri.toString();
         String responseBody = restTemplate.getForEntity(url, String.class).getBody();
-        RankApiDto dto = rankXmlParsing(responseBody, formatString(rankDate));
+        RankApiDto dto = rankXmlParsing(responseBody, UtilBean.formatString(rankDate));
         WeeklyRank weeklyRank = new WeeklyRank();
         weeklyRank.updateFromApiDto(dto);
 

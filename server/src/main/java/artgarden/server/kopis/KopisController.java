@@ -1,5 +1,6 @@
 package artgarden.server.kopis;
 
+import artgarden.server.common.util.UtilBean;
 import artgarden.server.kopis.service.KopisServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -24,8 +25,7 @@ public class KopisController {
     @Operation(summary = "이후 한달간 공연 예정 상태의 공연 저장", description = "/manual/update/upcoming")
     @GetMapping("/manual/update/upcoming")
     public ResponseEntity<String> manualUpcomingUpdate(){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-        String standardDate = LocalDate.now().plusMonths(1).format(formatter);
+        String standardDate = UtilBean.formatDate(LocalDate.now().plusMonths(1));
 
         kopisService.updateUpcoming(standardDate);
 
