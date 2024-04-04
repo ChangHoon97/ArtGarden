@@ -2,10 +2,7 @@ package artgarden.server.review.entity;
 
 import artgarden.server.review.entity.dto.ReviewDto;
 import artgarden.server.review.entity.dto.ReviewUpdateDto;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -17,20 +14,21 @@ public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String perform_id;
+    private String performid;
+    @Column(length=4000)
     private String content;
     private Double rate;
-    private Long member_id;
+    private String memberid;
     private String regid;
     private LocalDateTime regdt;
     private String updid;
     private LocalDateTime upddt;
 
     public void createFromDto(ReviewDto dto){
-        this.perform_id = dto.getPerform_id();
+        this.performid = dto.getPerformid();
         this.content = dto.getContent();
         this.rate = dto.getRate();
-        this.member_id = dto.getMember_id();
+        this.memberid = dto.getMemberid();
         this.regdt = dto.getRegdt();
     }
 

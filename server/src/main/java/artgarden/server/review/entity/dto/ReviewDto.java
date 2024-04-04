@@ -11,13 +11,13 @@ import java.time.LocalDateTime;
 public class ReviewDto {
 
     @Schema(description = "공연 ID", example = "1")
-    private String perform_id;
+    private String performid;
     @Schema(description = "리뷰 내용", example = "너무 좋았습니다. 최고!")
     private String content;
     @Schema(description = "리뷰 별점", example = "2.5")
     private Double rate;
     @Schema(description = "회원 ID", example = "1")
-    private Long member_id;
+    private String memberid;
     @Schema(description = "작성자", example = "이창훈")
     private String regid;
     @Schema(description = "작성일", example = "2023-11-29 08:35:26.182549")
