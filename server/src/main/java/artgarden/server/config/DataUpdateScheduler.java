@@ -1,6 +1,6 @@
 package artgarden.server.config;
 
-import artgarden.server.service.KopisService;
+import artgarden.server.kopis.service.KopisServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -15,7 +15,7 @@ import java.time.format.DateTimeFormatter;
 @Slf4j
 public class DataUpdateScheduler {
 
-    private final KopisService kopisService;
+    private final KopisServiceImpl kopisService;
 
     @Scheduled(cron = "0 00 10 * * ?")
     public void dailyUpdate(){
