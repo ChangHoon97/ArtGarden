@@ -40,8 +40,18 @@ public class KopisService {
     //오늘~ 한달 뒤 공연 정보 업데이트
     @Transactional
     public void updateUpcoming(String standardDate){
-        List<Performance> performanceList = getPerformanceList(formatDate(LocalDate.now()), standardDate, "01");   //01: 공연예정
-        performanceRepository.saveAll(performanceList);
+        try{
+            List<Performance> performanceList = getPerformanceList(formatDate(LocalDate.now()), standardDate, "01");   //01: 공연예정
+            for(Performance performance : performanceList){
+                if(performance.getPrice().length() >= 20){
+                    System.out.println(performance.getPrice());
+                }
+            }
+            performanceRepository.saveAll(performanceList);
+        } catch(Exception e){
+            System.out.println("Exception occurred: " + e.getMessage());  // 예외 메시지 출력
+            e.printStackTrace();
+        }
     }
 
     //오늘 공연중인 정보 업데이트
@@ -318,7 +328,7 @@ public class KopisService {
         } else if(area.equals("전라북도")){
             result = "전북특별자치도";
         } else{
-            if(area != null || area == ""){
+            if(area.isEmpty()){
                 log.error("[Exception(Area)] " + id + " / " + area);
             }
             result = area;
