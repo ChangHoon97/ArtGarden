@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
-    @Query("SELECT r FROM Review r WHERE r.performid = :perform_id")
+    @Query("SELECT r, p.posterUrl, p.name FROM Review r INNER JOIN Performance p on p.id = r.performid WHERE r.performid = :perform_id")
     List<Review> findAllByPerform_id(@Param("perform_id") String perform_id);
 }
