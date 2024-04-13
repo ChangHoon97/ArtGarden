@@ -2,8 +2,9 @@ package artgarden.server.review.service;
 
 
 import artgarden.server.review.entity.Review;
-import artgarden.server.review.entity.dto.ReviewDto;
-import artgarden.server.review.entity.dto.ReviewListDto;
+import artgarden.server.review.entity.dto.ReviewDTO;
+import artgarden.server.review.entity.dto.ReviewListDTO;
+import artgarden.server.review.entity.dto.ReviewPageDTO;
 import artgarden.server.review.entity.dto.ReviewUpdateDto;
 import artgarden.server.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +28,17 @@ public class ReviewServiceImpl implements ReviewService{
         return reviewRepository.findAll();
     }
 
-    public Page<ReviewListDto> getAllReviewByPerformId(String id, Pageable pageable){
-        return reviewRepository.findAllByPerformid(id, pageable);
+    public ReviewPageDTO getAllReviewByPerformId(String id, Pageable pageable){
+        ReviewPageDTO data = new ReviewPageDTO();
+        Page<ReviewListDTO> reviews = reviewRepository.findAllByPerformid(id, pageable);
+
+        data.setData(reviews.getContent());
+        data.setPageNo(reviews.getNumber());
+        data.setPageSize(reviews.getSize());
+        data.setTotalElements(reviews.getTotalElements());
+        data.setHasNext(reviews.hasNext());
+
+        return data;
     }
 
     public Review getReview(Long id){
@@ -38,7 +48,7 @@ public class ReviewServiceImpl implements ReviewService{
     }
 
     @Transactional
-    public void createReview(ReviewDto dto){
+    public void createReview(ReviewDTO dto){
         dto.setRegdt(LocalDateTime.now());
         Review review = new Review();
         review.createFromDto(dto);

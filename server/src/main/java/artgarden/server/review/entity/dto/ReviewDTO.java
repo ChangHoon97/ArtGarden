@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class ReviewDto {
+public class ReviewDTO {
 
     @Schema(description = "리뷰 ID", example = "1")
     private Long reviewid;

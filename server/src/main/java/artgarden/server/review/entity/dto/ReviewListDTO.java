@@ -2,7 +2,7 @@ package artgarden.server.review.entity.dto;
 
 import java.time.LocalDateTime;
 
-public interface ReviewListDto {
+public interface ReviewListDTO {
 
     Long getReviewid();
     String getPerformid();

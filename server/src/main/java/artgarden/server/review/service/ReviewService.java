@@ -1,7 +1,7 @@
 package artgarden.server.review.service;
 
 import artgarden.server.review.entity.Review;
-import artgarden.server.review.entity.dto.ReviewDto;
+import artgarden.server.review.entity.dto.ReviewDTO;
 import artgarden.server.review.entity.dto.ReviewUpdateDto;
 
 import java.util.List;
@@ -10,7 +10,7 @@ public interface ReviewService {
 
     public List<Review> getAllReview();
 
-    public void createReview(ReviewDto dto);
+    public void createReview(ReviewDTO dto);
 
     public void updateReview(Long id, ReviewUpdateDto dto);
 

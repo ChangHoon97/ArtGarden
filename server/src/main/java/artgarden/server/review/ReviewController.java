@@ -1,8 +1,9 @@
 package artgarden.server.review;
 
 import artgarden.server.review.entity.Review;
-import artgarden.server.review.entity.dto.ReviewDto;
-import artgarden.server.review.entity.dto.ReviewListDto;
+import artgarden.server.review.entity.dto.ReviewDTO;
+import artgarden.server.review.entity.dto.ReviewListDTO;
+import artgarden.server.review.entity.dto.ReviewPageDTO;
 import artgarden.server.review.entity.dto.ReviewUpdateDto;
 import artgarden.server.review.service.ReviewServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
@@ -36,14 +37,14 @@ public class ReviewController {
     @Operation(summary = "공연별 리뷰 조회", description = "/reviews/PF123456")
     @ApiResponse(responseCode = "200", description = "성공")
     @GetMapping("/reviewList/{performId}")
-    public ResponseEntity<Page<ReviewListDto>> getAllReviewByPerformId(
+    public ResponseEntity<ReviewPageDTO> getAllReviewByPerformId(
             @PathVariable String performId,
             @Parameter(description = "표시할 페이지")
             @RequestParam(defaultValue = "1") int page,
             @Parameter(description = "한 페이지에 볼 게시물 수")
             @RequestParam(defaultValue = "8") int size){
         Pageable pageable = PageRequest.of(page-1, size);
-        Page<ReviewListDto> reviews = reviewService.getAllReviewByPerformId(performId, pageable);
+        ReviewPageDTO reviews = reviewService.getAllReviewByPerformId(performId, pageable);
         return ResponseEntity.ok(reviews);
     }
 
@@ -58,7 +59,7 @@ public class ReviewController {
     @Operation(summary = "리뷰 등록", description = "/reviews")
     @ApiResponse(responseCode = "200", description = "성공")
     @PostMapping("/reviews")
-    public ResponseEntity<String> createReview(@RequestBody ReviewDto review){
+    public ResponseEntity<String> createReview(@RequestBody ReviewDTO review){
         reviewService.createReview(review);
         return new ResponseEntity<>(HttpStatus.OK);
     }

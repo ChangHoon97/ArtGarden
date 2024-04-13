@@ -32,6 +32,7 @@ public class PerformanceServiceImpl implements PerformanceService{
         LocalDate expectDate = LocalDate.now().plusDays(days);
         Page<Performance> performances = performanceRepository.getPerformances(keyword, status, expectDate, pageable);
 
+        //DTO 변환 과정
         for(Performance performance : performances.getContent()){
             data.getData().add(new PerformanceListDTO(performance));
         }
