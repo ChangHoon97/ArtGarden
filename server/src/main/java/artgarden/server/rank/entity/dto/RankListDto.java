@@ -30,16 +30,16 @@ public class RankListDto {
     public RankListDto(Performance performance, int rankNumber){
         this.id = performance.getId();
         this.name = performance.getName();
-        this.startDate = dateFormat(performance.getStartDate());
+        this.startDate = dateFormat(performance.getStartdate());
         this.place = performance.getPlace();
         this.price = performance.getPrice();
-        this.posterUrl = performance.getPosterUrl();
+        this.posterUrl = performance.getPosterurl();
         this.rankNum = rankNumber;
 
-        if(performance.getOpenRun().equals("Y")){
+        if(performance.getOpenrun().equals("Y")){
             this.endDate = "오픈런";
         }else{
-            this.endDate = dateFormat(performance.getEndDate());
+            this.endDate = dateFormat(performance.getEnddate());
         }
     }
 

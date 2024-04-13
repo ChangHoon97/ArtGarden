@@ -36,17 +36,17 @@ public class PerformanceListDTO {
     public PerformanceListDTO(Performance performance){
         this.setId(performance.getId());
         this.setName(performance.getName());
-        this.setStartDate(dateFormat(performance.getStartDate()));
+        this.setStartDate(dateFormat(performance.getStartdate()));
         this.setPlace(performance.getPlace());
         this.setPrice(performance.getPrice());
-        this.setPosterUrl(performance.getPosterUrl());
+        this.setPosterUrl(performance.getPosterurl());
         this.setGenre(performance.getGenre());
-        this.setPerformStatus(performance.getPerformStatus());
+        this.setPerformStatus(performance.getPerformstatus());
 
-        if(performance.getOpenRun().equals("Y")){
+        if(performance.getOpenrun().equals("Y")){
             this.setEndDate("오픈런");
         }else{
-            this.setEndDate(dateFormat(performance.getEndDate()));
+            this.setEndDate(dateFormat(performance.getEnddate()));
         }
     }
 

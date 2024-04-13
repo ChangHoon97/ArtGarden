@@ -13,7 +13,7 @@ public class Review {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long reviewid;
     private String performid;
     @Column(length=4000)
     private String content;

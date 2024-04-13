@@ -13,29 +13,24 @@ import java.time.LocalDate;
 
 public interface PerformanceRepository extends JpaRepository<Performance, Long> {
 
-    Page<Performance> findByPerformStatus(String performStatus, Pageable pageable);
-
-    @Query("SELECT e " +
-            "FROM Performance e " +
-            "WHERE e.startDate BETWEEN CURRENT_DATE AND :expectDate AND e.performStatus = :performStatus")
-    Page<Performance> findByPerformStatusBeforeStartDate(@Param("performStatus")String performStatus, @Param("expectDate") LocalDate expectDate, Pageable pageable);
+    Page<Performance> findByPerformstatus(String performstatus, Pageable pageable);
 
     Performance findById(String id);
 
     @Transactional
     @Modifying
     @Query("DELETE FROM Performance e " +
-            "WHERE e.endDate <= :deleteDateStandard")
+            "WHERE e.enddate <= :deleteDateStandard")
     void deleteByEndDateBefore(LocalDate deleteDateStandard);
 
     @Transactional
     @Modifying
-    @Query("UPDATE Performance e SET e.performStatus = '공연완료' " +
-            "WHERE e.endDate <= :today AND e.performStatus <> '공연완료'")
+    @Query("UPDATE Performance e SET e.performstatus = '공연완료' " +
+            "WHERE e.enddate <= :today AND e.performstatus <> '공연완료'")
     void updatePerformStatusForExpiredPerformances(LocalDate today);
 
-    @Query("SELECT e FROM Performance e WHERE e.name LIKE %:keyword% AND e.startDate < :expectDate" +
-            " AND (:status = 'all' OR e.performStatus = :status)")
+    @Query("SELECT e FROM Performance e WHERE e.name LIKE %:keyword% AND e.startdate < :expectDate" +
+            " AND (:status = 'all' OR e.performstatus = :status)")
     Page<Performance> getPerformances(@Param("keyword") String keyword, @Param("status") String status, @Param("expectDate") LocalDate expectDate, Pageable pageable);
 
     @Modifying

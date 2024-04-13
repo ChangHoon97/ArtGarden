@@ -2,12 +2,17 @@ package artgarden.server.review;
 
 import artgarden.server.review.entity.Review;
 import artgarden.server.review.entity.dto.ReviewDto;
+import artgarden.server.review.entity.dto.ReviewListDto;
 import artgarden.server.review.entity.dto.ReviewUpdateDto;
 import artgarden.server.review.service.ReviewServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,8 +36,14 @@ public class ReviewController {
     @Operation(summary = "공연별 리뷰 조회", description = "/reviews/PF123456")
     @ApiResponse(responseCode = "200", description = "성공")
     @GetMapping("/reviewList/{performId}")
-    public ResponseEntity<List<Review>> getAllReviewByPerformId(@PathVariable String performId){
-        List<Review> reviews = reviewService.getAllReviewByPerformId(performId);
+    public ResponseEntity<Page<ReviewListDto>> getAllReviewByPerformId(
+            @PathVariable String performId,
+            @Parameter(description = "표시할 페이지")
+            @RequestParam(defaultValue = "1") int page,
+            @Parameter(description = "한 페이지에 볼 게시물 수")
+            @RequestParam(defaultValue = "8") int size){
+        Pageable pageable = PageRequest.of(page-1, size);
+        Page<ReviewListDto> reviews = reviewService.getAllReviewByPerformId(performId, pageable);
         return ResponseEntity.ok(reviews);
     }
 

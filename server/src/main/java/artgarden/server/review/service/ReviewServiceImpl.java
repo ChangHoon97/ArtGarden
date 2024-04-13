@@ -3,9 +3,12 @@ package artgarden.server.review.service;
 
 import artgarden.server.review.entity.Review;
 import artgarden.server.review.entity.dto.ReviewDto;
+import artgarden.server.review.entity.dto.ReviewListDto;
 import artgarden.server.review.entity.dto.ReviewUpdateDto;
 import artgarden.server.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,8 +27,8 @@ public class ReviewServiceImpl implements ReviewService{
         return reviewRepository.findAll();
     }
 
-    public List<Review> getAllReviewByPerformId(String id){
-        return reviewRepository.findAllByPerform_id(id);
+    public Page<ReviewListDto> getAllReviewByPerformId(String id, Pageable pageable){
+        return reviewRepository.findAllByPerformid(id, pageable);
     }
 
     public Review getReview(Long id){

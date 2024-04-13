@@ -10,6 +10,8 @@ import java.time.LocalDateTime;
 @Setter
 public class ReviewDto {
 
+    @Schema(description = "리뷰 ID", example = "1")
+    private Long reviewid;
     @Schema(description = "공연 ID", example = "1")
     private String performid;
     @Schema(description = "리뷰 내용", example = "너무 좋았습니다. 최고!")
@@ -26,4 +28,8 @@ public class ReviewDto {
     private String updid;
     @Schema(description = "수정일", example = "2023-11-29 18:32:58.187159")
     private LocalDateTime upddt;
+    @Schema(description = "포스터 경로")
+    private String posterurl;
+    @Schema(description = "공연이름", example = "대추나무 사랑열렸네")
+    private String name;
 }

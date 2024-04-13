@@ -1,6 +1,10 @@
 package artgarden.server.review.repository;
 
 import artgarden.server.review.entity.Review;
+import artgarden.server.review.entity.dto.ReviewDto;
+import artgarden.server.review.entity.dto.ReviewListDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -9,6 +13,10 @@ import java.util.List;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
-    @Query("SELECT r, p.posterUrl, p.name FROM Review r INNER JOIN Performance p on p.id = r.performid WHERE r.performid = :perform_id")
-    List<Review> findAllByPerform_id(@Param("perform_id") String perform_id);
+    @Query("SELECT r.reviewid as reviewid, r.performid as performid, r.content as content," +
+            "r.rate as rate, r.memberid as memberid, r.regid as regid, r.regdt as regdt," +
+            "r.updid as updid, r.upddt as upddt," +
+            " p.posterurl as posterurl, p.name as name " +
+            "FROM Review r INNER JOIN Performance p on p.id = r.performid WHERE r.performid = :perform_id")
+    Page<ReviewListDto> findAllByPerformid(@Param("perform_id") String perform_id, Pageable pageable);
 }

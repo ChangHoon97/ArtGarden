@@ -43,7 +43,7 @@ public class PerformanceDetailDTO {
     public void fromEntity(Performance performance){
         this.setId(performance.getId());
         this.setName(performance.getName());
-        this.setStartDate(dateFormat(performance.getStartDate()));
+        this.setStartDate(dateFormat(performance.getStartdate()));
         this.setPlace(performance.getPlace());
         this.setTime(performance.getTime());
         this.setAge(performance.getAge());
@@ -51,13 +51,13 @@ public class PerformanceDetailDTO {
         this.setCasting(performance.getCasting());
         this.setProduction(performance.getProduction());
         this.setGenre(performance.getGenre());
-        this.setPerformStatus(performance.getPerformStatus());
-        this.setPosterUrl(performance.getPosterUrl());
+        this.setPerformStatus(performance.getPerformstatus());
+        this.setPosterUrl(performance.getPosterurl());
 
-        if(performance.getOpenRun().equals("Y")){
+        if(performance.getOpenrun().equals("Y")){
             this.setEndDate("오픈런");
         }else{
-            this.setEndDate(dateFormat(performance.getEndDate()));
+            this.setEndDate(dateFormat(performance.getEnddate()));
         }
     }
 

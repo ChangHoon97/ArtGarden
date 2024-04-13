@@ -20,9 +20,9 @@ public class Performance {
     @Schema(description = "공연 제목", example = "왓 이프")
     private String name;
     @Schema(description = "공연 시작날짜", example = "2023-05-19")
-    private LocalDate startDate;
+    private LocalDate startdate;
     @Schema(description = "공연 종료날짜", example = "2023-12-31")
-    private LocalDate endDate;
+    private LocalDate enddate;
     @Schema(description = "공연 장소", example = "룸씨어터 (룸씨어터)")
     private String place;
     @Schema(description = "공연 시간", example = "수요일 ~ 금요일(19:30), 토요일(14:00,17:00,17:30), 일요일(13:00,15:00,16:00), HOL(15:00,16:00)")
@@ -42,19 +42,19 @@ public class Performance {
     @Schema(description = "공연 장르코드", example = "GENRE01")
     private String genrecd;
     @Schema(description = "공연 상태", example = "공연중")
-    private String performStatus;
+    private String performstatus;
     @Schema(description = "공연 포스터 url", example = "http://www.kopis.or.kr/upload/pfmPoster/PF_PF216230_230405_125449.gif")
-    private String posterUrl;
+    private String posterurl;
     @Schema(description = "오픈런", example = "N")
-    private String openRun;
+    private String openrun;
     @Schema(description = "지역", example = "서울특별시")
     private String area;
     @Schema(description = "지역코드", example = "AREA01")
     private String areacd;
     @Schema(description = "공연 게시글 조회수", example = "127")
-    private int visitCnt;
+    private int visitcnt;
     @Schema(description = "공연 스크랩 수", example = "13")
-    private int scrapCnt;
+    private int scrapcnt;
     @Schema(description = "작성자", example = "CHANGHOON")
     private String regid;
     @Schema(description = "작성일", example = "2024-04-01 23:48:30")
@@ -67,8 +67,8 @@ public class Performance {
     public void updateFromApiDto(PerformanceApiDTO dto){
         this.id = dto.getId();
         this.name = dto.getName();
-        this.startDate = dto.getStartDate();
-        this.endDate = dto.getEndDate();
+        this.startdate = dto.getStartDate();
+        this.enddate = dto.getEndDate();
         this.place = dto.getPlace();
         this.time = dto.getTime();
         this.age = dto.getAge();
@@ -77,9 +77,9 @@ public class Performance {
         this.production = dto.getProduction();
         this.genre = dto.getGenre();
         this.genrecd = dto.getGenrecd();
-        this.performStatus = dto.getPerformStatus();
-        this.posterUrl = dto.getPosterUrl();
-        this.openRun = dto.getOpenRun();
+        this.performstatus = dto.getPerformStatus();
+        this.posterurl = dto.getPosterUrl();
+        this.openrun = dto.getOpenRun();
         this.area = dto.getArea();
         this.areacd = dto.getAreacd();
     }

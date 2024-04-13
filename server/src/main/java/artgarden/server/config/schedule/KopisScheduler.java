@@ -1,6 +1,7 @@
 package artgarden.server.config.schedule;
 
 import artgarden.server.common.util.UtilBean;
+import artgarden.server.kopis.service.KopisService;
 import artgarden.server.kopis.service.KopisServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +17,7 @@ import java.time.format.DateTimeFormatter;
 @Slf4j
 public class KopisScheduler {
 
-    private final KopisServiceImpl kopisService;
+    private final KopisService kopisService;
 
 
     @Scheduled(cron = "0 00 10 * * ?")
