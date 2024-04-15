@@ -29,8 +29,13 @@ public class ReviewController {
     @Operation(summary = "전체 리뷰 조회", description = "/reviews")
     @ApiResponse(responseCode = "200", description = "성공")
     @GetMapping("/reviews")
-    public ResponseEntity<List<Review>> getAllReview(){
-        List<Review> reviews = reviewService.getAllReview();
+    public ResponseEntity<ReviewPageDTO> getAllReview(
+            @Parameter(description = "표시할 페이지")
+            @RequestParam(defaultValue = "1") int page,
+            @Parameter(description = "한 페이지에 볼 게시물 수")
+            @RequestParam(defaultValue = "8") int size){
+        Pageable pageable = PageRequest.of(page-1, size);
+        ReviewPageDTO reviews = reviewService.getAllReview(pageable);
         return ResponseEntity.ok(reviews);
     }
 
