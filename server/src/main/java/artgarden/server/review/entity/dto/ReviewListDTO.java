@@ -15,4 +15,6 @@ public interface ReviewListDTO {
     LocalDateTime getUpddt();
     String getPosterurl();
     String getName();
+
+    String getGenre();
 }

@@ -13,14 +13,14 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     @Query("SELECT r.reviewid as reviewid, r.performid as performid, r.content as content," +
             "r.rate as rate, r.memberid as memberid, r.regid as regid, r.regdt as regdt," +
             "r.updid as updid, r.upddt as upddt," +
-            " p.posterurl as posterurl, p.name as name " +
+            " p.posterurl as posterurl, p.name as name, p.genre as genre " +
             "FROM Review r INNER JOIN Performance p on p.id = r.performid WHERE r.performid = :perform_id")
     Page<ReviewListDTO> findAllByPerformid(@Param("perform_id") String perform_id, Pageable pageable);
 
     @Query("SELECT r.reviewid as reviewid, r.performid as performid, r.content as content," +
             "r.rate as rate, r.memberid as memberid, r.regid as regid, r.regdt as regdt," +
             "r.updid as updid, r.upddt as upddt," +
-            " p.posterurl as posterurl, p.name as name " +
+            " p.posterurl as posterurl, p.name as name, p.genre as genre " +
             "FROM Review r INNER JOIN Performance p on p.id = r.performid " +
             "ORDER BY r.regdt DESC")
     Page<ReviewListDTO> findALlPage(Pageable pageable);
