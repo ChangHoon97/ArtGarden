@@ -16,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -66,8 +67,6 @@ public class KopisServiceImpl implements  KopisService{
 
     @Transactional
     public void updateRank(String ststype, String rankDate){
-        System.out.println("가져오는 날짜 : " + rankDate);
-        System.out.println(LocalDateTime.now());
         WeeklyRank weeklyRank = getRank(ststype, rankDate);
         WeeklyRank checkWeeklyRank = rankRepository.findByRankDate(weeklyRank.getRankDate());
         if(checkWeeklyRank != null){
@@ -76,6 +75,7 @@ public class KopisServiceImpl implements  KopisService{
         }else{
             rankRepository.save(weeklyRank);
         }
+        System.out.println("[랭킹 업데이트 날짜] : " + rankDate);
     }
 
     @Transactional
@@ -217,14 +217,17 @@ public class KopisServiceImpl implements  KopisService{
                 NodeList mt20idNodeList = item.getElementsByTagName("mt20id");
                 NodeList areaNodeList = item.getElementsByTagName("area");
 
+                String mt20idValue = "";
+                String areaValue = "";
                 if (mt20idNodeList.getLength() > 0) {
                     Element mt20idElement = (Element) mt20idNodeList.item(0);
-                    Element areaElement = (Element) areaNodeList.item(0);
-                    String mt20idValue = mt20idElement.getTextContent();
-                    String areaValue = areaElement.getTextContent();
-                    performId.add(mt20idValue);
-                    map.put(mt20idValue, areaValue);
+                    mt20idValue = mt20idElement.getTextContent();
                 }
+                if(areaNodeList.getLength() > 0){
+                    Element areaElement = (Element) areaNodeList.item(0);
+                    areaValue = areaElement.getTextContent();
+                }
+                map.put(mt20idValue, areaValue);
             }
             return map;
         }catch (Exception e){
@@ -244,21 +247,21 @@ public class KopisServiceImpl implements  KopisService{
 
             Element performanceElement = (Element) doc.getElementsByTagName("db").item(0);
 
-            String id = performanceElement.getElementsByTagName("mt20id").item(0).getTextContent();
-            String name = performanceElement.getElementsByTagName("prfnm").item(0).getTextContent();
-            String start = performanceElement.getElementsByTagName("prfpdfrom").item(0).getTextContent();
-            String end = performanceElement.getElementsByTagName("prfpdto").item(0).getTextContent();
-            String place = performanceElement.getElementsByTagName("fcltynm").item(0).getTextContent();
-            String time = performanceElement.getElementsByTagName("dtguidance").item(0).getTextContent();
-            String age = performanceElement.getElementsByTagName("prfage").item(0).getTextContent();
-            String price = performanceElement.getElementsByTagName("pcseguidance").item(0).getTextContent();
-            String casting = performanceElement.getElementsByTagName("prfcast").item(0).getTextContent();
-            String production = performanceElement.getElementsByTagName("entrpsnm").item(0).getTextContent();
-            String genre = performanceElement.getElementsByTagName("genrenm").item(0).getTextContent();
-            String performStatus = performanceElement.getElementsByTagName("prfstate").item(0).getTextContent();
-            String posterUrl = performanceElement.getElementsByTagName("poster").item(0).getTextContent();
-            String openRun = performanceElement.getElementsByTagName("openrun").item(0).getTextContent();
-            String area = performanceElement.getElementsByTagName("area").item(0).getTextContent();
+            String id = getElementTextContent(performanceElement, "mt20id");
+            String name = getElementTextContent(performanceElement, "prfnm");
+            String start = getElementTextContent(performanceElement, "prfpdfrom");
+            String end = getElementTextContent(performanceElement, "prfpdto");
+            String place = getElementTextContent(performanceElement, "fcltynm");
+            String time = getElementTextContent(performanceElement, "dtguidance");
+            String age = getElementTextContent(performanceElement, "prfage");
+            String price = getElementTextContent(performanceElement, "pcseguidance");
+            String casting = getElementTextContent(performanceElement, "prfcast");
+            String production = getElementTextContent(performanceElement, "entrpsnm");
+            String genre = getElementTextContent(performanceElement, "genrenm");
+            String performStatus = getElementTextContent(performanceElement, "prfstate");
+            String posterUrl = getElementTextContent(performanceElement, "poster");
+            String openRun = getElementTextContent(performanceElement, "openrun");
+            String area = getElementTextContent(performanceElement, "area");
             if(performIdList != null && area == null){
                 area = performIdList.get(id);
             }
@@ -280,6 +283,18 @@ public class KopisServiceImpl implements  KopisService{
             return null;
         }
 
+    }
+
+    //Node의 Null 체크
+    private String getElementTextContent(Element parentElement, String tagName) {
+        NodeList nodeList = parentElement.getElementsByTagName(tagName);
+        if (nodeList != null && nodeList.getLength() > 0) {
+            Node node = nodeList.item(0);
+            if (node != null && node.getNodeType() == Node.ELEMENT_NODE) {
+                return node.getTextContent();
+            }
+        }
+        return "";
     }
 
     private RankApiDto rankXmlParsing(String responsebody, LocalDate rankDate){
