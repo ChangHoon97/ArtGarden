@@ -13,6 +13,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.Arrays;
 import java.util.Collections;
 
 @Configuration
@@ -50,7 +51,7 @@ public class SecurityConfig {
                         config.setAllowedOrigins(Collections.singletonList("https://localhost:3000"));
                         config.setAllowedOrigins(Collections.singletonList("http://localhost:3060"));
                         config.setAllowedOrigins(Collections.singletonList("https://localhost:3060"));
-                        config.setAllowedOrigins(Collections.singletonList("https://artgarden.co.kr"));
+                        config.setAllowedOrigins(Arrays.asList("https://artgarden.co.kr","https://artgarden.site"));
                         //config.setAllowedOrigins(Collections.singletonList("https://artgarden.site"));
                         config.setAllowedMethods(Collections.singletonList("*"));
                         config.setAllowCredentials(true);
