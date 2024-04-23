@@ -51,6 +51,7 @@ public class SecurityConfig {
                         config.setAllowedOrigins(Collections.singletonList("http://localhost:3060"));
                         config.setAllowedOrigins(Collections.singletonList("https://localhost:3060"));
                         config.setAllowedOrigins(Collections.singletonList("https://artgarden.co.kr"));
+                        config.setAllowedOrigins(Collections.singletonList("https://artgarden.site"));
                         config.setAllowedMethods(Collections.singletonList("*"));
                         config.setAllowCredentials(true);
                         config.setAllowedHeaders(Collections.singletonList("*"));

@@ -20,7 +20,7 @@ public class KopisScheduler {
     private final KopisService kopisService;
 
 
-    @Scheduled(cron = "0 00 10 * * ?")
+    @Scheduled(cron = "0 40 19 * * ?")
     public void dailyUpdate(){
         log.info("스케쥴링 자동 업데이트 시작 : " + LocalDateTime.now());
         kopisService.updateUpcoming( UtilBean.formatDate(LocalDate.now().plusMonths(1)));    //standard = 한달 이후

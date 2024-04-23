@@ -66,6 +66,8 @@ public class KopisServiceImpl implements  KopisService{
 
     @Transactional
     public void updateRank(String ststype, String rankDate){
+        System.out.println("가져오는 날짜 : " + rankDate);
+        System.out.println(LocalDateTime.now());
         WeeklyRank weeklyRank = getRank(ststype, rankDate);
         WeeklyRank checkWeeklyRank = rankRepository.findByRankDate(weeklyRank.getRankDate());
         if(checkWeeklyRank != null){
