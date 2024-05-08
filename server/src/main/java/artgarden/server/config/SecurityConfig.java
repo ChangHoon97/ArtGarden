@@ -47,12 +47,12 @@ public class SecurityConfig {
                     @Override
                     public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                         CorsConfiguration config = new CorsConfiguration();
-                        config.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
+                        /*config.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
                         config.setAllowedOrigins(Collections.singletonList("https://localhost:3000"));
                         config.setAllowedOrigins(Collections.singletonList("http://localhost:3060"));
                         config.setAllowedOrigins(Collections.singletonList("https://localhost:3060"));
-                        config.setAllowedOrigins(Arrays.asList("https://artgarden.co.kr","https://artgarden.site"));
-                        //config.setAllowedOrigins(Collections.singletonList("https://artgarden.site"));
+                        config.setAllowedOrigins(Arrays.asList("https://artgarden.co.kr","https://artgarden.site"));*/
+                        config.setAllowedOrigins(Arrays.asList("https://artgarden.co.kr", "https://artgarden.site","http://localhost:3000", "https://localhost:3000", "http://localhost:3060", "https://localhost:3060"));
                         config.setAllowedMethods(Collections.singletonList("*"));
                         config.setAllowCredentials(true);
                         config.setAllowedHeaders(Collections.singletonList("*"));
