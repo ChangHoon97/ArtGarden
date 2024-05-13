@@ -29,7 +29,8 @@ public class ReviewServiceImpl implements ReviewService{
         Page<ReviewListDTO> reviews = reviewRepository.findALlPage(pageable);
 
         data.setData(reviews.getContent());
-        data.setPageNo(reviews.getNumber());
+        data.setPageNo(reviews.getNumber()+1);
+        data.setTotalPages(reviews.getTotalPages());
         data.setPageSize(reviews.getSize());
         data.setTotalElements(reviews.getTotalElements());
         data.setHasNext(reviews.hasNext());
@@ -42,7 +43,8 @@ public class ReviewServiceImpl implements ReviewService{
         Page<ReviewListDTO> reviews = reviewRepository.findAllByPerformid(id, pageable);
 
         data.setData(reviews.getContent());
-        data.setPageNo(reviews.getNumber());
+        data.setPageNo(reviews.getNumber()+1);
+        data.setTotalPages(reviews.getTotalPages());
         data.setPageSize(reviews.getSize());
         data.setTotalElements(reviews.getTotalElements());
         data.setHasNext(reviews.hasNext());
