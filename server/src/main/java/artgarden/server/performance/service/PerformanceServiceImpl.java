@@ -26,11 +26,11 @@ public class PerformanceServiceImpl implements PerformanceService{
         return performanceRepository.findById(id);
     }
 
-    public PerformancePageDTO getPerformances(String keyword, String status, int days, Pageable pageable){
+    public PerformancePageDTO getPerformances(String keyword, String status, int days, Pageable pageable, String[] searchAreaArr){
         PerformancePageDTO data = new PerformancePageDTO();
 
         LocalDate expectDate = LocalDate.now().plusDays(days);
-        Page<Performance> performances = performanceRepository.getPerformances(keyword, status, expectDate, pageable);
+        Page<Performance> performances = performanceRepository.getPerformances(keyword, status, expectDate, pageable, searchAreaArr);
 
         //DTO 변환 과정
         for(Performance performance : performances.getContent()){

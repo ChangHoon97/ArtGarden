@@ -29,9 +29,16 @@ public interface PerformanceRepository extends JpaRepository<Performance, Long> 
             "WHERE e.enddate <= :today AND e.performstatus <> '공연완료'")
     void updatePerformStatusForExpiredPerformances(LocalDate today);
 
-    @Query("SELECT e FROM Performance e WHERE e.name LIKE %:keyword% AND e.startdate < :expectDate" +
-            " AND (:status = 'all' OR e.performstatus = :status)")
-    Page<Performance> getPerformances(@Param("keyword") String keyword, @Param("status") String status, @Param("expectDate") LocalDate expectDate, Pageable pageable);
+    @Query("SELECT e" +
+            " FROM Performance e" +
+            " WHERE e.name LIKE %:keyword% AND e.startdate < :expectDate" +
+            " AND (:status = 'all' OR e.performstatus = :status)" +
+            " AND (:searchAreaArr IS NULL OR e.areacd IN :searchAreaArr)")
+    Page<Performance> getPerformances(@Param("keyword") String keyword,
+                                      @Param("status") String status,
+                                      @Param("expectDate") LocalDate expectDate,
+                                      Pageable pageable,
+                                      @Param("searchAreaArr") String[] searchAreaArr);
 
     @Modifying
     @Query("UPDATE Performance p " +

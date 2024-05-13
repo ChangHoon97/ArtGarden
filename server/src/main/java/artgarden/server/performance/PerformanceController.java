@@ -39,10 +39,12 @@ public class PerformanceController {
             @Parameter(description = "표시할 페이지")
             @RequestParam(defaultValue = "1") int page,
             @Parameter(description = "한 페이지에 볼 게시물 수")
-            @RequestParam(defaultValue = "30") int size){
+            @RequestParam(defaultValue = "30") int size,
+            @Parameter(description = "지역조건")
+            @RequestParam(required = false) String[] searchAreaArr){
         Pageable pageable = PageRequest.of(page-1, size);
 
-        PerformancePageDTO performances = performanceService.getPerformances(keyword, status, days, pageable);
+        PerformancePageDTO performances = performanceService.getPerformances(keyword, status, days, pageable, searchAreaArr);
 
         return ResponseEntity.ok(performances);
     }
