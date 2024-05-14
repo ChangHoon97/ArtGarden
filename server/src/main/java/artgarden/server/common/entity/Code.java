@@ -2,12 +2,14 @@ package artgarden.server.common.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Entity
+@IdClass(CodeId.class)
 public class Code {
 
     @Id
