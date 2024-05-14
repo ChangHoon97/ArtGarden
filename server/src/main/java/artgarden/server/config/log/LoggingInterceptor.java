@@ -19,7 +19,7 @@ public class LoggingInterceptor implements HandlerInterceptor {
         String referer = request.getHeader("Referer");
         
         //aws에서 healthcheck하는 로그 안 찍기
-        if(!uri.equals("/aws/healthcheck")){
+        if(!uri.equals("/common/healthcheck")){
             System.out.println("["+ currentTime + "] controller: " + uri + " IP: " + clientIP);
         }
         return true;
