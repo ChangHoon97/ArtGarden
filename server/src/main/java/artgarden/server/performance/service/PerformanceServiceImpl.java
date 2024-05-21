@@ -26,11 +26,22 @@ public class PerformanceServiceImpl implements PerformanceService{
         return performanceRepository.findById(id);
     }
 
-    public PerformancePageDTO getPerformances(String keyword, String status, int days, Pageable pageable, String[] searchAreaArr){
+    public PerformancePageDTO getPerformances(String keyword, String status, int days, Pageable pageable, String[] searchAreaArr, String orderby){
         PerformancePageDTO data = new PerformancePageDTO();
+        Page<Performance> performances = null;
 
         LocalDate expectDate = LocalDate.now().plusDays(days);
-        Page<Performance> performances = performanceRepository.getPerformances(keyword, status, expectDate, pageable, searchAreaArr);
+
+        if(orderby.equals("popular")){
+            System.out.println("파퓰러");
+            performances = performanceRepository.getPopularPerformances(keyword, status, expectDate, pageable, searchAreaArr);
+        } else if(orderby.equals("scrap")){
+            System.out.println("스크랩");
+            performances = performanceRepository.getScrapPerformances(keyword, status, expectDate, pageable, searchAreaArr);
+        } else{
+            System.out.println("최신순");
+            performances = performanceRepository.getLatestPerformances(keyword, status, expectDate, pageable, searchAreaArr);
+        }
 
         //DTO 변환 과정
         for(Performance performance : performances.getContent()){

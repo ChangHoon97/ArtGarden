@@ -3,6 +3,7 @@ package artgarden.server.performance;
 import artgarden.server.performance.entity.Performance;
 import artgarden.server.performance.entity.dto.PerformanceDetailDTO;
 import artgarden.server.performance.entity.dto.PerformancePageDTO;
+import artgarden.server.performance.service.PerformanceService;
 import artgarden.server.performance.service.PerformanceServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -24,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Performance", description = "공연 정보 조회 API")
 public class PerformanceController {
 
-    private final PerformanceServiceImpl performanceService;
+    private final PerformanceService performanceService;
 
     @Operation(summary = "공연 목록 조회(검색)", description = "/performances?keyword=키워드&status=공연중&startDate=30&page=1&size=30")
     @ApiResponse(responseCode = "200", description = "성공")
@@ -41,10 +42,12 @@ public class PerformanceController {
             @Parameter(description = "한 페이지에 볼 게시물 수")
             @RequestParam(defaultValue = "30") int size,
             @Parameter(description = "지역조건")
-            @RequestParam(required = false) String[] searchAreaArr){
+            @RequestParam(required = false) String[] searchAreaArr,
+            @Parameter(description = "정렬조건(latest(기본값), popular, scrap")
+            @RequestParam(defaultValue = "latest") String orderby){
         Pageable pageable = PageRequest.of(page-1, size);
 
-        PerformancePageDTO performances = performanceService.getPerformances(keyword, status, days, pageable, searchAreaArr);
+        PerformancePageDTO performances = performanceService.getPerformances(keyword, status, days, pageable, searchAreaArr, orderby);
 
         return ResponseEntity.ok(performances);
     }

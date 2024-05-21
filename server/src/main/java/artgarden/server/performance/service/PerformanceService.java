@@ -7,5 +7,5 @@ import org.springframework.data.domain.Pageable;
 public interface PerformanceService {
 
     public Performance findById(String id);
-    public PerformancePageDTO getPerformances(String keyword, String status, int days, Pageable pageable, String[] searchAreaArr);
+    public PerformancePageDTO getPerformances(String keyword, String status, int days, Pageable pageable, String[] searchAreaArr, String orderby);
 }

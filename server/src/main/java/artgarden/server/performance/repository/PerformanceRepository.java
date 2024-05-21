@@ -31,14 +31,42 @@ public interface PerformanceRepository extends JpaRepository<Performance, Long> 
 
     @Query("SELECT e" +
             " FROM Performance e" +
+            " LEFT OUTER JOIN Code c ON c.cdnm = e.performstatus" +
             " WHERE e.name LIKE %:keyword% AND e.startdate < :expectDate" +
             " AND (:status = 'all' OR e.performstatus = :status)" +
-            " AND (:searchAreaArr IS NULL OR e.areacd IN :searchAreaArr)")
-    Page<Performance> getPerformances(@Param("keyword") String keyword,
+            " AND (:searchAreaArr IS NULL OR e.areacd IN :searchAreaArr) " +
+            " ORDER BY c.orderby, e.enddate")
+    Page<Performance> getLatestPerformances(@Param("keyword") String keyword,
                                       @Param("status") String status,
                                       @Param("expectDate") LocalDate expectDate,
                                       Pageable pageable,
                                       @Param("searchAreaArr") String[] searchAreaArr);
+
+    @Query("SELECT e" +
+            " FROM Performance e" +
+            " LEFT OUTER JOIN Code c ON c.cdnm = e.performstatus" +
+            " WHERE e.name LIKE %:keyword% AND e.startdate < :expectDate" +
+            " AND (:status = 'all' OR e.performstatus = :status)" +
+            " AND (:searchAreaArr IS NULL OR e.areacd IN :searchAreaArr)" +
+            " ORDER BY c.orderby, e.visitcnt desc")
+    Page<Performance> getPopularPerformances(@Param("keyword") String keyword,
+                                            @Param("status") String status,
+                                            @Param("expectDate") LocalDate expectDate,
+                                            Pageable pageable,
+                                            @Param("searchAreaArr") String[] searchAreaArr);
+
+    @Query("SELECT e" +
+            " FROM Performance e" +
+            " LEFT OUTER JOIN Code c ON c.cdnm = e.performstatus" +
+            " WHERE e.name LIKE %:keyword% AND e.startdate < :expectDate" +
+            " AND (:status = 'all' OR e.performstatus = :status)" +
+            " AND (:searchAreaArr IS NULL OR e.areacd IN :searchAreaArr)" +
+            " ORDER BY c.orderby, e.scrapcnt desc")
+    Page<Performance> getScrapPerformances(@Param("keyword") String keyword,
+                                             @Param("status") String status,
+                                             @Param("expectDate") LocalDate expectDate,
+                                             Pageable pageable,
+                                             @Param("searchAreaArr") String[] searchAreaArr);
 
     @Modifying
     @Query("UPDATE Performance p " +
