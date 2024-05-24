@@ -82,6 +82,8 @@ public class Performance {
         this.openrun = dto.getOpenRun();
         this.area = dto.getArea();
         this.areacd = dto.getAreacd();
+        this.regdt = dto.getRegdt();
+        this.regid = dto.getRegid();
     }
 
 

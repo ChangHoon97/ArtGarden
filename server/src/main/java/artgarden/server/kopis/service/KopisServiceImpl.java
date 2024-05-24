@@ -319,16 +319,43 @@ public class KopisServiceImpl implements  KopisService{
 
     private String areaHandler(String id, String area){
         String result = "";
-        if(area.equals("강원도")){
-            result = "강원특별자치도";
-        } else if(area.equals("전라북도")){
-            result = "전북특별자치도";
+        if(area.equals("강원도") || area.equals("강원특별자치도")){
+            result = "강원";
+        } else if(area.equals("전라북도") || area.equals("전북특별자치도")){
+            result = "전북";
+        } else if(area.equals("서울특별시")){
+            result = "서울";
+        } else if(area.equals("부산광역시")){
+            result = "부산";
+        } else if(area.equals("경기도")){
+            result = "경기";
+        } else if(area.equals("충청북도")){
+            result = "충북";
+        } else if(area.equals("제주특별자치도")){
+            result = "제주";
+        } else if(area.equals("전라남도")){
+            result = "전남";
+        } else if(area.equals("대구광역시")){
+            result = "대구";
+        } else if(area.equals("인천광역시")){
+            result = "인천";
+        } else if(area.equals("광주광역시")){
+            result = "광주";
+        } else if(area.equals("충청남도")){
+            result = "충남";
+        } else if(area.equals("대전광역시")){
+            result = "대전";
+        } else if(area.equals("경상남도")){
+            result = "경남";
+        } else if(area.equals("울산광역시")){
+            result = "울산";
+        } else if(area.equals("세종특별자치시")){
+            result = "세종";
         } else{
-            if(area.isEmpty()){
-                log.error("[Exception(Area)] " + id + " / " + area);
-            }
-            result = area;
+            System.out.println("[AREA EXCEPTION] " + id + " : " + area);
+            result = "기타";
         }
+
         return result;
     }
 
