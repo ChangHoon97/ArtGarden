@@ -202,7 +202,6 @@ public class KopisServiceImpl implements  KopisService{
 
     private HashMap<String, String> idXmlParsing(String responsebody){
         try {
-            List<String> performId = new ArrayList<>();
             HashMap<String, String> map = new HashMap<>();
 
             ByteArrayInputStream inputStream = new ByteArrayInputStream(responsebody.getBytes());
