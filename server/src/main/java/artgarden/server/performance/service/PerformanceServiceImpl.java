@@ -33,13 +33,10 @@ public class PerformanceServiceImpl implements PerformanceService{
         LocalDate expectDate = LocalDate.now().plusDays(days);
 
         if(orderby.equals("popular")){
-            System.out.println("파퓰러");
             performances = performanceRepository.getPopularPerformances(keyword, status, expectDate, pageable, searchAreaArr);
         } else if(orderby.equals("scrap")){
-            System.out.println("스크랩");
             performances = performanceRepository.getScrapPerformances(keyword, status, expectDate, pageable, searchAreaArr);
         } else{
-            System.out.println("최신순");
             performances = performanceRepository.getLatestPerformances(keyword, status, expectDate, pageable, searchAreaArr);
         }
 

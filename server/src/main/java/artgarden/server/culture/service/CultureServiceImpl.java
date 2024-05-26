@@ -129,7 +129,7 @@ public class CultureServiceImpl implements CultureService{
                 dto.setPlace(item.getElementsByTagName("place").item(0).getTextContent());
                 dto.setArea(item.getElementsByTagName("area").item(0).getTextContent());
                 dto.setPosterurl(item.getElementsByTagName("thumbnail").item(0).getTextContent());
-
+                dto.setGenre("미술");
                 Exhibit vo = new Exhibit();
                 vo.updateFromApiDto(dto);
                 exhibitList.add(vo);

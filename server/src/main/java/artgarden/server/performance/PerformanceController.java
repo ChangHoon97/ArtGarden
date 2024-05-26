@@ -29,7 +29,7 @@ public class PerformanceController {
 
     @Operation(summary = "공연 목록 조회(검색)", description = "/performances?keyword=키워드&status=공연중&startDate=30&page=1&size=30")
     @ApiResponse(responseCode = "200", description = "성공")
-    @GetMapping("performances")
+    @GetMapping("/performances")
     public ResponseEntity<PerformancePageDTO> getPerformances(
             @Parameter(description = "제목 검색 키워드")
             @RequestParam(defaultValue = "") String keyword,

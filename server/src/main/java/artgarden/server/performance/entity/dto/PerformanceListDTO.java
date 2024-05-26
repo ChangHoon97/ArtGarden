@@ -9,7 +9,6 @@ import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
-@Schema(description = "공연 목록 this")
 @NoArgsConstructor
 @AllArgsConstructor
 public class PerformanceListDTO {
