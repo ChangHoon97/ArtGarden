@@ -11,6 +11,9 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  jackson:
+    time-zone: Asia/Seoul
 logging:
   level:
     root: INFO
+DomainURL : http://15.164.102.207:8080/
