@@ -20,7 +20,7 @@ public class ScheduleController {
     private final CultureService cultureService;
 
 
-    @Scheduled(cron = "0 00 20 * * ?")
+    @Scheduled(cron = "0 30 00 * * ?")
     public void KopisDailyUpdate(){
         log.info("KOPIS 스케쥴링 자동 업데이트 시작 : " + LocalDateTime.now());
         kopisService.updateUpcoming( UtilBean.formatDate(LocalDate.now().plusMonths(1)));    //standard = 한달 이후
@@ -35,6 +35,13 @@ public class ScheduleController {
 
     @Scheduled(cron = "0 00 00 * * ?")
     public void CultureDailyUpdate() throws Exception {
+        log.info("CULTURE 스케쥴링 자동 업데이트 시작 : " + LocalDateTime.now());
+        cultureService.updateExhibitList("D000");
+        log.info("CULTURE 스케쥴링 자동 업데이트 종료 : " + LocalDateTime.now());
+    }
+
+    @Scheduled(cron = "0 30 00 * * ?")
+    public void CultureEXStatusUpdate() throws Exception {
         log.info("CULTURE 스케쥴링 자동 업데이트 시작 : " + LocalDateTime.now());
         cultureService.updateExhibitList("D000");
         log.info("CULTURE 스케쥴링 자동 업데이트 종료 : " + LocalDateTime.now());
