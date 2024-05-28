@@ -4,5 +4,6 @@ import artgarden.server.exhibit.entity.dto.ExhibitPageDTO;
 import org.springframework.data.domain.Pageable;
 
 public interface ExhibitService {
-    public ExhibitPageDTO getExhibits(String keyword, int days, Pageable pageable);
+    public ExhibitPageDTO getExhibits(String keyword, int days, Pageable pageable,String orderby);
+
 }

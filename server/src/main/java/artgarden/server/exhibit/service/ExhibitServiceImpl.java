@@ -21,13 +21,18 @@ public class ExhibitServiceImpl implements ExhibitService {
 
     private final ExhibitRepository exhibitRepository;
     @Override
-    public ExhibitPageDTO getExhibits(String keyword, int days, Pageable pageable) {
+    public ExhibitPageDTO getExhibits(String keyword, int days, Pageable pageable, String orderby) {
         ExhibitPageDTO data = new ExhibitPageDTO();
         Page<Exhibit> exhibits = null;
 
         LocalDate expectDate = LocalDate.now().plusDays(days);
-
-        exhibits = exhibitRepository.getExhibits(keyword, expectDate, pageable);
+        if(orderby.equals("popular")){
+            exhibits = exhibitRepository.getExhibitsPopular(keyword, expectDate, pageable);
+        } else if(orderby.equals("latest")){
+            exhibits = exhibitRepository.getExhibitsLatest(keyword, expectDate, pageable);
+        } else if(orderby.equals("scrap")){
+            exhibits = exhibitRepository.getExhibitsScrap(keyword, expectDate, pageable);
+        }
 
         for(Exhibit exhibit : exhibits.getContent()){
             data.getData().add(new ExhibitListDTO(exhibit));
@@ -40,5 +45,6 @@ public class ExhibitServiceImpl implements ExhibitService {
 
         return data;
     }
+
 
 }
