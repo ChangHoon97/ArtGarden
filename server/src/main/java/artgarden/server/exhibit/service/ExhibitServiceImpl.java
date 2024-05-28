@@ -1,7 +1,7 @@
 package artgarden.server.exhibit.service;
 
 import artgarden.server.exhibit.entity.Exhibit;
-import artgarden.server.exhibit.entity.dto.ExhibitListDTO;
+import artgarden.server.exhibit.entity.dto.ExhibitDetailDTO;
 import artgarden.server.exhibit.entity.dto.ExhibitPageDTO;
 import artgarden.server.exhibit.repository.ExhibitRepository;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +35,7 @@ public class ExhibitServiceImpl implements ExhibitService {
         }
 
         for(Exhibit exhibit : exhibits.getContent()){
-            data.getData().add(new ExhibitListDTO(exhibit));
+            data.getData().add(new ExhibitDetailDTO(exhibit));
         }
         data.setPageNo(exhibits.getNumber()+1);
         data.setTotalPages(exhibits.getTotalPages());
@@ -44,6 +44,11 @@ public class ExhibitServiceImpl implements ExhibitService {
         data.setHasNext(exhibits.hasNext());
 
         return data;
+    }
+
+    public Exhibit selectExhibit(String id){
+
+        return exhibitRepository.selectExhibit(id);
     }
 
 
