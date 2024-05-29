@@ -10,5 +10,5 @@ import java.util.List;
 @Getter
 @Setter
 public class ExhibitPageDTO extends PagingDTO {
-    public List<ExhibitListDTO> data = new ArrayList<>();
+    public List<ExhibitDetailDTO> data = new ArrayList<>();
 }
