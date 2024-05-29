@@ -1,4 +1,4 @@
-package artgarden.server.config.schedule;
+package artgarden.server.common;
 
 import artgarden.server.common.util.UtilBean;
 import artgarden.server.culture.service.CultureService;
