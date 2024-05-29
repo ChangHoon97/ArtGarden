@@ -17,12 +17,21 @@ public class CultureController {
 
     private final CultureService cultureService;
 
-    @Operation(summary = "전시 정보 업데이트", description = "/manual/exhibit")
+    @Operation(summary = "전시 정보 업데이트")
     @GetMapping("/manual/exhibit")
     public ResponseEntity<String> manualExhibitUpdate() throws Exception {
         String exhibitType = "D000"; //미술 전시
 
         cultureService.updateExhibitList(exhibitType);
+
+        return ResponseEntity.ok("Data save successfully");
+    }
+
+    @Operation(summary = "전시 정보 코드 업데이트")
+    @GetMapping("/manual/exhibitcd")
+    public ResponseEntity<String> manualExhibitCodeUpdate() {
+
+        cultureService.updateEXStatus();
 
         return ResponseEntity.ok("Data save successfully");
     }

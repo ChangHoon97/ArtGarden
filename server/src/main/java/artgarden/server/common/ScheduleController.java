@@ -40,11 +40,11 @@ public class ScheduleController {
         log.info("CULTURE 스케쥴링 자동 업데이트 종료 : " + LocalDateTime.now());
     }
 
-    @Scheduled(cron = "0 30 00 * * ?")
+    @Scheduled(cron = "0 15 00 * * ?")
     public void CultureEXStatusUpdate() throws Exception {
-        log.info("CULTURE 스케쥴링 자동 업데이트 시작 : " + LocalDateTime.now());
-        cultureService.updateExhibitList("D000");
-        log.info("CULTURE 스케쥴링 자동 업데이트 종료 : " + LocalDateTime.now());
+        log.info("CULTURESTATUS 스케쥴링 자동 업데이트 시작 : " + LocalDateTime.now());
+        cultureService.updateEXStatus();
+        log.info("CULTURESTATUS 스케쥴링 자동 업데이트 종료 : " + LocalDateTime.now());
     }
 
 }

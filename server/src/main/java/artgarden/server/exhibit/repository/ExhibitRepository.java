@@ -43,16 +43,29 @@ public interface ExhibitRepository extends JpaRepository<Exhibit, Long> {
 
     @Transactional
     @Modifying
-    @Query("update Exhibit " +
-            "set exstatus = " +
+    @Query("update Exhibit e " +
+            "set e.exstatus = " +
             "case " +
-            "when now() >= startdate and now() <= enddate then '전시중' " +
-            "when now() > enddate then '전시종료' " +
-            "when now() < startdate then '전시예정' " +
-            "end, " +
-            "areacd = (select c.code from Code c where c.cdnm = area), " +
-            "genrecd = (select c.code from Code c where c.cdnm = genre)")
-    void updateCode();
+            "when :today >= e.startdate and CURRENT_DATE <= e.enddate then '전시중' " +
+            "when :today > e.enddate then '전시종료' " +
+            "when :today < e.startdate then '전시예정' " +
+            "end ")
+    void updateExStatus(LocalDate today);
+
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE Exhibit e " +
+            "SET e.areacd = (SELECT c.code FROM Code c WHERE e.area = c.cdnm) " +
+            "WHERE e.areacd is null")
+    void updateAreaCode();
+
+    @Transactional
+    @Modifying
+    @Query("UPDATE Exhibit e " +
+            "SET e.genrecd = (SELECT c.code FROM Code c WHERE e.genre = c.cdnm) " +
+            "WHERE e.genrecd is null")
+    void updateGenreCode();
 
     @Query("SELECT e " +
             "FROM Exhibit e " +

@@ -48,22 +48,6 @@ public class CultureServiceImpl implements CultureService{
         int cpage = 1;
         String serviceKey = "KSM9CQi7MsuWXEDgfcqxIcqnB4XnZB1AAZQ6xlG6FrWbWt5Sc5HaRxNGVV%2BWHZrgaEssnCCJVWLJcbT78%2B3qPA%3D%3D";
         while(true) {
-            /*RestTemplate restTemplate = new RestTemplate();
-            String url2 = "http://www.culture.go.kr/openapi/rest/publicperformancedisplays/realm?serviceKey=KSM9CQi7MsuWXEDgfcqxIcqnB4XnZB1AAZQ6xlG6FrWbWt5Sc5HaRxNGVV%2BWHZrgaEssnCCJVWLJcbT78%2B3qPA%3D%3D&sortStdr=1&cPage=" + cpage + "&rows=1000&realmCode="+ exhibitType;
-            URI uri = UriComponentsBuilder.fromUriString("http://www.culture.go.kr")
-                    .path("/openapi/rest/publicperformancedisplays/realm")
-                    .queryParam("serviceKey", serviceKey) // serviceKey를 인코딩된 상태로 전달
-                    .queryParam("sortStdr", "1")
-                    .queryParam("cpage", cpage)
-                    .queryParam("rows", 1000)
-                    .queryParam("realmCode", exhibitType)
-                    .build()
-                    .toUri();
-
-            String url = uri.toString();
-            String responsebody = restTemplate.getForEntity(url, String.class).getBody();
-            //xnmlParsing*/
-
             StringBuilder urlBuilder = new StringBuilder("http://www.culture.go.kr/openapi/rest/publicperformancedisplays/realm"); /*URL*/
             urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=" + serviceKey); /*Service Key*/
             urlBuilder.append("&" + URLEncoder.encode("sortStdr","UTF-8") + "=" + URLEncoder.encode("1", "UTF-8")); /*1:등록일, 2:공연명, 3:지역*/
@@ -122,7 +106,7 @@ public class CultureServiceImpl implements CultureService{
 
             for (int i = 0; i < itemList.getLength(); i++) {
                 Element item = (Element) itemList.item(i);
-                dto.setId(item.getElementsByTagName("seq").item(0).getTextContent());
+                dto.setId("EX" + item.getElementsByTagName("seq").item(0).getTextContent());
                 dto.setName(item.getElementsByTagName("title").item(0).getTextContent());
                 dto.setStartdate(LocalDate.parse(item.getElementsByTagName("startDate").item(0).getTextContent(),formatter));
                 dto.setEnddate(LocalDate.parse(item.getElementsByTagName("endDate").item(0).getTextContent(), formatter));
@@ -142,7 +126,10 @@ public class CultureServiceImpl implements CultureService{
         }
     }
 
+    @Transactional
     public void updateEXStatus(){
-        exhibitRepository.updateCode();
+        exhibitRepository.updateExStatus(LocalDate.now());
+        exhibitRepository.updateAreaCode();
+        exhibitRepository.updateGenreCode();
     }
 }
