@@ -38,16 +38,18 @@ public class ReviewServiceImpl implements ReviewService{
         return data;
     }
 
-    public ReviewPageDTO getAllReviewByPerformId(String id, Pageable pageable){
+    public ReviewPageDTO getAllReviewByObjectId(String id, Pageable pageable){
         ReviewPageDTO data = new ReviewPageDTO();
-        Page<ReviewListDTO> reviews = reviewRepository.findAllByPerformid(id, pageable);
+        Page<ReviewListDTO> reviews = reviewRepository.findAllByObjectId(id, pageable);
 
-        data.setData(reviews.getContent());
-        data.setPageNo(reviews.getNumber()+1);
-        data.setTotalPages(reviews.getTotalPages());
-        data.setPageSize(reviews.getSize());
-        data.setTotalElements(reviews.getTotalElements());
-        data.setHasNext(reviews.hasNext());
+        if(reviews != null){
+            data.setData(reviews.getContent());
+            data.setPageNo(reviews.getNumber()+1);
+            data.setTotalPages(reviews.getTotalPages());
+            data.setPageSize(reviews.getSize());
+            data.setTotalElements(reviews.getTotalElements());
+            data.setHasNext(reviews.hasNext());
+        }
 
         return data;
     }

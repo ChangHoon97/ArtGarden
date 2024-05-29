@@ -5,6 +5,7 @@ import artgarden.server.review.entity.dto.ReviewDTO;
 import artgarden.server.review.entity.dto.ReviewListDTO;
 import artgarden.server.review.entity.dto.ReviewPageDTO;
 import artgarden.server.review.entity.dto.ReviewUpdateDto;
+import artgarden.server.review.service.ReviewService;
 import artgarden.server.review.service.ReviewServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -24,7 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Tag(name = "Review", description = "리뷰 조회 API")
 public class ReviewController {
-    private final ReviewServiceImpl reviewService;
+    private final ReviewService reviewService;
 
     @Operation(summary = "전체 리뷰 조회", description = "/reviews")
     @ApiResponse(responseCode = "200", description = "성공")
@@ -39,17 +40,17 @@ public class ReviewController {
         return ResponseEntity.ok(reviews);
     }
 
-    @Operation(summary = "공연별 리뷰 조회", description = "/reviews/PF123456")
+    @Operation(summary = "공연별/전시별 리뷰 조회", description = "/reviews/PF123456")
     @ApiResponse(responseCode = "200", description = "성공")
-    @GetMapping("/reviewList/{performId}")
-    public ResponseEntity<ReviewPageDTO> getAllReviewByPerformId(
-            @PathVariable String performId,
+    @GetMapping("/reviewList/{objectId}")
+    public ResponseEntity<ReviewPageDTO> getAllReviewByObjectId(
+            @PathVariable String objectId,
             @Parameter(description = "표시할 페이지")
             @RequestParam(defaultValue = "1") int page,
             @Parameter(description = "한 페이지에 볼 게시물 수")
             @RequestParam(defaultValue = "8") int size){
         Pageable pageable = PageRequest.of(page-1, size);
-        ReviewPageDTO reviews = reviewService.getAllReviewByPerformId(performId, pageable);
+        ReviewPageDTO reviews = reviewService.getAllReviewByObjectId(objectId, pageable);
         return ResponseEntity.ok(reviews);
     }
 

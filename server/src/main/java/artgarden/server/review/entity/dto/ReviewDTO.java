@@ -12,8 +12,8 @@ public class ReviewDTO {
 
     @Schema(description = "리뷰 ID", example = "1")
     private Long reviewid;
-    @Schema(description = "공연 ID", example = "1")
-    private String performid;
+    @Schema(description = "공연/전시 ID", example = "1")
+    private String objectid;
     @Schema(description = "리뷰 내용", example = "너무 좋았습니다. 최고!")
     private String content;
     @Schema(description = "리뷰 별점", example = "2.5")

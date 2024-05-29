@@ -5,7 +5,7 @@ import java.time.LocalDateTime;
 public interface ReviewListDTO {
 
     Long getReviewid();
-    String getPerformid();
+    String getObjectid();
     String getContent();
     Double getRate();
     String getMemberid();
@@ -15,6 +15,5 @@ public interface ReviewListDTO {
     LocalDateTime getUpddt();
     String getPosterurl();
     String getName();
-
     String getGenre();
 }

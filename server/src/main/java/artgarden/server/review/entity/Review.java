@@ -14,7 +14,7 @@ public class Review {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long reviewid;
-    private String performid;
+    private String objectid;
     @Column(length=4000)
     private String content;
     private Double rate;
@@ -25,7 +25,7 @@ public class Review {
     private LocalDateTime upddt;
 
     public void createFromDto(ReviewDTO dto){
-        this.performid = dto.getPerformid();
+        this.objectid = dto.getObjectid();
         this.content = dto.getContent();
         this.rate = dto.getRate();
         this.memberid = dto.getMemberid();

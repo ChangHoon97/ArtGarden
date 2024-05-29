@@ -18,4 +18,8 @@ public interface ReviewService {
     public void updateReview(Long id, ReviewUpdateDto dto);
 
     public void deleteReview(Long id);
+
+    ReviewPageDTO getAllReviewByObjectId(String id, Pageable pageable);
+
+    Review getReview(Long id);
 }
