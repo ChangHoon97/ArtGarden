@@ -141,4 +141,8 @@ public class CultureServiceImpl implements CultureService{
             return null;
         }
     }
+
+    public void updateEXStatus(){
+        exhibitRepository.updateCode();
+    }
 }

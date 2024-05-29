@@ -8,13 +8,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ExhibitListDTO {
+public class ExhibitDetailDTO {
 
     @Schema(description = "전시 ID", example = "123456")
     private String id;
@@ -35,7 +34,7 @@ public class ExhibitListDTO {
     @Schema(description = "전시회 포스터", example = "http://www.culture.go.kr/upload/rdf/24/04/show_2024040414121348608.jpg")
     private String posterurl;
 
-    public ExhibitListDTO(Exhibit exhibit){
+    public ExhibitDetailDTO(Exhibit exhibit){
         this.setId(exhibit.getId());
         this.setName(exhibit.getName());
         this.setStartdate(exhibit.getStartdate());

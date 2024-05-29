@@ -1,7 +1,7 @@
 package artgarden.server.exhibit.service;
 
 import artgarden.server.exhibit.entity.Exhibit;
-import artgarden.server.exhibit.entity.dto.ExhibitListDTO;
+import artgarden.server.exhibit.entity.dto.ExhibitDetailDTO;
 import artgarden.server.exhibit.entity.dto.ExhibitPageDTO;
 import artgarden.server.exhibit.repository.ExhibitRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,16 +21,21 @@ public class ExhibitServiceImpl implements ExhibitService {
 
     private final ExhibitRepository exhibitRepository;
     @Override
-    public ExhibitPageDTO getExhibits(String keyword, int days, Pageable pageable) {
+    public ExhibitPageDTO getExhibits(String keyword, int days, Pageable pageable, String orderby) {
         ExhibitPageDTO data = new ExhibitPageDTO();
         Page<Exhibit> exhibits = null;
 
         LocalDate expectDate = LocalDate.now().plusDays(days);
-
-        exhibits = exhibitRepository.getExhibits(keyword, expectDate, pageable);
+        if(orderby.equals("popular")){
+            exhibits = exhibitRepository.getExhibitsPopular(keyword, expectDate, pageable);
+        } else if(orderby.equals("latest")){
+            exhibits = exhibitRepository.getExhibitsLatest(keyword, expectDate, pageable);
+        } else if(orderby.equals("scrap")){
+            exhibits = exhibitRepository.getExhibitsScrap(keyword, expectDate, pageable);
+        }
 
         for(Exhibit exhibit : exhibits.getContent()){
-            data.getData().add(new ExhibitListDTO(exhibit));
+            data.getData().add(new ExhibitDetailDTO(exhibit));
         }
         data.setPageNo(exhibits.getNumber()+1);
         data.setTotalPages(exhibits.getTotalPages());
@@ -40,5 +45,11 @@ public class ExhibitServiceImpl implements ExhibitService {
 
         return data;
     }
+
+    public Exhibit selectExhibit(String id){
+
+        return exhibitRepository.selectExhibit(id);
+    }
+
 
 }
