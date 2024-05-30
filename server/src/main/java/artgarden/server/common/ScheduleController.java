@@ -41,9 +41,9 @@ public class ScheduleController {
     }
 
     @Scheduled(cron = "0 15 00 * * ?")
-    public void CultureEXStatusUpdate() throws Exception {
+    public void CultureStatusUpdate() throws Exception {
         log.info("CULTURESTATUS 스케쥴링 자동 업데이트 시작 : " + LocalDateTime.now());
-        cultureService.updateEXStatus();
+        cultureService.updateStatus();
         log.info("CULTURESTATUS 스케쥴링 자동 업데이트 종료 : " + LocalDateTime.now());
     }
 

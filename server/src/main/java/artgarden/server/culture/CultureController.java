@@ -31,7 +31,7 @@ public class CultureController {
     @GetMapping("/manual/exhibitcd")
     public ResponseEntity<String> manualExhibitCodeUpdate() {
 
-        cultureService.updateEXStatus();
+        cultureService.updateStatus();
 
         return ResponseEntity.ok("Data save successfully");
     }

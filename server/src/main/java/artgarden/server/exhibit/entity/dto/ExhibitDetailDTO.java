@@ -30,7 +30,7 @@ public class ExhibitDetailDTO {
     @Schema(description = "전시 장소", example = "우리집")
     private String place;
     @Schema(description = "전시상태", example = "EXSTATUS01")
-    private String exstatus;
+    private String status;
     @Schema(description = "전시회 포스터", example = "http://www.culture.go.kr/upload/rdf/24/04/show_2024040414121348608.jpg")
     private String posterurl;
 
@@ -42,7 +42,7 @@ public class ExhibitDetailDTO {
         this.setGenre(exhibit.getGenre());
         this.setArea(exhibit.getArea());
         this.setPlace(exhibit.getPlace());
-        this.setExstatus(exhibit.getExstatus());
+        this.setStatus(exhibit.getStatus());
         this.setPosterurl(exhibit.getPosterurl());
     }
 

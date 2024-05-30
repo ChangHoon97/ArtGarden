@@ -127,8 +127,8 @@ public class CultureServiceImpl implements CultureService{
     }
 
     @Transactional
-    public void updateEXStatus(){
-        exhibitRepository.updateExStatus(LocalDate.now());
+    public void updateStatus(){
+        exhibitRepository.updateStatus(LocalDate.now());
         exhibitRepository.updateAreaCode();
         exhibitRepository.updateGenreCode();
     }

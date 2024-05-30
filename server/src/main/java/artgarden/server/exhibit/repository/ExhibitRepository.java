@@ -16,7 +16,7 @@ public interface ExhibitRepository extends JpaRepository<Exhibit, Long> {
 
     @Query("SELECT e " +
             "FROM Exhibit e " +
-            "LEFT OUTER JOIN Code c ON c.cdnm = e.exstatus " +
+            "LEFT OUTER JOIN Code c ON c.cdnm = e.status " +
             "WHERE e.name LIKE %:keyword% AND e.startdate < :expectDate " +
             "ORDER BY c.orderby, e.visitcnt DESC")
     Page<Exhibit> getExhibitsPopular(@Param("keyword") String keyword,
@@ -25,7 +25,7 @@ public interface ExhibitRepository extends JpaRepository<Exhibit, Long> {
 
     @Query("SELECT e " +
             "FROM Exhibit e " +
-            "LEFT OUTER JOIN Code c ON c.cdnm = e.exstatus " +
+            "LEFT OUTER JOIN Code c ON c.cdnm = e.status " +
             "WHERE e.name LIKE %:keyword% AND e.startdate < :expectDate " +
             "ORDER BY c.orderby, e.enddate")
     Page<Exhibit> getExhibitsLatest(@Param("keyword") String keyword,
@@ -34,7 +34,7 @@ public interface ExhibitRepository extends JpaRepository<Exhibit, Long> {
 
     @Query("SELECT e " +
             "FROM Exhibit e " +
-            "LEFT OUTER JOIN Code c ON c.cdnm = e.exstatus " +
+            "LEFT OUTER JOIN Code c ON c.cdnm = e.status " +
             "WHERE e.name LIKE %:keyword% AND e.startdate < :expectDate " +
             "ORDER BY c.orderby, e.scrapcnt DESC")
     Page<Exhibit> getExhibitsScrap(@Param("keyword") String keyword,
@@ -44,13 +44,13 @@ public interface ExhibitRepository extends JpaRepository<Exhibit, Long> {
     @Transactional
     @Modifying
     @Query("update Exhibit e " +
-            "set e.exstatus = " +
+            "set e.status = " +
             "case " +
             "when :today >= e.startdate and CURRENT_DATE <= e.enddate then '전시중' " +
             "when :today > e.enddate then '전시종료' " +
             "when :today < e.startdate then '전시예정' " +
             "end ")
-    void updateExStatus(LocalDate today);
+    void updateStatus(LocalDate today);
 
 
     @Transactional
