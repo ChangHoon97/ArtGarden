@@ -107,13 +107,14 @@ public class CultureServiceImpl implements CultureService{
             for (int i = 0; i < itemList.getLength(); i++) {
                 Element item = (Element) itemList.item(i);
                 dto.setId("EX" + item.getElementsByTagName("seq").item(0).getTextContent());
-                dto.setName(item.getElementsByTagName("title").item(0).getTextContent());
+                dto.setName(replaceSpecialCharacter(item.getElementsByTagName("title").item(0).getTextContent()));
                 dto.setStartdate(LocalDate.parse(item.getElementsByTagName("startDate").item(0).getTextContent(),formatter));
                 dto.setEnddate(LocalDate.parse(item.getElementsByTagName("endDate").item(0).getTextContent(), formatter));
                 dto.setPlace(item.getElementsByTagName("place").item(0).getTextContent());
                 dto.setArea(item.getElementsByTagName("area").item(0).getTextContent());
                 dto.setPosterurl(item.getElementsByTagName("thumbnail").item(0).getTextContent());
                 dto.setGenre("미술");
+
                 Exhibit vo = new Exhibit();
                 vo.updateFromApiDto(dto);
                 exhibitList.add(vo);
@@ -124,6 +125,15 @@ public class CultureServiceImpl implements CultureService{
             e.printStackTrace();
             return null;
         }
+    }
+
+    private String replaceSpecialCharacter(String str){
+        if(str != null){
+            str = str.replace("&lt;","<");
+            str = str.replace("&gt;",">");
+            str = str.replace("&#39;","'");
+        }
+        return str;
     }
 
     @Transactional
