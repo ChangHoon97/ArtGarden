@@ -28,6 +28,7 @@ public class MemberServiceImpl implements MemberService{
     public String oauthLoginProcess(HttpServletRequest request, OauthLoginDTO dto) {
         String result = "";
         HttpSession session = request.getSession();
+        session.setMaxInactiveInterval(30*60);
         session.setAttribute("memberid", dto.getId());
         String memberid = (String) session.getAttribute("memberid");
         log.info("============== 로그인 성공 : " + memberid + " ==============");
