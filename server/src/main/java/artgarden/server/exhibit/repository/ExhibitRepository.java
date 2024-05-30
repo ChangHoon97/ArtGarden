@@ -18,27 +18,33 @@ public interface ExhibitRepository extends JpaRepository<Exhibit, Long> {
             "FROM Exhibit e " +
             "LEFT OUTER JOIN Code c ON c.cdnm = e.status " +
             "WHERE e.name LIKE %:keyword% AND e.startdate < :expectDate " +
+            "AND (:searchAreaArr IS NULL OR e.areacd IN :searchAreaArr) " +
             "ORDER BY c.orderby, e.visitcnt DESC")
     Page<Exhibit> getExhibitsPopular(@Param("keyword") String keyword,
-                              @Param("expectDate") LocalDate expectDate,
-                              Pageable pageable);
+                                    @Param("expectDate") LocalDate expectDate,
+                                     @Param("searchAreaArr") String[] searchAreaArr,
+                                    Pageable pageable);
 
     @Query("SELECT e " +
             "FROM Exhibit e " +
             "LEFT OUTER JOIN Code c ON c.cdnm = e.status " +
             "WHERE e.name LIKE %:keyword% AND e.startdate < :expectDate " +
+            "AND (:searchAreaArr IS NULL OR e.areacd IN :searchAreaArr) " +
             "ORDER BY c.orderby, e.enddate")
     Page<Exhibit> getExhibitsLatest(@Param("keyword") String keyword,
-                                 @Param("expectDate") LocalDate expectDate,
-                                 Pageable pageable);
+                                    @Param("expectDate") LocalDate expectDate,
+                                    @Param("searchAreaArr") String[] searchAreaArr,
+                                    Pageable pageable);
 
     @Query("SELECT e " +
             "FROM Exhibit e " +
             "LEFT OUTER JOIN Code c ON c.cdnm = e.status " +
             "WHERE e.name LIKE %:keyword% AND e.startdate < :expectDate " +
+            "AND (:searchAreaArr IS NULL OR e.areacd IN :searchAreaArr) " +
             "ORDER BY c.orderby, e.scrapcnt DESC")
     Page<Exhibit> getExhibitsScrap(@Param("keyword") String keyword,
                                    @Param("expectDate") LocalDate expectDate,
+                                   @Param("searchAreaArr") String[] searchAreaArr,
                                    Pageable pageable);
 
     @Transactional

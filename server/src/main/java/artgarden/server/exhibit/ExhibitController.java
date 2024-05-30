@@ -37,11 +37,13 @@ public class ExhibitController {
         @RequestParam(defaultValue = "1") int page,
         @Parameter(description = "한 페이지에 볼 게시물 수")
         @RequestParam(defaultValue = "30") int size,
+        @Parameter(description = "지역조건")
+        @RequestParam(required = false) String[] searchAreaArr,
         @Parameter(description = "정렬조건(latest(기본값), popular, scrap")
         @RequestParam(defaultValue = "latest") String orderby){
 
         Pageable pageable = PageRequest.of(page-1, size);
-        ExhibitPageDTO exhibits = exhibitService.getExhibits(keyword, days, pageable, orderby);
+        ExhibitPageDTO exhibits = exhibitService.getExhibits(keyword, days, pageable, searchAreaArr, orderby);
 
         return ResponseEntity.ok(exhibits);
     }
