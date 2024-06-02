@@ -13,7 +13,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     @Query("SELECT r.reviewid as reviewid, r.objectid as objectid, r.content as content," +
             "r.rate as rate, r.memberid as memberid, r.regid as regid, r.regdt as regdt," +
             "r.updid as updid, r.upddt as upddt, " +
-            "NULLIF(p.posterurl,e.posterurl) as posterurl, NULLIF(p.name, e.name) as name, NULLIF(p.genre, e.genre) as genre " +
+            "COALESCE(p.posterurl,e.posterurl) as posterurl, COALESCE(p.name, e.name) as name, COALESCE(p.genre, e.genre) as genre " +
             "FROM Review r " +
             "LEFT OUTER JOIN Performance p on p.id = :object_id " +
             "LEFT OUTER JOIN Exhibit e on e.id = :object_id " +
@@ -24,7 +24,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     @Query("SELECT r.reviewid as reviewid, r.objectid as objectid, r.content as content," +
             "r.rate as rate, r.memberid as memberid, r.regid as regid, r.regdt as regdt," +
             "r.updid as updid, r.upddt as upddt, " +
-            "NULLIF(p.posterurl,e.posterurl) as posterurl, NULLIF(p.name, e.name) as name, NULLIF(p.genre, e.genre) as genre " +
+            "COALESCE(p.posterurl,e.posterurl) as posterurl, COALESCE(p.name, e.name) as name, COALESCE(p.genre, e.genre) as genre " +
             "FROM Review r " +
             "LEFT OUTER JOIN Performance p on p.id = r.objectid " +
             "LEFT OUTER JOIN Exhibit e on e.id = r.objectid " +
