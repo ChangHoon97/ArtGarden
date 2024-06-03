@@ -31,6 +31,10 @@ public class PerformanceListDTO {
     private String genre;
     @Schema(description = "공연상태", example = "공연중")
     private String performStatus;
+    @Schema(description = "공연 게시글 조회수", example = "127")
+    private int visitcnt;
+    @Schema(description = "공연 스크랩 수", example = "13")
+    private int scrapcnt;
 
     public PerformanceListDTO(Performance performance){
         this.setId(performance.getId());
@@ -41,6 +45,8 @@ public class PerformanceListDTO {
         this.setPosterUrl(performance.getPosterurl());
         this.setGenre(performance.getGenre());
         this.setPerformStatus(performance.getPerformstatus());
+        this.setVisitcnt(performance.getVisitcnt());
+        this.setScrapcnt(performance.getScrapcnt());
 
         if(performance.getOpenrun().equals("Y")){
             this.setEndDate("오픈런");

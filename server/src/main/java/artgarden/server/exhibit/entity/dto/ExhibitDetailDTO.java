@@ -33,6 +33,10 @@ public class ExhibitDetailDTO {
     private String status;
     @Schema(description = "전시회 포스터", example = "http://www.culture.go.kr/upload/rdf/24/04/show_2024040414121348608.jpg")
     private String posterurl;
+    @Schema(description = "전시회 게시글 조회수", example = "127")
+    private int visitcnt;
+    @Schema(description = "전시회 스크랩 수", example = "13")
+    private int scrapcnt;
 
     public ExhibitDetailDTO(Exhibit exhibit){
         this.setId(exhibit.getId());
@@ -44,6 +48,8 @@ public class ExhibitDetailDTO {
         this.setPlace(exhibit.getPlace());
         this.setStatus(exhibit.getStatus());
         this.setPosterurl(exhibit.getPosterurl());
+        this.setVisitcnt(exhibit.getVisitcnt());
+        this.setScrapcnt(exhibit.getScrapcnt());
     }
 
 }
