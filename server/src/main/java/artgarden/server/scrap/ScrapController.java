@@ -1,6 +1,7 @@
 package artgarden.server.scrap;
 
 import artgarden.server.scrap.entity.dto.ScrapPageDTO;
+import artgarden.server.scrap.entity.dto.ScrapingDTO;
 import artgarden.server.scrap.service.ScrapService;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -11,10 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -32,21 +30,26 @@ public class ScrapController {
                                                          HttpServletRequest request){
         HttpSession session = request.getSession();
         String memberid = (String) session.getAttribute("memberid");
+        ScrapPageDTO scrap = new ScrapPageDTO();
         Pageable pageable = PageRequest.of(page-1, size);
-        ScrapPageDTO scrap = scrapService.selectMyScrapList(memberid, pageable);
+        if(memberid != null){
+            scrap = scrapService.selectMyScrapList(memberid, pageable);
+        }
 
         return ResponseEntity.ok(scrap);
     }
 
     //스크랩하기
     @PostMapping("/scraps")
-    public ResponseEntity<String> mergeintoScrap(@Parameter(description = "공연/전시ID")
-                                                 @RequestParam String objectid,
+    public ResponseEntity<String> updateScraping(@Parameter(description = "공연/전시ID")
+                                                 @RequestBody ScrapingDTO dto,
                                                  HttpServletRequest request){
         HttpSession session = request.getSession();
         String memberid = (String) session.getAttribute("memberid");
-
-        String result = "";
+        String result = "ProcessFail";
+        if(memberid != null){
+            result = scrapService.updateScraping(memberid, dto);
+        }
 
         return ResponseEntity.ok(result);
     }

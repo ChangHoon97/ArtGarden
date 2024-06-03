@@ -54,4 +54,18 @@ public class PerformanceServiceImpl implements PerformanceService{
         return data;
     }
 
+    @Override
+    @Transactional
+    public String updateScrapCnt(String id, String status) {
+        String result = "ProcessSuccess";
+        if(status.equals("ASC")){
+            performanceRepository.updateScrapCntASC(id);
+        } else if(status.equals("DESC")){
+            performanceRepository.updateScrapCntDESC(id);
+        } else{
+            result = "ProcessFail";
+        }
+        return result;
+    }
+
 }

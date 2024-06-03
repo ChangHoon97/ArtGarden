@@ -80,5 +80,15 @@ public interface PerformanceRepository extends JpaRepository<Performance, Long> 
             "WHERE p.genrecd is null")
     void updateGenreCode();
 
+    @Modifying
+    @Transactional
+    @Query("UPDATE Performance p SET p.scrapcnt = p.scrapcnt-1 WHERE p.id = :performid")
+    void updateScrapCntDESC(@Param("performid") String id);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Performance p SET p.scrapcnt = p.scrapcnt+1 WHERE p.id = :performid")
+    void updateScrapCntASC(@Param("performid") String id);
+
 
 }

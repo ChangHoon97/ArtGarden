@@ -78,4 +78,14 @@ public interface ExhibitRepository extends JpaRepository<Exhibit, Long> {
             "WHERE e.id = :id")
     Exhibit selectExhibit(@Param("id") String id);
 
+    @Modifying
+    @Transactional
+    @Query("UPDATE Exhibit e SET e.scrapcnt = e.scrapcnt-1 WHERE e.id = :exhibitid")
+    void updateScrapCntDESC(@Param("exhibitid") String id);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Exhibit e SET e.scrapcnt = e.scrapcnt+1 WHERE e.id = :exhibitid")
+    void updateScrapCntASC(@Param("exhibitid") String id);
+
 }

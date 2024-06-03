@@ -51,5 +51,18 @@ public class ExhibitServiceImpl implements ExhibitService {
         return exhibitRepository.selectExhibit(id);
     }
 
+    @Override
+    public String updateScrapCnt(String id, String status) {
+        String result = "ProcessSuccess";
+        if(status.equals("ASC")){
+            exhibitRepository.updateScrapCntASC(id);
+        } else if(status.equals("DESC")){
+            exhibitRepository.updateScrapCntDESC(id);
+        } else{
+            result = "ProcessFail";
+        }
+        return result;
+    }
+
 
 }

@@ -9,4 +9,6 @@ public interface ExhibitService {
 
     public Exhibit selectExhibit(String id);
 
+    public String updateScrapCnt(String id, String status);
+
 }
