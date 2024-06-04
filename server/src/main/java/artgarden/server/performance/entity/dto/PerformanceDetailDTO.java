@@ -39,6 +39,10 @@ public class PerformanceDetailDTO {
     private String performStatus;
     @Schema(description = "공연 포스터 url", example = "http://www.kopis.or.kr/upload/pfmPoster/PF_PF216230_230405_125449.gif")
     private String posterUrl;
+    @Schema(description = "공연 게시글 조회수", example = "127")
+    private int visitcnt;
+    @Schema(description = "공연 스크랩 수", example = "13")
+    private int scrapcnt;
 
     public void fromEntity(Performance performance){
         this.setId(performance.getId());
@@ -53,6 +57,8 @@ public class PerformanceDetailDTO {
         this.setGenre(performance.getGenre());
         this.setPerformStatus(performance.getPerformstatus());
         this.setPosterUrl(performance.getPosterurl());
+        this.setVisitcnt(performance.getVisitcnt());
+        this.setScrapcnt(performance.getScrapcnt());
 
         if(performance.getOpenrun().equals("Y")){
             this.setEndDate("오픈런");

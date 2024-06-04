@@ -22,5 +22,5 @@ public interface ScrapRepository extends JpaRepository<Scrap, Long> {
 
     @Query("UPDATE Scrap s SET s.scrapyn = :scrapyn, s.updid = :memberid, s.upddt = CURRENT_TIMESTAMP " +
             "WHERE s.memberid = :memberid AND s.objectid = :objectid")
-    void updateScrapYN(@Param("memberid") String memberid, @Param("objectid") String objectid, @Param("srapyn") Boolean scrapyn);
+    void updateScrapYN(@Param("memberid") String memberid, @Param("objectid") String objectid, @Param("scrapyn") Boolean scrapyn);
 }
