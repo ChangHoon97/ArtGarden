@@ -15,9 +15,9 @@ public class RankListDto {
     @Schema(description = "공연 제목", example = "왓 이프")
     private String name;
     @Schema(description = "공연 시작날짜", example = "2023-05-19")
-    private String startDate;
+    private String startdate;
     @Schema(description = "공연 종료날짜", example = "2023-12-31")
-    private String endDate;
+    private String enddate;
     @Schema(description = "공연 장소", example = "룸씨어터 (룸씨어터)")
     private String place;
     @Schema(description = "공연 가격", example = "전석 50,000원")
@@ -30,16 +30,16 @@ public class RankListDto {
     public RankListDto(Performance performance, int rankNumber){
         this.id = performance.getId();
         this.name = performance.getName();
-        this.startDate = dateFormat(performance.getStartdate());
+        this.startdate = dateFormat(performance.getStartdate());
         this.place = performance.getPlace();
         this.price = performance.getPrice();
         this.posterUrl = performance.getPosterurl();
         this.rankNum = rankNumber;
 
         if(performance.getOpenrun().equals("Y")){
-            this.endDate = "오픈런";
+            this.enddate = "오픈런";
         }else{
-            this.endDate = dateFormat(performance.getEnddate());
+            this.enddate = dateFormat(performance.getEnddate());
         }
     }
 
