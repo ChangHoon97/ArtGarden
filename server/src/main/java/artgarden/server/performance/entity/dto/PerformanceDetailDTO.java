@@ -18,9 +18,9 @@ public class PerformanceDetailDTO {
     @Schema(description = "공연 제목", example = "왓 이프")
     private String name;
     @Schema(description = "공연 시작날짜", example = "2023-05-19")
-    private String startDate;
+    private String startdate;
     @Schema(description = "공연 종료날짜", example = "2023-12-31")
-    private String endDate;
+    private String enddate;
     @Schema(description = "공연 장소", example = "룸씨어터 (룸씨어터)")
     private String place;
     @Schema(description = "공연 시간", example = "수요일 ~ 금요일(19:30), 토요일(14:00,17:00,17:30), 일요일(13:00,15:00,16:00), HOL(15:00,16:00)")
@@ -36,7 +36,7 @@ public class PerformanceDetailDTO {
     @Schema(description = "공연 장르", example = "뮤지컬")
     private String genre;
     @Schema(description = "공연 상태", example = "공연중")
-    private String performStatus;
+    private String status;
     @Schema(description = "공연 포스터 url", example = "http://www.kopis.or.kr/upload/pfmPoster/PF_PF216230_230405_125449.gif")
     private String posterUrl;
     @Schema(description = "공연 게시글 조회수", example = "127")
@@ -47,7 +47,7 @@ public class PerformanceDetailDTO {
     public void fromEntity(Performance performance){
         this.setId(performance.getId());
         this.setName(performance.getName());
-        this.setStartDate(dateFormat(performance.getStartdate()));
+        this.setStartdate(dateFormat(performance.getStartdate()));
         this.setPlace(performance.getPlace());
         this.setTime(performance.getTime());
         this.setAge(performance.getAge());
@@ -55,15 +55,15 @@ public class PerformanceDetailDTO {
         this.setCasting(performance.getCasting());
         this.setProduction(performance.getProduction());
         this.setGenre(performance.getGenre());
-        this.setPerformStatus(performance.getPerformstatus());
+        this.setStatus(performance.getPerformstatus());
         this.setPosterUrl(performance.getPosterurl());
         this.setVisitcnt(performance.getVisitcnt());
         this.setScrapcnt(performance.getScrapcnt());
 
         if(performance.getOpenrun().equals("Y")){
-            this.setEndDate("오픈런");
+            this.setEnddate("오픈런");
         }else{
-            this.setEndDate(dateFormat(performance.getEnddate()));
+            this.setEnddate(dateFormat(performance.getEnddate()));
         }
     }
 

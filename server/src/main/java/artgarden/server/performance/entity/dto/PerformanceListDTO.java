@@ -18,9 +18,9 @@ public class PerformanceListDTO {
     @Schema(description = "공연 제목", example = "왓 이프")
     private String name;
     @Schema(description = "공연 시작날짜", example = "2023-05-19")
-    private String startDate;
+    private String startdate;
     @Schema(description = "공연 종료날짜", example = "2023-12-31")
-    private String endDate;
+    private String enddate;
     @Schema(description = "공연 장소", example = "룸씨어터 (룸씨어터)")
     private String place;
     @Schema(description = "공연 가격", example = "전석 50,000원")
@@ -30,7 +30,7 @@ public class PerformanceListDTO {
     @Schema(description = "장르", example = "뮤지컬")
     private String genre;
     @Schema(description = "공연상태", example = "공연중")
-    private String performStatus;
+    private String status;
     @Schema(description = "공연 게시글 조회수", example = "127")
     private int visitcnt;
     @Schema(description = "공연 스크랩 수", example = "13")
@@ -39,19 +39,19 @@ public class PerformanceListDTO {
     public PerformanceListDTO(Performance performance){
         this.setId(performance.getId());
         this.setName(performance.getName());
-        this.setStartDate(dateFormat(performance.getStartdate()));
+        this.setStartdate(dateFormat(performance.getStartdate()));
         this.setPlace(performance.getPlace());
         this.setPrice(performance.getPrice());
         this.setPosterUrl(performance.getPosterurl());
         this.setGenre(performance.getGenre());
-        this.setPerformStatus(performance.getPerformstatus());
+        this.setStatus(performance.getPerformstatus());
         this.setVisitcnt(performance.getVisitcnt());
         this.setScrapcnt(performance.getScrapcnt());
 
         if(performance.getOpenrun().equals("Y")){
-            this.setEndDate("오픈런");
+            this.setEnddate("오픈런");
         }else{
-            this.setEndDate(dateFormat(performance.getEnddate()));
+            this.setEnddate(dateFormat(performance.getEnddate()));
         }
     }
 
