@@ -35,6 +35,8 @@ public class PerformanceListDTO {
     private int visitcnt;
     @Schema(description = "공연 스크랩 수", example = "13")
     private int scrapcnt;
+    @Schema(description = "지역", example ="대구")
+    private String area;
 
     public PerformanceListDTO(Performance performance){
         this.setId(performance.getId());
@@ -47,6 +49,7 @@ public class PerformanceListDTO {
         this.setStatus(performance.getPerformstatus());
         this.setVisitcnt(performance.getVisitcnt());
         this.setScrapcnt(performance.getScrapcnt());
+        this.setArea(performance.getArea());
 
         if(performance.getOpenrun().equals("Y")){
             this.setEnddate("오픈런");
