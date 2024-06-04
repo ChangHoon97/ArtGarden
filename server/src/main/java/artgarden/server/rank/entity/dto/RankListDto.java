@@ -23,7 +23,7 @@ public class RankListDto {
     @Schema(description = "공연 가격", example = "전석 50,000원")
     private String price;
     @Schema(description = "공연 포스터 url", example = "http://www.kopis.or.kr/upload/pfmPoster/PF_PF216230_230405_125449.gif")
-    private String posterUrl;
+    private String posterurl;
     @Schema(description = "순위", example = "1")
     private int rankNum;
 
@@ -33,7 +33,7 @@ public class RankListDto {
         this.startdate = dateFormat(performance.getStartdate());
         this.place = performance.getPlace();
         this.price = performance.getPrice();
-        this.posterUrl = performance.getPosterurl();
+        this.posterurl = performance.getPosterurl();
         this.rankNum = rankNumber;
 
         if(performance.getOpenrun().equals("Y")){

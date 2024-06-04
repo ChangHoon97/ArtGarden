@@ -38,7 +38,7 @@ public class PerformanceDetailDTO {
     @Schema(description = "공연 상태", example = "공연중")
     private String status;
     @Schema(description = "공연 포스터 url", example = "http://www.kopis.or.kr/upload/pfmPoster/PF_PF216230_230405_125449.gif")
-    private String posterUrl;
+    private String posterurl;
     @Schema(description = "공연 게시글 조회수", example = "127")
     private int visitcnt;
     @Schema(description = "공연 스크랩 수", example = "13")
@@ -58,7 +58,7 @@ public class PerformanceDetailDTO {
         this.setProduction(performance.getProduction());
         this.setGenre(performance.getGenre());
         this.setStatus(performance.getPerformstatus());
-        this.setPosterUrl(performance.getPosterurl());
+        this.setPosterurl(performance.getPosterurl());
         this.setVisitcnt(performance.getVisitcnt());
         this.setScrapcnt(performance.getScrapcnt());
         this.setArea(performance.getArea());

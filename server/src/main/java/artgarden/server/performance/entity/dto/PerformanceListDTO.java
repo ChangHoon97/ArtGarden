@@ -26,7 +26,7 @@ public class PerformanceListDTO {
     @Schema(description = "공연 가격", example = "전석 50,000원")
     private String price;
     @Schema(description = "공연 포스터 url", example = "http://www.kopis.or.kr/upload/pfmPoster/PF_PF216230_230405_125449.gif")
-    private String posterUrl;
+    private String posterurl;
     @Schema(description = "장르", example = "뮤지컬")
     private String genre;
     @Schema(description = "공연상태", example = "공연중")
@@ -44,7 +44,7 @@ public class PerformanceListDTO {
         this.setStartdate(dateFormat(performance.getStartdate()));
         this.setPlace(performance.getPlace());
         this.setPrice(performance.getPrice());
-        this.setPosterUrl(performance.getPosterurl());
+        this.setPosterurl(performance.getPosterurl());
         this.setGenre(performance.getGenre());
         this.setStatus(performance.getPerformstatus());
         this.setVisitcnt(performance.getVisitcnt());
