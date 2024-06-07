@@ -30,18 +30,35 @@ public interface PerformanceRepository extends JpaRepository<Performance, Long> 
             "WHERE e.enddate <= :today AND e.performstatus <> '공연완료'")
     void updatePerformStatusForExpiredPerformances(LocalDate today);
 
-    @Query("SELECT e" +
+    @Query("SELECT new artgarden.server.performance.entity.dto.PerformanceListDTO(e, case when s.scrapyn is null then false else s.scrapyn end) " +
             " FROM Performance e" +
             " LEFT OUTER JOIN Code c ON c.cdnm = e.performstatus" +
+            " LEFT OUTER JOIN Scrap s ON s.objectid = e.id AND s.memberid = :memberid" +
             " WHERE e.name LIKE %:keyword% AND e.startdate < :expectDate" +
             " AND (:status = 'all' OR e.performstatus = :status)" +
             " AND (:searchAreaArr IS NULL OR e.areacd IN :searchAreaArr) " +
             " ORDER BY c.orderby, e.enddate")
-    Page<Performance> getLatestPerformances(@Param("keyword") String keyword,
-                                      @Param("status") String status,
-                                      @Param("expectDate") LocalDate expectDate,
-                                      Pageable pageable,
-                                      @Param("searchAreaArr") String[] searchAreaArr);
+    Page<PerformanceListDTO> getLatestPerformances(@Param("keyword") String keyword,
+                                                    @Param("status") String status,
+                                                    @Param("expectDate") LocalDate expectDate,
+                                                    Pageable pageable,
+                                                    @Param("searchAreaArr") String[] searchAreaArr,
+                                                    @Param("memberid") String memberid);
+
+    @Query("SELECT new artgarden.server.performance.entity.dto.PerformanceListDTO(e, case when s.scrapyn is null then false else s.scrapyn end) " +
+            " FROM Performance e" +
+            " LEFT OUTER JOIN Code c ON c.cdnm = e.performstatus" +
+            " LEFT OUTER JOIN Scrap s ON s.objectid = e.id AND s.memberid = :memberid" +
+            " WHERE e.name LIKE %:keyword% AND e.startdate < :expectDate" +
+            " AND (:status = 'all' OR e.performstatus = :status)" +
+            " AND (:searchAreaArr IS NULL OR e.areacd IN :searchAreaArr) " +
+            " ORDER BY c.orderby, e.visitcnt desc")
+    Page<PerformanceListDTO> getPopularPerformances(@Param("keyword") String keyword,
+                                                   @Param("status") String status,
+                                                   @Param("expectDate") LocalDate expectDate,
+                                                   Pageable pageable,
+                                                   @Param("searchAreaArr") String[] searchAreaArr,
+                                                   @Param("memberid") String memberid);
 
     @Query("SELECT new artgarden.server.performance.entity.dto.PerformanceListDTO(e, case when s.scrapyn is null then false else s.scrapyn end) " +
             " FROM Performance e" +
@@ -51,38 +68,12 @@ public interface PerformanceRepository extends JpaRepository<Performance, Long> 
             " AND (:status = 'all' OR e.performstatus = :status)" +
             " AND (:searchAreaArr IS NULL OR e.areacd IN :searchAreaArr) " +
             " ORDER BY c.orderby, e.enddate")
-    Page<PerformanceListDTO> getLatestPerformances2(@Param("keyword") String keyword,
-                                                    @Param("status") String status,
-                                                    @Param("expectDate") LocalDate expectDate,
-                                                    Pageable pageable,
-                                                    @Param("searchAreaArr") String[] searchAreaArr,
-                                                    @Param("memberid") String memberid);
-
-    @Query("SELECT e" +
-            " FROM Performance e" +
-            " LEFT OUTER JOIN Code c ON c.cdnm = e.performstatus" +
-            " WHERE e.name LIKE %:keyword% AND e.startdate < :expectDate" +
-            " AND (:status = 'all' OR e.performstatus = :status)" +
-            " AND (:searchAreaArr IS NULL OR e.areacd IN :searchAreaArr)" +
-            " ORDER BY c.orderby, e.visitcnt desc")
-    Page<Performance> getPopularPerformances(@Param("keyword") String keyword,
-                                            @Param("status") String status,
-                                            @Param("expectDate") LocalDate expectDate,
-                                            Pageable pageable,
-                                            @Param("searchAreaArr") String[] searchAreaArr);
-
-    @Query("SELECT e" +
-            " FROM Performance e" +
-            " LEFT OUTER JOIN Code c ON c.cdnm = e.performstatus" +
-            " WHERE e.name LIKE %:keyword% AND e.startdate < :expectDate" +
-            " AND (:status = 'all' OR e.performstatus = :status)" +
-            " AND (:searchAreaArr IS NULL OR e.areacd IN :searchAreaArr)" +
-            " ORDER BY c.orderby, e.scrapcnt desc")
-    Page<Performance> getScrapPerformances(@Param("keyword") String keyword,
-                                             @Param("status") String status,
-                                             @Param("expectDate") LocalDate expectDate,
-                                             Pageable pageable,
-                                             @Param("searchAreaArr") String[] searchAreaArr);
+    Page<PerformanceListDTO> getScrapPerformances(@Param("keyword") String keyword,
+                                                   @Param("status") String status,
+                                                   @Param("expectDate") LocalDate expectDate,
+                                                   Pageable pageable,
+                                                   @Param("searchAreaArr") String[] searchAreaArr,
+                                                   @Param("memberid") String memberid);
 
     @Modifying
     @Query("UPDATE Performance p " +

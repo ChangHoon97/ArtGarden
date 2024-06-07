@@ -28,31 +28,20 @@ public class PerformanceServiceImpl implements PerformanceService{
     }
 
     public PageDTO<PerformanceListDTO> getPerformances(String keyword, String status, int days, Pageable pageable, String[] searchAreaArr, String orderby, String memberid){
-        PerformancePageDTO data = new PerformancePageDTO();
-        Page<Performance> performances = null;
-        Page<PerformanceListDTO> performances2 = null;
+        Page<PerformanceListDTO> performances = null;
 
         LocalDate expectDate = LocalDate.now().plusDays(days);
 
         if(orderby.equals("popular")){
-            performances = performanceRepository.getPopularPerformances(keyword, status, expectDate, pageable, searchAreaArr);
+            performances = performanceRepository.getPopularPerformances(keyword, status, expectDate, pageable, searchAreaArr,memberid);
         } else if(orderby.equals("scrap")){
-            performances = performanceRepository.getScrapPerformances(keyword, status, expectDate, pageable, searchAreaArr);
+            performances = performanceRepository.getScrapPerformances(keyword, status, expectDate, pageable, searchAreaArr,memberid);
         } else{
-            performances2 = performanceRepository.getLatestPerformances2(keyword, status, expectDate, pageable, searchAreaArr, memberid);
+            performances = performanceRepository.getLatestPerformances(keyword, status, expectDate, pageable, searchAreaArr, memberid);
         }
 
-        PageDTO<PerformanceListDTO> dto = new PageDTO(performances2.getNumber()+1, performances2.getTotalPages(), performances2.getSize(), performances2.getTotalElements(), performances2.hasNext(), performances2.getContent());
-        //DTO 변환 과정
-        /*for(Performance performance : performances.getContent()){
-            data.getData().add(new PerformanceListDTO(performance));
-        }
+        PageDTO<PerformanceListDTO> dto = new PageDTO(performances.getNumber()+1, performances.getTotalPages(), performances.getSize(), performances.getTotalElements(), performances.hasNext(), performances.getContent());
 
-        data.setPageNo(performances.getNumber()+1);
-        data.setTotalPages(performances.getTotalPages());
-        data.setPageSize(performances.getSize());
-        data.setTotalElements(performances.getTotalElements());
-        data.setHasNext(performances.hasNext());*/
 
         return dto;
     }
