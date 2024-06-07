@@ -46,6 +46,7 @@ public class ScrapServiceImpl implements ScrapService{
     }
 
     @Override
+    @Transactional
     public String updateScraping(String memberid, ScrapingDTO dto) {
         String objectid = dto.getObjectid();
         Scrap chkscrap = scrapRepository.findByMemberidAndObjectid(memberid, objectid);

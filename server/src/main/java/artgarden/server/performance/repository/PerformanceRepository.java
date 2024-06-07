@@ -1,6 +1,7 @@
 package artgarden.server.performance.repository;
 
 import artgarden.server.performance.entity.Performance;
+import artgarden.server.performance.entity.dto.PerformanceListDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -41,6 +42,21 @@ public interface PerformanceRepository extends JpaRepository<Performance, Long> 
                                       @Param("expectDate") LocalDate expectDate,
                                       Pageable pageable,
                                       @Param("searchAreaArr") String[] searchAreaArr);
+
+    @Query("SELECT new artgarden.server.performance.entity.dto.PerformanceListDTO(e, case when s.scrapyn is null then false else s.scrapyn end) " +
+            " FROM Performance e" +
+            " LEFT OUTER JOIN Code c ON c.cdnm = e.performstatus" +
+            " LEFT OUTER JOIN Scrap s ON s.objectid = e.id AND s.memberid = :memberid" +
+            " WHERE e.name LIKE %:keyword% AND e.startdate < :expectDate" +
+            " AND (:status = 'all' OR e.performstatus = :status)" +
+            " AND (:searchAreaArr IS NULL OR e.areacd IN :searchAreaArr) " +
+            " ORDER BY c.orderby, e.enddate")
+    Page<PerformanceListDTO> getLatestPerformances2(@Param("keyword") String keyword,
+                                                    @Param("status") String status,
+                                                    @Param("expectDate") LocalDate expectDate,
+                                                    Pageable pageable,
+                                                    @Param("searchAreaArr") String[] searchAreaArr,
+                                                    @Param("memberid") String memberid);
 
     @Query("SELECT e" +
             " FROM Performance e" +

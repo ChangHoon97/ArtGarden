@@ -1,5 +1,6 @@
 package artgarden.server.performance.entity.dto;
 
+import artgarden.server.member.entity.Member;
 import artgarden.server.performance.entity.Performance;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
@@ -37,6 +38,8 @@ public class PerformanceListDTO {
     private int scrapcnt;
     @Schema(description = "지역", example ="대구")
     private String area;
+    @Schema(description = "회원의 찜여부", example ="true")
+    private boolean scrapyn;
 
     public PerformanceListDTO(Performance performance){
         this.setId(performance.getId());
@@ -50,6 +53,27 @@ public class PerformanceListDTO {
         this.setVisitcnt(performance.getVisitcnt());
         this.setScrapcnt(performance.getScrapcnt());
         this.setArea(performance.getArea());
+
+        if(performance.getOpenrun().equals("Y")){
+            this.setEnddate("오픈런");
+        }else{
+            this.setEnddate(dateFormat(performance.getEnddate()));
+        }
+    }
+
+    public PerformanceListDTO(Performance performance, boolean scrapyn){
+        this.setId(performance.getId());
+        this.setName(performance.getName());
+        this.setStartdate(dateFormat(performance.getStartdate()));
+        this.setPlace(performance.getPlace());
+        this.setPrice(performance.getPrice());
+        this.setPosterurl(performance.getPosterurl());
+        this.setGenre(performance.getGenre());
+        this.setStatus(performance.getPerformstatus());
+        this.setVisitcnt(performance.getVisitcnt());
+        this.setScrapcnt(performance.getScrapcnt());
+        this.setArea(performance.getArea());
+        this.setScrapyn(scrapyn);
 
         if(performance.getOpenrun().equals("Y")){
             this.setEnddate("오픈런");

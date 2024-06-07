@@ -1,5 +1,6 @@
 package artgarden.server.performance.service;
 
+import artgarden.server.common.entity.dto.PageDTO;
 import artgarden.server.performance.entity.Performance;
 import artgarden.server.performance.entity.dto.PerformanceListDTO;
 import artgarden.server.performance.entity.dto.PerformancePageDTO;
@@ -26,9 +27,10 @@ public class PerformanceServiceImpl implements PerformanceService{
         return performanceRepository.findById(id);
     }
 
-    public PerformancePageDTO getPerformances(String keyword, String status, int days, Pageable pageable, String[] searchAreaArr, String orderby){
+    public PageDTO<PerformanceListDTO> getPerformances(String keyword, String status, int days, Pageable pageable, String[] searchAreaArr, String orderby, String memberid){
         PerformancePageDTO data = new PerformancePageDTO();
         Page<Performance> performances = null;
+        Page<PerformanceListDTO> performances2 = null;
 
         LocalDate expectDate = LocalDate.now().plusDays(days);
 
@@ -37,11 +39,12 @@ public class PerformanceServiceImpl implements PerformanceService{
         } else if(orderby.equals("scrap")){
             performances = performanceRepository.getScrapPerformances(keyword, status, expectDate, pageable, searchAreaArr);
         } else{
-            performances = performanceRepository.getLatestPerformances(keyword, status, expectDate, pageable, searchAreaArr);
+            performances2 = performanceRepository.getLatestPerformances2(keyword, status, expectDate, pageable, searchAreaArr, memberid);
         }
 
+        PageDTO<PerformanceListDTO> dto = new PageDTO(performances2.getNumber()+1, performances2.getTotalPages(), performances2.getSize(), performances2.getTotalElements(), performances2.hasNext(), performances2.getContent());
         //DTO 변환 과정
-        for(Performance performance : performances.getContent()){
+        /*for(Performance performance : performances.getContent()){
             data.getData().add(new PerformanceListDTO(performance));
         }
 
@@ -49,9 +52,9 @@ public class PerformanceServiceImpl implements PerformanceService{
         data.setTotalPages(performances.getTotalPages());
         data.setPageSize(performances.getSize());
         data.setTotalElements(performances.getTotalElements());
-        data.setHasNext(performances.hasNext());
+        data.setHasNext(performances.hasNext());*/
 
-        return data;
+        return dto;
     }
 
     @Override
