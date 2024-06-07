@@ -59,19 +59,19 @@ public class PerformanceController {
     @Operation(summary = "공연 상세 조회", description = "/performances/PF216230")
     @ApiResponse(responseCode = "200", description = "성공")
     @GetMapping("/performances/{id}")
-    public ResponseEntity<PerformanceDetailDTO> getPerformance(@PathVariable String id){
+    public ResponseEntity<PerformanceDetailDTO> getPerformance(@PathVariable String id, HttpServletRequest request){
 
-        PerformanceDetailDTO dto = new PerformanceDetailDTO();
+        HttpSession session = request.getSession();
+        String memberid = (String)session.getAttribute("memberid");
 
-        Performance performance = performanceService.findById(id);
+        PerformanceDetailDTO performance = performanceService.getPerformanceDetail(id,memberid);
 
         //null일때 예외처리
         if(performance == null){
             return ResponseEntity.notFound().build();
         }
 
-        dto.fromEntity(performance);
 
-        return ResponseEntity.ok(dto);
+        return ResponseEntity.ok(performance);
     }
 }

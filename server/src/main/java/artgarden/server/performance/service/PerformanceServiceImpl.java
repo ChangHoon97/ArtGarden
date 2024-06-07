@@ -2,6 +2,7 @@ package artgarden.server.performance.service;
 
 import artgarden.server.common.entity.dto.PageDTO;
 import artgarden.server.performance.entity.Performance;
+import artgarden.server.performance.entity.dto.PerformanceDetailDTO;
 import artgarden.server.performance.entity.dto.PerformanceListDTO;
 import artgarden.server.performance.repository.PerformanceRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +23,11 @@ public class PerformanceServiceImpl implements PerformanceService{
     private final PerformanceRepository performanceRepository;
 
     public Performance findById(String id){
-
         return performanceRepository.findById(id);
+    }
+    public PerformanceDetailDTO getPerformanceDetail(String id, String memberid){
+
+        return performanceRepository.getPerformanceDetail(id, memberid);
     }
 
     public PageDTO<PerformanceListDTO> getPerformances(String keyword, String status, int days, Pageable pageable, String[] searchAreaArr, String orderby, String memberid){

@@ -1,6 +1,7 @@
 package artgarden.server.performance.repository;
 
 import artgarden.server.performance.entity.Performance;
+import artgarden.server.performance.entity.dto.PerformanceDetailDTO;
 import artgarden.server.performance.entity.dto.PerformanceListDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,12 @@ public interface PerformanceRepository extends JpaRepository<Performance, Long> 
 
     Page<Performance> findByPerformstatus(String performstatus, Pageable pageable);
 
+    @Query("SELECT new artgarden.server.performance.entity.dto.PerformanceDetailDTO(e, case when s.scrapyn is null then false else (s.scrapyn= true ) end) " +
+            "FROM Performance e " +
+            "LEFT OUTER JOIN Scrap s ON s.objectid = e.id AND s.memberid = :memberid " +
+            "WHERE e.id = :id")
+    PerformanceDetailDTO getPerformanceDetail(@Param("id")String id, @Param("memberid")String memberid);
+
     Performance findById(String id);
 
     @Transactional
@@ -30,7 +37,7 @@ public interface PerformanceRepository extends JpaRepository<Performance, Long> 
             "WHERE e.enddate <= :today AND e.performstatus <> '공연완료'")
     void updatePerformStatusForExpiredPerformances(LocalDate today);
 
-    @Query("SELECT new artgarden.server.performance.entity.dto.PerformanceListDTO(e, case when s.scrapyn is null then false else s.scrapyn end) " +
+    @Query("SELECT new artgarden.server.performance.entity.dto.PerformanceListDTO(e, case when s.scrapyn is null then false else (s.scrapyn= true ) end) " +
             " FROM Performance e" +
             " LEFT OUTER JOIN Code c ON c.cdnm = e.performstatus" +
             " LEFT OUTER JOIN Scrap s ON s.objectid = e.id AND s.memberid = :memberid" +
@@ -45,7 +52,7 @@ public interface PerformanceRepository extends JpaRepository<Performance, Long> 
                                                     @Param("searchAreaArr") String[] searchAreaArr,
                                                     @Param("memberid") String memberid);
 
-    @Query("SELECT new artgarden.server.performance.entity.dto.PerformanceListDTO(e, case when s.scrapyn is null then false else s.scrapyn end) " +
+    @Query("SELECT new artgarden.server.performance.entity.dto.PerformanceListDTO(e, case when s.scrapyn is null then false else (s.scrapyn= true ) end) " +
             " FROM Performance e" +
             " LEFT OUTER JOIN Code c ON c.cdnm = e.performstatus" +
             " LEFT OUTER JOIN Scrap s ON s.objectid = e.id AND s.memberid = :memberid" +
@@ -60,7 +67,7 @@ public interface PerformanceRepository extends JpaRepository<Performance, Long> 
                                                    @Param("searchAreaArr") String[] searchAreaArr,
                                                    @Param("memberid") String memberid);
 
-    @Query("SELECT new artgarden.server.performance.entity.dto.PerformanceListDTO(e, case when s.scrapyn is null then false else s.scrapyn end) " +
+    @Query("SELECT new artgarden.server.performance.entity.dto.PerformanceListDTO(e, case when s.scrapyn is null then false else (s.scrapyn= true ) end) " +
             " FROM Performance e" +
             " LEFT OUTER JOIN Code c ON c.cdnm = e.performstatus" +
             " LEFT OUTER JOIN Scrap s ON s.objectid = e.id AND s.memberid = :memberid" +

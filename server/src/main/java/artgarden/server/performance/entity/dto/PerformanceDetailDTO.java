@@ -45,8 +45,10 @@ public class PerformanceDetailDTO {
     private int scrapcnt;
     @Schema(description = "지역", example ="대구")
     private String area;
+    @Schema(description = "회원의 찜여부", example ="true")
+    private boolean scrapyn;
 
-    public void fromEntity(Performance performance){
+    public PerformanceDetailDTO(Performance performance, boolean scrapyn){
         this.setId(performance.getId());
         this.setName(performance.getName());
         this.setStartdate(dateFormat(performance.getStartdate()));
@@ -62,6 +64,7 @@ public class PerformanceDetailDTO {
         this.setVisitcnt(performance.getVisitcnt());
         this.setScrapcnt(performance.getScrapcnt());
         this.setArea(performance.getArea());
+        this.setScrapyn(scrapyn);
 
         if(performance.getOpenrun().equals("Y")){
             this.setEnddate("오픈런");
