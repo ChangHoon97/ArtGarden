@@ -3,7 +3,6 @@ package artgarden.server.performance.service;
 import artgarden.server.common.entity.dto.PageDTO;
 import artgarden.server.performance.entity.Performance;
 import artgarden.server.performance.entity.dto.PerformanceListDTO;
-import artgarden.server.performance.entity.dto.PerformancePageDTO;
 import artgarden.server.performance.repository.PerformanceRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

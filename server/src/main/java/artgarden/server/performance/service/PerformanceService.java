@@ -3,7 +3,6 @@ package artgarden.server.performance.service;
 import artgarden.server.common.entity.dto.PageDTO;
 import artgarden.server.performance.entity.Performance;
 import artgarden.server.performance.entity.dto.PerformanceListDTO;
-import artgarden.server.performance.entity.dto.PerformancePageDTO;
 import org.springframework.data.domain.Pageable;
 
 public interface PerformanceService {

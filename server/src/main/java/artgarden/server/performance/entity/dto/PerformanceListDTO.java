@@ -41,26 +41,6 @@ public class PerformanceListDTO {
     @Schema(description = "회원의 찜여부", example ="true")
     private boolean scrapyn;
 
-    public PerformanceListDTO(Performance performance){
-        this.setId(performance.getId());
-        this.setName(performance.getName());
-        this.setStartdate(dateFormat(performance.getStartdate()));
-        this.setPlace(performance.getPlace());
-        this.setPrice(performance.getPrice());
-        this.setPosterurl(performance.getPosterurl());
-        this.setGenre(performance.getGenre());
-        this.setStatus(performance.getPerformstatus());
-        this.setVisitcnt(performance.getVisitcnt());
-        this.setScrapcnt(performance.getScrapcnt());
-        this.setArea(performance.getArea());
-
-        if(performance.getOpenrun().equals("Y")){
-            this.setEnddate("오픈런");
-        }else{
-            this.setEnddate(dateFormat(performance.getEnddate()));
-        }
-    }
-
     public PerformanceListDTO(Performance performance, boolean scrapyn){
         this.setId(performance.getId());
         this.setName(performance.getName());
