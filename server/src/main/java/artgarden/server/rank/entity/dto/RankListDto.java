@@ -24,6 +24,16 @@ public class RankListDto {
     private String price;
     @Schema(description = "공연 포스터 url", example = "http://www.kopis.or.kr/upload/pfmPoster/PF_PF216230_230405_125449.gif")
     private String posterurl;
+    @Schema(description = "공연 장르", example = "뮤지컬")
+    private String genre;
+    @Schema(description = "공연 상태", example = "공연중")
+    private String status;
+    @Schema(description = "공연 게시글 조회수", example = "127")
+    private int visitcnt;
+    @Schema(description = "공연 스크랩 수", example = "13")
+    private int scrapcnt;
+    @Schema(description = "지역", example ="대구")
+    private String area;
     @Schema(description = "순위", example = "1")
     private int rankNum;
 
@@ -35,6 +45,11 @@ public class RankListDto {
         this.price = performance.getPrice();
         this.posterurl = performance.getPosterurl();
         this.rankNum = rankNumber;
+        this.genre = performance.getGenre();
+        this.status = performance.getPerformstatus();
+        this.visitcnt = performance.getVisitcnt();
+        this.scrapcnt = performance.getScrapcnt();
+        this.area = performance.getArea();
 
         if(performance.getOpenrun().equals("Y")){
             this.enddate = "오픈런";
