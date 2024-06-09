@@ -5,6 +5,7 @@ import artgarden.server.rank.entity.WeeklyRank;
 import artgarden.server.rank.entity.dto.RankListDto;
 import artgarden.server.kopis.service.KopisServiceImpl;
 import artgarden.server.performance.service.PerformanceServiceImpl;
+import artgarden.server.rank.service.RankService;
 import artgarden.server.rank.service.RankServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -25,7 +26,7 @@ import java.util.List;
 @Tag(name = "Rank", description = "공연 순위 조회 API")
 public class RankController {
 
-    private final RankServiceImpl rankService;
+    private final RankService rankService;
     private final PerformanceServiceImpl performanceService;
     private final KopisServiceImpl kopisService;
 
@@ -40,7 +41,8 @@ public class RankController {
         List<String> performIds = weeklyRank.getPerformId();
         List<RankListDto> dtoList = new ArrayList<>();
 
-        for(String performId : performIds){
+        for(int i=0; i<9; i++){
+            String performId = performIds.get(i);
             if(performanceService.findById(performId) == null){
                 kopisService.saveSinglePerformance(performId);
             }
