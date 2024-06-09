@@ -41,7 +41,7 @@ public class RankController {
         List<String> performIds = weeklyRank.getPerformId();
         List<RankListDto> dtoList = new ArrayList<>();
 
-        for(int i=0; i<9; i++){
+        for(int i=0; i<9; i++){     // FE요청사항 : 응답 데이터 9개로 해주세요
             String performId = performIds.get(i);
             if(performanceService.findById(performId) == null){
                 kopisService.saveSinglePerformance(performId);

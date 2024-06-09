@@ -1,5 +1,6 @@
 package artgarden.server.exhibit;
 
+import artgarden.server.common.entity.dto.PageDTO;
 import artgarden.server.exhibit.entity.Exhibit;
 import artgarden.server.exhibit.entity.dto.ExhibitDetailDTO;
 import artgarden.server.exhibit.entity.dto.ExhibitPageDTO;
@@ -10,6 +11,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -28,22 +31,19 @@ public class ExhibitController {
     private final ExhibitService exhibitService;
 
     @GetMapping("/exhibits")
-    public ResponseEntity<ExhibitPageDTO> getExhibits(
-        @Parameter(description = "제목 검색 키워드")
-        @RequestParam(defaultValue = "") String keyword,
-        @Parameter(description = "전시 날짜(일), 오늘 ~ 오늘+days(일) 기간 검색")
-        @RequestParam(defaultValue = "30") int days,
-        @Parameter(description = "표시할 페이지")
-        @RequestParam(defaultValue = "1") int page,
-        @Parameter(description = "한 페이지에 볼 게시물 수")
-        @RequestParam(defaultValue = "30") int size,
-        @Parameter(description = "지역조건")
-        @RequestParam(required = false) String[] searchAreaArr,
-        @Parameter(description = "정렬조건(latest(기본값), popular, scrap")
-        @RequestParam(defaultValue = "latest") String orderby){
+    public ResponseEntity<PageDTO> getExhibits(
+            @Parameter(description = "제목 검색 키워드") @RequestParam(defaultValue = "") String keyword,
+            @Parameter(description = "전시 날짜(일), 오늘 ~ 오늘+days(일) 기간 검색") @RequestParam(defaultValue = "30") int days,
+            @Parameter(description = "표시할 페이지") @RequestParam(defaultValue = "1") int page,
+            @Parameter(description = "한 페이지에 볼 게시물 수") @RequestParam(defaultValue = "30") int size,
+            @Parameter(description = "지역조건") @RequestParam(required = false) String[] searchAreaArr,
+            @Parameter(description = "정렬조건(latest(기본값), popular, scrap") @RequestParam(defaultValue = "latest") String orderby,
+            HttpServletRequest request){
 
         Pageable pageable = PageRequest.of(page-1, size);
-        ExhibitPageDTO exhibits = exhibitService.getExhibits(keyword, days, pageable, searchAreaArr, orderby);
+        HttpSession session = request.getSession();
+        String memberid = (String) session.getAttribute("memberid");
+        PageDTO<ExhibitDetailDTO> exhibits = exhibitService.getExhibits(keyword, days, pageable, searchAreaArr, orderby,memberid);
 
         return ResponseEntity.ok(exhibits);
     }
@@ -51,17 +51,17 @@ public class ExhibitController {
     @Operation(summary = "전시 상세 조회", description = "/exhibits/123456")
     @ApiResponse(responseCode = "200", description = "성공")
     @GetMapping("/exhibits/{id}")
-    public ResponseEntity<ExhibitDetailDTO> getPerformance(@PathVariable String id){
+    public ResponseEntity<ExhibitDetailDTO> getPerformance(@PathVariable String id, HttpServletRequest request){
 
-        Exhibit exhibit = exhibitService.selectExhibit(id);
+        HttpSession session = request.getSession();
+        String memberid = (String) session.getAttribute("memberid");
+        ExhibitDetailDTO exhibit = exhibitService.selectExhibit(id, memberid);
 
         //null일때 예외처리
         if(exhibit == null){
             return ResponseEntity.notFound().build();
         }
 
-        ExhibitDetailDTO dto = new ExhibitDetailDTO(exhibit);
-
-        return ResponseEntity.ok(dto);
+        return ResponseEntity.ok(exhibit);
     }
 }

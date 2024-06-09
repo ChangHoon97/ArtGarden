@@ -1,6 +1,7 @@
 package artgarden.server.exhibit.repository;
 
 import artgarden.server.exhibit.entity.Exhibit;
+import artgarden.server.exhibit.entity.dto.ExhibitDetailDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,38 +15,45 @@ import java.util.Optional;
 
 public interface ExhibitRepository extends JpaRepository<Exhibit, Long> {
 
-    @Query("SELECT e " +
+
+    @Query("SELECT new artgarden.server.exhibit.entity.dto.ExhibitDetailDTO(e, case when s.scrapyn is null then false else (s.scrapyn= true ) end) " +
             "FROM Exhibit e " +
             "LEFT OUTER JOIN Code c ON c.cdnm = e.status " +
+            "LEFT OUTER JOIN Scrap s ON s.objectid = e.id AND s.memberid = :memberid " +
             "WHERE e.name LIKE %:keyword% AND e.startdate < :expectDate " +
             "AND (:searchAreaArr IS NULL OR e.areacd IN :searchAreaArr) " +
             "ORDER BY c.orderby, e.visitcnt DESC")
-    Page<Exhibit> getExhibitsPopular(@Param("keyword") String keyword,
-                                    @Param("expectDate") LocalDate expectDate,
-                                     @Param("searchAreaArr") String[] searchAreaArr,
-                                    Pageable pageable);
+    Page<ExhibitDetailDTO> getExhibitsPopular(@Param("keyword") String keyword,
+                                              @Param("expectDate") LocalDate expectDate,
+                                              @Param("searchAreaArr") String[] searchAreaArr,
+                                              @Param("memberid") String memberid,
+                                              Pageable pageable);
 
-    @Query("SELECT e " +
+    @Query("SELECT new artgarden.server.exhibit.entity.dto.ExhibitDetailDTO(e, case when s.scrapyn is null then false else (s.scrapyn= true ) end) " +
             "FROM Exhibit e " +
             "LEFT OUTER JOIN Code c ON c.cdnm = e.status " +
+            "LEFT OUTER JOIN Scrap s ON s.objectid = e.id AND s.memberid = :memberid " +
             "WHERE e.name LIKE %:keyword% AND e.startdate < :expectDate " +
             "AND (:searchAreaArr IS NULL OR e.areacd IN :searchAreaArr) " +
             "ORDER BY c.orderby, e.enddate")
-    Page<Exhibit> getExhibitsLatest(@Param("keyword") String keyword,
-                                    @Param("expectDate") LocalDate expectDate,
-                                    @Param("searchAreaArr") String[] searchAreaArr,
-                                    Pageable pageable);
+    Page<ExhibitDetailDTO> getExhibitsLatest(@Param("keyword") String keyword,
+                                     @Param("expectDate") LocalDate expectDate,
+                                     @Param("searchAreaArr") String[] searchAreaArr,
+                                     @Param("memberid") String memberid,
+                                     Pageable pageable);
 
-    @Query("SELECT e " +
+    @Query("SELECT new artgarden.server.exhibit.entity.dto.ExhibitDetailDTO(e, case when s.scrapyn is null then false else (s.scrapyn= true ) end) " +
             "FROM Exhibit e " +
             "LEFT OUTER JOIN Code c ON c.cdnm = e.status " +
+            "LEFT OUTER JOIN Scrap s ON s.objectid = e.id AND s.memberid = :memberid " +
             "WHERE e.name LIKE %:keyword% AND e.startdate < :expectDate " +
             "AND (:searchAreaArr IS NULL OR e.areacd IN :searchAreaArr) " +
             "ORDER BY c.orderby, e.scrapcnt DESC")
-    Page<Exhibit> getExhibitsScrap(@Param("keyword") String keyword,
-                                   @Param("expectDate") LocalDate expectDate,
-                                   @Param("searchAreaArr") String[] searchAreaArr,
-                                   Pageable pageable);
+    Page<ExhibitDetailDTO> getExhibitsScrap(@Param("keyword") String keyword,
+                                     @Param("expectDate") LocalDate expectDate,
+                                     @Param("searchAreaArr") String[] searchAreaArr,
+                                     @Param("memberid") String memberid,
+                                     Pageable pageable);
 
     @Transactional
     @Modifying
@@ -73,10 +81,11 @@ public interface ExhibitRepository extends JpaRepository<Exhibit, Long> {
             "WHERE e.genrecd is null")
     void updateGenreCode();
 
-    @Query("SELECT e " +
+    @Query("SELECT new artgarden.server.exhibit.entity.dto.ExhibitDetailDTO(e, case when s.scrapyn is null then false else (s.scrapyn= true ) end) " +
             "FROM Exhibit e " +
+            "LEFT OUTER  JOIN Scrap s ON s.objectid = e.id AND s.memberid = :memberid " +
             "WHERE e.id = :id")
-    Exhibit selectExhibit(@Param("id") String id);
+    ExhibitDetailDTO selectExhibit(@Param("id") String id, @Param("memberid") String memberid);
 
     @Modifying
     @Transactional

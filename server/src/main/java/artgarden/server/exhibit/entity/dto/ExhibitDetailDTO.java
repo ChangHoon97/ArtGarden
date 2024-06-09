@@ -37,6 +37,8 @@ public class ExhibitDetailDTO {
     private int visitcnt;
     @Schema(description = "전시회 스크랩 수", example = "13")
     private int scrapcnt;
+    @Schema(description = "회원의 찜여부", example ="true")
+    private boolean scrapyn;
 
     public ExhibitDetailDTO(Exhibit exhibit){
         this.setId(exhibit.getId());
@@ -50,6 +52,21 @@ public class ExhibitDetailDTO {
         this.setPosterurl(exhibit.getPosterurl());
         this.setVisitcnt(exhibit.getVisitcnt());
         this.setScrapcnt(exhibit.getScrapcnt());
+    }
+
+    public ExhibitDetailDTO(Exhibit exhibit, boolean scrapyn){
+        this.setId(exhibit.getId());
+        this.setName(exhibit.getName());
+        this.setStartdate(exhibit.getStartdate());
+        this.setEnddate(exhibit.getEnddate());
+        this.setGenre(exhibit.getGenre());
+        this.setArea(exhibit.getArea());
+        this.setPlace(exhibit.getPlace());
+        this.setStatus(exhibit.getStatus());
+        this.setPosterurl(exhibit.getPosterurl());
+        this.setVisitcnt(exhibit.getVisitcnt());
+        this.setScrapcnt(exhibit.getScrapcnt());
+        this.setScrapyn(scrapyn);
     }
 
 }
