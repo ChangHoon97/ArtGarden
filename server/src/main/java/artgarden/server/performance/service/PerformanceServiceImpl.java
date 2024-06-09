@@ -43,8 +43,8 @@ public class PerformanceServiceImpl implements PerformanceService{
             performances = performanceRepository.getLatestPerformances(keyword, status, expectDate, pageable, searchAreaArr, memberid);
         }
 
-        PageDTO<PerformanceListDTO> dto = new PageDTO(performances.getNumber()+1, performances.getTotalPages(), performances.getSize(), performances.getTotalElements(), performances.hasNext(), performances.getContent());
-
+        PageDTO<PerformanceListDTO> dto = new PageDTO(performances.getNumber()+1, performances.getSize(), performances.getTotalPages(), performances.getTotalElements(), performances.hasNext(), performances.getContent());
+        System.out.println("토탈 페이지 :" + performances.getTotalPages());
 
         return dto;
     }
