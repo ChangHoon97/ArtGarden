@@ -350,7 +350,9 @@ public class KopisServiceImpl implements  KopisService{
             result = "울산";
         } else if(area.equals("세종특별자치시")){
             result = "세종";
-        } else{
+        } else if(area.equals("경상북도")){
+            result = "경북";
+        }else{
             System.out.println("[AREA EXCEPTION] " + id + " : " + area);
             result = "기타";
         }
