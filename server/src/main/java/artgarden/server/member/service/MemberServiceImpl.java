@@ -30,6 +30,8 @@ public class MemberServiceImpl implements MemberService{
         HttpSession session = request.getSession();
         session.setMaxInactiveInterval(30*60);
         session.setAttribute("memberid", dto.getId());
+        String sessionid = (String) session.getId();
+        System.out.println("##########sessionid : " + sessionid);
         String memberid = (String) session.getAttribute("memberid");
         log.info("============== 로그인 성공 : " + memberid + " ==============");
         result = "LoginSuccess";
