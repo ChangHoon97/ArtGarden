@@ -46,6 +46,8 @@ public class ScrapController {
                                                  HttpServletRequest request){
         HttpSession session = request.getSession();
         String memberid = (String) session.getAttribute("memberid");
+        System.out.println("#######memberid : " + memberid);
+        System.out.println("#########objectid : " + dto.getObjectid());
         String result = "ProcessFail";
         if(memberid != null){
             System.out.println("일단 서비스단 들어간다");
