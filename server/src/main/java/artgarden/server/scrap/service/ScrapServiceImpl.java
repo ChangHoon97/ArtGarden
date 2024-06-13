@@ -55,11 +55,13 @@ public class ScrapServiceImpl implements ScrapService{
         String updateStatus = "ASC";
 
         if(chkscrap != null){   //기존 스크랩 존재하는 경우 업데이트
+            System.out.println("기존 스크랩 존재한다");
             scrapRepository.updateScrapYN(memberid, objectid, !chkscrap.isScrapyn());
             if(chkscrap.isScrapyn()){   //기존 true ====> false
                 updateStatus = "DESC";
             }
         } else{ //없을 경우 scrapyn = true로 저장
+            System.out.println("기존 스크랩 없다.");
             to.setScrapyn(true);
             to.setMemberid(memberid);
             to.setObjectid(objectid);

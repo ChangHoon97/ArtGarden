@@ -48,6 +48,7 @@ public class ScrapController {
         String memberid = (String) session.getAttribute("memberid");
         String result = "ProcessFail";
         if(memberid != null){
+            System.out.println("일단 서비스단 들어간다");
             result = scrapService.updateScraping(memberid, dto);
         }
 
