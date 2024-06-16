@@ -48,10 +48,6 @@ public class ScrapController {
         String memberid = (String) session.getAttribute("memberid");
         String sessionid = (String) session.getId();
         Boolean isNew = session.isNew();
-        System.out.println("##########sessionid : " + sessionid);
-        System.out.println("#########isNew : " + isNew);
-        System.out.println("#######memberid : " + memberid);
-        System.out.println("#########objectid : " + dto.getObjectid());
         String result = "ProcessFail";
         if(memberid != null){
             System.out.println("일단 서비스단 들어간다");

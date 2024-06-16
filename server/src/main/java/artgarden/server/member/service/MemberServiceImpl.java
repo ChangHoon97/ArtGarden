@@ -29,11 +29,6 @@ public class MemberServiceImpl implements MemberService{
         String result = "";
         HttpSession session = request.getSession();
         session.setMaxInactiveInterval(30*60);
-        Boolean isNew = session.isNew();
-        session.setAttribute("memberid", dto.getId());
-        String sessionid = (String) session.getId();
-        System.out.println("##########sessionid : " + sessionid);
-        System.out.println("############isNew : " + isNew);
         String memberid = (String) session.getAttribute("memberid");
         log.info("============== 로그인 성공 : " + memberid + " ==============");
         result = "LoginSuccess";
