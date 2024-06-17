@@ -23,8 +23,24 @@ public class MemberServiceImpl implements MemberService{
     @Transactional
     public String insertMember(MemberJoinDTO dto) {
         Member member = new Member(dto);
-        memberRepository.save(member);
-        return "ProcessSuccess";
+        String result = "";
+        Member chkmember = memberRepository.findMemberByLoginid(dto.getLoginid());
+        if(chkmember != null){
+            memberRepository.save(member);
+            result = "ProcessSuccess";
+        } else{
+            result = "Duplicate.LoginID";
+        }
+        return result;
+    }
+
+    public String selectMemberByLoginID(String loginid){
+        String result = "false";
+        Member chkmember = memberRepository.findMemberByLoginid(loginid);
+        if(chkmember == null){
+            result = "true";
+        }
+        return result;
     }
 
     @Override

@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,6 +28,18 @@ public class MemberController {
     public ResponseEntity<String> joinMember(@Valid @RequestBody MemberJoinDTO dto){
         String result = "";
         result = memberService.insertMember(dto);
+        if(!result.equals("ProcessSuccess")){
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(result);
+        }
+        return ResponseEntity.ok(result);
+    }
+
+    @Operation(summary = "id중복확인", description = "/chkLoginid")
+    @GetMapping(value = "chkLoginid")
+    public ResponseEntity<String> chkLoginIdDup(@RequestParam String loginid){
+        String result = "";
+        result = memberService.selectMemberByLoginID(loginid);
+
         return ResponseEntity.ok(result);
     }
 

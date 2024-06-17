@@ -6,6 +6,8 @@ import jakarta.servlet.http.HttpServletRequest;
 
 public interface MemberService {
     public String insertMember(MemberJoinDTO dto);
+
+    String selectMemberByLoginID(String loginid);
     String oauthLoginProcess(HttpServletRequest request, OauthLoginDTO dto);
 
     String logout(HttpServletRequest request);
