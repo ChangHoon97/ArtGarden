@@ -12,7 +12,7 @@ public interface ScrapRepository extends JpaRepository<Scrap, Long> {
 
     @Query("SELECT s " +
             "FROM Scrap s " +
-            "WHERE s.memberid = :memberid " +
+            "WHERE s.memberid = :memberid AND s.scrapyn = true " +
             "ORDER BY s.regdt DESC")
     Page<Scrap> findAllByMemberid(@Param("memberid") String memberid, Pageable pageable);
 

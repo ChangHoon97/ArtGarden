@@ -39,9 +39,24 @@ public class ScrapController {
         return ResponseEntity.ok(scrap);
     }
 
+    @GetMapping("/scrapYN")
+    public ResponseEntity<String> getScrapYN(@Parameter(description = "공연/전시/팝업 ID")
+                                             @RequestParam String objectid,
+                                             HttpServletRequest request){
+        String result = "";
+        HttpSession session = request.getSession();
+        String memberid = (String) session.getAttribute("memberid");
+        if(memberid != null){
+            result = scrapService.selectScrapByObjectid(memberid, objectid);
+        } else{
+            result = "Required.Login";
+        }
+        return ResponseEntity.ok(result);
+    }
+
     //스크랩하기
     @PostMapping("/scraps")
-    public ResponseEntity<String> updateScraping(@Parameter(description = "공연/전시ID")
+    public ResponseEntity<String> updateScraping(@Parameter(description = "공연/전시/팝업 ID")
                                                  @RequestBody ScrapingDTO dto,
                                                  HttpServletRequest request){
         HttpSession session = request.getSession();

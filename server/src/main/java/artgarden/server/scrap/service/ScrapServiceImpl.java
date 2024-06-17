@@ -92,4 +92,16 @@ public class ScrapServiceImpl implements ScrapService{
         return result;
     }
 
+
+    public String selectScrapByObjectid(String memberid, String objectid){
+        String result = "false";
+        Scrap scrap = scrapRepository.findByMemberidAndObjectid(memberid, objectid);
+
+        if(scrap != null && scrap.isScrapyn()){
+            result = "true";
+        }
+
+        return result;
+    }
+
 }

@@ -9,4 +9,6 @@ public interface ScrapService {
 
     String updateScraping(String memberid, ScrapingDTO dto);
 
+    String selectScrapByObjectid(String memberid, String objectid);
+
 }
