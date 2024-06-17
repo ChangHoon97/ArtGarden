@@ -8,13 +8,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,8 +22,9 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    @PostMapping("/member")
-    public ResponseEntity<String> joinMember(@RequestBody MemberJoinDTO dto){
+    @Operation(summary = "회원가입", description = "/join")
+    @PostMapping("/join")
+    public ResponseEntity<String> joinMember(@Valid @RequestBody MemberJoinDTO dto){
         String result = "";
         result = memberService.insertMember(dto);
         return ResponseEntity.ok(result);
@@ -37,6 +36,15 @@ public class MemberController {
     public ResponseEntity<String> oauthLoginProcess(HttpServletRequest request, @RequestBody OauthLoginDTO dto){
         String result = "";
         result = memberService.oauthLoginProcess(request, dto);
+        return ResponseEntity.ok(result);
+    }
+
+    @Operation(summary = "로그아웃", description = "/logout")
+    @ApiResponse(responseCode = "200", description = "성공")
+    @GetMapping("/logout")
+    public ResponseEntity<String> logout(HttpServletRequest request){
+        String result = "ProcessFail";
+        result = memberService.logout(request);
         return ResponseEntity.ok(result);
     }
 }
