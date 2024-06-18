@@ -22,9 +22,6 @@ public class Member {
     private String celno;
     private String email;
     private String nickname;
-    private String addr1;
-    private String addr2;
-    private String addr3;
     private String imageUrl;
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -47,9 +44,6 @@ public class Member {
         this.celno = dto.getCelno();
         this.email = dto.getEmail();
         this.nickname = dto.getNickname();
-        this.addr1 = dto.getAddr1();
-        this.addr2 = dto.getAddr2();
-        this.addr3 = dto.getAddr3();
         this.imageUrl = null;
         this.role = Role.USER;
         this.regdt = LocalDateTime.now();

@@ -25,7 +25,7 @@ public class MemberServiceImpl implements MemberService{
         Member member = new Member(dto);
         String result = "";
         Member chkmember = memberRepository.findMemberByLoginid(dto.getLoginid());
-        if(chkmember != null){
+        if(chkmember == null){
             memberRepository.save(member);
             result = "ProcessSuccess";
         } else{

@@ -37,12 +37,4 @@ public class MemberJoinDTO {
     @Pattern(regexp = "^[가-힣a-zA-Z0-9]{2,10}$", message = "2~10자 이내의 한글,영문으로 이루어져야합니다.")
     private String nickname;
 
-    @Pattern(regexp = "^.{1,100}$", message = "1~100자 이내여야 합니다.")
-    private String addr1;
-
-    @Pattern(regexp = "^.{1,100}$", message = "1~100자 이내여야 합니다.")
-    private String addr2;
-
-    @Pattern(regexp = "^.{0,100}$", message = "0~100자 이내여야 합니다.")
-    private String addr3;
 }
