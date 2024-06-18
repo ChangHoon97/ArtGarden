@@ -57,8 +57,25 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
+    @Transactional
     public String updateMember(HttpServletRequest request, MemberUpdateDTO dto) {
-        return null;
+        String result = "ProcessSuccess";
+        HttpSession session = request.getSession();
+        String memberid = (String)session.getAttribute("memberid");
+        Member chkmember = memberRepository.findMemberByLoginid(memberid);
+
+        if(!dto.getLoginid().equals(memberid)){
+            result = "Different.Loginid";
+        }
+        if(chkmember == null){
+            result = "NotFound.Loginid";
+        }
+
+        if(result.equals("ProcessSuccess")){
+            memberRepository.updateMember(dto);
+        }
+
+        return result;
     }
 
     @Override

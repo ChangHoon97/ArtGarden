@@ -47,16 +47,17 @@ public class MemberController {
     @ApiResponse(responseCode = "200", description = "성공")
     @PostMapping("/oauthLoginProcess")
     public ResponseEntity<String> oauthLoginProcess(HttpServletRequest request, @RequestBody OauthLoginDTO dto){
-        String result = "ProcessFail";
+        String result = "";
         result = memberService.oauthLoginProcess(request, dto);
         return ResponseEntity.ok(result);
     }
 
     @Operation(summary = "회원정보수정", description = "/members")
-    @PostMapping("/members")
+    @PatchMapping("/members")
     public ResponseEntity<String> updateMember(HttpServletRequest request, @Valid @RequestBody MemberUpdateDTO dto){
-        String result = "ProcessFail";
+        String result = "";
 
+        result = memberService.updateMember(request, dto);
 
         return ResponseEntity.ok(result);
     }
@@ -65,7 +66,7 @@ public class MemberController {
     @ApiResponse(responseCode = "200", description = "성공")
     @GetMapping("/logout")
     public ResponseEntity<String> logout(HttpServletRequest request){
-        String result = "ProcessFail";
+        String result = "";
         result = memberService.logout(request);
         return ResponseEntity.ok(result);
     }

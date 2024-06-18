@@ -18,7 +18,9 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
             "WHERE m.loginid = :loginid")
     Member findMemberByLoginid(@Param("loginid") String loginid);
 
-    @Query("")
+    @Query("UPDATE Member m " +
+            "SET m.name = :#{#dto.name}, m.birthday = :#{#dto.birthday}, m.celno = :#{#dto.celno}, m.email = :#{#dto.email}, m.nickname = :#{#dto.nickname} " +
+            "WHERE m.loginid = :#{#dto.loginid}")
     @Modifying
     void updateMember(@Param("dto") MemberUpdateDTO dto);
 

@@ -26,7 +26,6 @@ public class MemberJoinDTO {
     @Pattern(regexp = "^[가-힣a-zA-Z]{1,30}$", message = "1~30자 이내의 한글,영문으로 이루어져야합니다.")
     private String name;
 
-    @NotBlank(message = "생년월일은 필수 입력 값입니다.")
     @Past(message = "생년월일은 오늘보다 과거여야 합니다.")
     /*@Pattern(regexp = "\"^(19|20)\\\\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\\\d|3[01])$\"")*/
     private LocalDate birthday;
