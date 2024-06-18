@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,7 +24,7 @@ public class ScrapController {
 
     //나의 스크랩
     @GetMapping("/myScraps")
-    public ResponseEntity<ScrapPageDTO> getScrapByMember(@Parameter(description = "표시할 페이지")
+    public ResponseEntity<?> getScrapByMember(@Parameter(description = "표시할 페이지")
                                                          @RequestParam(defaultValue = "1") int page,
                                                          @Parameter(description = "한 페이지에 볼 게시물 수")
                                                          @RequestParam(defaultValue = "8") int size,
@@ -34,6 +35,8 @@ public class ScrapController {
         Pageable pageable = PageRequest.of(page-1, size);
         if(memberid != null){
             scrap = scrapService.selectMyScrapList(memberid, pageable);
+        } else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Requried.Login");
         }
 
         return ResponseEntity.ok(scrap);
