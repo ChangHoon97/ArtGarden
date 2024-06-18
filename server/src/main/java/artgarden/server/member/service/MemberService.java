@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 public interface MemberService {
     public String insertMember(MemberJoinDTO dto);
 
-    String selectMemberByLoginID(String loginid);
+    MemberViewDTO selectMemberByLoginID(String loginid, HttpServletRequest request);
     String oauthLoginProcess(HttpServletRequest request, OauthLoginDTO dto);
 
     String updateMember(HttpServletRequest request, MemberViewDTO dto);

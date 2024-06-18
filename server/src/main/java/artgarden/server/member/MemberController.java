@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,9 +37,12 @@ public class MemberController {
 
     @Operation(summary = "id중복확인", description = "/chkLoginid")
     @GetMapping(value = "chkLoginid")
-    public ResponseEntity<String> chkLoginIdDup(@RequestParam String loginid){
-        String result = "";
-        result = memberService.selectMemberByLoginID(loginid);
+    public ResponseEntity<String> chkLoginIdDup(@RequestParam String loginid, HttpServletRequest request){
+        String result = "false";
+        MemberViewDTO member = memberService.selectMemberByLoginID(loginid,request);
+        if(member != null){
+            result = "true";
+        }
         return ResponseEntity.ok(result);
     }
 
@@ -53,8 +57,17 @@ public class MemberController {
 
     @Operation(summary = "회원정보상세", description = "/members")
     @GetMapping("/members")
-    public ResponseEntity<MemberViewDTO> findMember(HttpServletRequest request){
+    public ResponseEntity<?> findMember(HttpServletRequest request){
+        HttpSession session = request.getSession();
+        String memberid = (String)session.getAttribute("memberid");
+        MemberViewDTO dto = new MemberViewDTO();
+        if(memberid != null){
+            dto = memberService.selectMemberByLoginID(memberid, request);
+        } else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Required.Login");
+        }
 
+        return ResponseEntity.ok(dto);
     }
 
     @Operation(summary = "회원정보수정", description = "/members")

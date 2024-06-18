@@ -25,7 +25,7 @@ public class MemberServiceImpl implements MemberService{
     public String insertMember(MemberJoinDTO dto) {
         Member member = new Member(dto);
         String result = "";
-        Member chkmember = memberRepository.findMemberByLoginid(dto.getLoginid());
+        MemberViewDTO chkmember = memberRepository.findMemberByLoginid(dto.getLoginid());
         if(chkmember == null){
             memberRepository.save(member);
             result = "ProcessSuccess";
@@ -35,13 +35,11 @@ public class MemberServiceImpl implements MemberService{
         return result;
     }
 
-    public String selectMemberByLoginID(String loginid){
-        String result = "false";
-        Member chkmember = memberRepository.findMemberByLoginid(loginid);
-        if(chkmember == null){
-            result = "true";
-        }
-        return result;
+    public MemberViewDTO selectMemberByLoginID(String loginid, HttpServletRequest request){
+
+        MemberViewDTO member = memberRepository.findMemberByLoginid(loginid);
+
+        return member;
     }
 
     @Override
@@ -62,7 +60,7 @@ public class MemberServiceImpl implements MemberService{
         String result = "ProcessSuccess";
         HttpSession session = request.getSession();
         String memberid = (String)session.getAttribute("memberid");
-        Member chkmember = memberRepository.findMemberByLoginid(memberid);
+        MemberViewDTO chkmember = memberRepository.findMemberByLoginid(memberid);
 
         if(!dto.getLoginid().equals(memberid)){
             result = "Different.Loginid";
