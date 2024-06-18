@@ -39,7 +39,6 @@ public class MemberController {
     public ResponseEntity<String> chkLoginIdDup(@RequestParam String loginid){
         String result = "";
         result = memberService.selectMemberByLoginID(loginid);
-
         return ResponseEntity.ok(result);
     }
 
