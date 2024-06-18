@@ -1,6 +1,7 @@
 package artgarden.server.member.repository;
 
 import artgarden.server.member.entity.Member;
+import artgarden.server.member.entity.dto.MemberLoginDTO;
 import artgarden.server.member.entity.dto.MemberViewDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -12,8 +13,18 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     @Query("SELECT new artgarden.server.member.entity.dto.MemberViewDTO(m) " +
             "FROM Member m " +
-            "WHERE m.loginid = :loginid")
+            "WHERE m.loginid = :loginid AND m.delyn = false")
     MemberViewDTO findMemberByLoginid(@Param("loginid") String loginid);
+
+    @Query("SELECT new artgarden.server.member.entity.dto.MemberViewDTO(m) " +
+            "FROM Member m " +
+            "WHERE m.loginid = :loginid")
+    MemberViewDTO fdinAllMember(@Param("loginid") String loginid);
+
+    @Query("SELECT m " +
+            "FROM Member m " +
+            "WHERE m.loginid = :#{#dto.loginid} AND m.password = :#{#dto.password} AND m.delyn = false")
+    Member findMemberByLoginidPassword(@Param("dto")MemberLoginDTO dto);
 
     @Query("UPDATE Member m " +
             "SET m.name = :#{#dto.name}, m.birthday = :#{#dto.birthday}, m.celno = :#{#dto.celno}, m.email = :#{#dto.email}, m.nickname = :#{#dto.nickname} " +

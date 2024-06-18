@@ -2,6 +2,7 @@ package artgarden.server.member.service;
 
 import artgarden.server.member.entity.Member;
 import artgarden.server.member.entity.dto.MemberJoinDTO;
+import artgarden.server.member.entity.dto.MemberLoginDTO;
 import artgarden.server.member.entity.dto.MemberViewDTO;
 import artgarden.server.member.entity.dto.OauthLoginDTO;
 import artgarden.server.member.repository.MemberRepository;
@@ -25,7 +26,7 @@ public class MemberServiceImpl implements MemberService{
     public String insertMember(MemberJoinDTO dto) {
         Member member = new Member(dto);
         String result = "";
-        MemberViewDTO chkmember = memberRepository.findMemberByLoginid(dto.getLoginid());
+        MemberViewDTO chkmember = memberRepository.fdinAllMember(dto.getLoginid());
         if(chkmember == null){
             memberRepository.save(member);
             result = "ProcessSuccess";
@@ -43,11 +44,28 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
+    public String loginProcess(HttpServletRequest request, MemberLoginDTO dto) {
+        String result = "LoginSuccess";
+        Member member = memberRepository.findMemberByLoginidPassword(dto);
+        if(member == null){
+            result = "Not.Matched";
+        } else{
+            HttpSession session = request.getSession();
+            session.setMaxInactiveInterval(30*60);
+            session.setAttribute("memberid", dto.getLoginid());
+            String memberid = (String) session.getAttribute("memberid");
+            log.info("============== 로그인 성공 : " + memberid + " ==============");
+        }
+
+        return result;
+    }
+
+    @Override
     public String oauthLoginProcess(HttpServletRequest request, OauthLoginDTO dto) {
         String result = "";
         HttpSession session = request.getSession();
         session.setMaxInactiveInterval(30*60);
-        session.setAttribute("memberid", dto.getId());
+        session.setAttribute("memberid", dto.getLoginid());
         String memberid = (String) session.getAttribute("memberid");
         log.info("============== 로그인 성공 : " + memberid + " ==============");
         result = "LoginSuccess";

@@ -1,9 +1,6 @@
 package artgarden.server.member;
 
-import artgarden.server.member.entity.dto.MemberDeleteDTO;
-import artgarden.server.member.entity.dto.MemberJoinDTO;
-import artgarden.server.member.entity.dto.MemberViewDTO;
-import artgarden.server.member.entity.dto.OauthLoginDTO;
+import artgarden.server.member.entity.dto.*;
 import artgarden.server.member.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -50,9 +47,18 @@ public class MemberController {
     @Operation(summary = "SNS로그인", description = "/oauthLoginProcess")
     @ApiResponse(responseCode = "200", description = "성공")
     @PostMapping("/oauthLoginProcess")
-    public ResponseEntity<String> oauthLoginProcess(HttpServletRequest request, @RequestBody OauthLoginDTO dto){
+    public ResponseEntity<String> oauthLoginProcess(HttpServletRequest request, @Valid @RequestBody OauthLoginDTO dto){
         String result = "";
         result = memberService.oauthLoginProcess(request, dto);
+        return ResponseEntity.ok(result);
+    }
+
+    @Operation(summary = "일반로그인", description="/loginProcess")
+    @PostMapping("/loginProcess")
+    public ResponseEntity<?> loginProcess(HttpServletRequest request, @Valid @RequestBody MemberLoginDTO dto){
+        String result = "";
+        result = memberService.loginProcess(request, dto);
+
         return ResponseEntity.ok(result);
     }
 

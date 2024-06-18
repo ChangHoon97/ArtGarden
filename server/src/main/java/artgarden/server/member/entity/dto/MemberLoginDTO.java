@@ -10,7 +10,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class OauthLoginDTO {
-    @NotBlank(message = "로그인 아이디값은 필수입니다.")
+public class MemberLoginDTO {
+    @NotBlank(message = "로그인 아이디는 필수 입력값입니다.")
     private String loginid;
+
+    @NotBlank(message = "비밀번호는 필수 입력값입니다.")
+    private String password;
 }
