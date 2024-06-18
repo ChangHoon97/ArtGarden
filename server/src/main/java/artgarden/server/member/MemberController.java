@@ -1,14 +1,13 @@
 package artgarden.server.member;
 
 import artgarden.server.member.entity.dto.MemberJoinDTO;
-import artgarden.server.member.entity.dto.MemberUpdateDTO;
+import artgarden.server.member.entity.dto.MemberViewDTO;
 import artgarden.server.member.entity.dto.OauthLoginDTO;
 import artgarden.server.member.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -52,9 +51,15 @@ public class MemberController {
         return ResponseEntity.ok(result);
     }
 
+    @Operation(summary = "회원정보상세", description = "/members")
+    @GetMapping("/members")
+    public ResponseEntity<MemberViewDTO> findMember(HttpServletRequest request){
+
+    }
+
     @Operation(summary = "회원정보수정", description = "/members")
     @PatchMapping("/members")
-    public ResponseEntity<String> updateMember(HttpServletRequest request, @Valid @RequestBody MemberUpdateDTO dto){
+    public ResponseEntity<String> updateMember(HttpServletRequest request, @Valid @RequestBody MemberViewDTO dto){
         String result = "";
 
         result = memberService.updateMember(request, dto);

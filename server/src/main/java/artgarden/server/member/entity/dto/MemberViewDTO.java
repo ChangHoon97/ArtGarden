@@ -15,7 +15,7 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class MemberUpdateDTO {
+public class MemberViewDTO {
 
     @NotBlank(message = "아이디는 필수 입력 값입니다.")
     @Pattern(regexp = "^[a-z0-9]{5,20}$", message = "5~20자 이내의 영문 소문자와 숫자만으로 이루어져야합니다.")   //영문 소문자와 숫자만을 포함해야 하고 5~20자
