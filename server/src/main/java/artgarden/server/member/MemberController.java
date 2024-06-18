@@ -1,5 +1,6 @@
 package artgarden.server.member;
 
+import artgarden.server.member.entity.dto.MemberDeleteDTO;
 import artgarden.server.member.entity.dto.MemberJoinDTO;
 import artgarden.server.member.entity.dto.MemberViewDTO;
 import artgarden.server.member.entity.dto.OauthLoginDTO;
@@ -60,7 +61,7 @@ public class MemberController {
     public ResponseEntity<?> findMember(HttpServletRequest request){
         HttpSession session = request.getSession();
         String memberid = (String)session.getAttribute("memberid");
-        MemberViewDTO dto = new MemberViewDTO();
+        MemberViewDTO dto;
         if(memberid != null){
             dto = memberService.selectMemberByLoginID(memberid, request);
         } else{
@@ -80,9 +81,28 @@ public class MemberController {
         return ResponseEntity.ok(result);
     }
 
+    @Operation(summary = "회원탈퇴", description = "/leaveId")
+    @PostMapping("/leaveId")
+    public ResponseEntity<?> leaveId(@Valid @RequestBody MemberDeleteDTO dto, HttpServletRequest request){
+        HttpSession session = request.getSession();
+        String memberid = (String) session.getAttribute("memberid");
+        String result = "";
+        if(memberid != null){
+            result = memberService.deleteMember(dto.getLoginid(), request);
+        } else{
+            result = "Required.Login";
+        }
+
+        if(result.equals("ProcessSuccess")){
+            return ResponseEntity.ok(result);
+        } else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
+        }
+    }
+
     @Operation(summary = "로그아웃", description = "/logout")
     @ApiResponse(responseCode = "200", description = "성공")
-    @GetMapping("/logout")
+    @GetMapping("/memberLogout")
     public ResponseEntity<String> logout(HttpServletRequest request){
         String result = "";
         result = memberService.logout(request);

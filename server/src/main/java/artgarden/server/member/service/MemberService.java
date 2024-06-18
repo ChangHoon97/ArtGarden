@@ -14,4 +14,6 @@ public interface MemberService {
     String updateMember(HttpServletRequest request, MemberViewDTO dto);
 
     String logout(HttpServletRequest request);
+
+    String deleteMember(String loginid, HttpServletRequest request);
 }

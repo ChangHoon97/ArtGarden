@@ -84,4 +84,21 @@ public class MemberServiceImpl implements MemberService{
         result = "ProcessSuccess";
         return result;
     }
+
+    @Override
+    @Transactional
+    public String deleteMember(String loginid, HttpServletRequest request) {
+        String result = "ProcessSuccess";
+        HttpSession session = request.getSession();
+        String sessionMemberid = (String) session.getAttribute("memberid");
+        System.out.println("sessionMemberid : " + sessionMemberid);
+        System.out.println("loginid : " + loginid);
+        if(sessionMemberid.equals(loginid)){
+            memberRepository.deleteMember(loginid);
+        } else{
+            result = "Other.User";
+        }
+
+        return result;
+    }
 }

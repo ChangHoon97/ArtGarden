@@ -21,5 +21,9 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     @Modifying
     void updateMember(@Param("dto") MemberViewDTO dto);
 
+    @Query("UPDATE Member m SET m.delyn = true WHERE m.loginid = :loginid")
+    @Modifying
+    void deleteMember(@Param("loginid") String loginid);
+
 }
 
