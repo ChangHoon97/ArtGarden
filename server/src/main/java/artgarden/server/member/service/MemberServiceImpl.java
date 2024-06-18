@@ -2,6 +2,7 @@ package artgarden.server.member.service;
 
 import artgarden.server.member.entity.Member;
 import artgarden.server.member.entity.dto.MemberJoinDTO;
+import artgarden.server.member.entity.dto.MemberUpdateDTO;
 import artgarden.server.member.entity.dto.OauthLoginDTO;
 import artgarden.server.member.repository.MemberRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -53,6 +54,11 @@ public class MemberServiceImpl implements MemberService{
         log.info("============== 로그인 성공 : " + memberid + " ==============");
         result = "LoginSuccess";
         return result;
+    }
+
+    @Override
+    public String updateMember(HttpServletRequest request, MemberUpdateDTO dto) {
+        return null;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package artgarden.server.member;
 
 import artgarden.server.member.entity.dto.MemberJoinDTO;
+import artgarden.server.member.entity.dto.MemberUpdateDTO;
 import artgarden.server.member.entity.dto.OauthLoginDTO;
 import artgarden.server.member.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -46,8 +47,17 @@ public class MemberController {
     @ApiResponse(responseCode = "200", description = "성공")
     @PostMapping("/oauthLoginProcess")
     public ResponseEntity<String> oauthLoginProcess(HttpServletRequest request, @RequestBody OauthLoginDTO dto){
-        String result = "";
+        String result = "ProcessFail";
         result = memberService.oauthLoginProcess(request, dto);
+        return ResponseEntity.ok(result);
+    }
+
+    @Operation(summary = "회원정보수정", description = "/members")
+    @PostMapping("/members")
+    public ResponseEntity<String> updateMember(HttpServletRequest request, @Valid @RequestBody MemberUpdateDTO dto){
+        String result = "ProcessFail";
+
+
         return ResponseEntity.ok(result);
     }
 
@@ -59,4 +69,5 @@ public class MemberController {
         result = memberService.logout(request);
         return ResponseEntity.ok(result);
     }
+
 }
