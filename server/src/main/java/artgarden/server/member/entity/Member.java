@@ -23,6 +23,7 @@ public class Member {
     private String email;
     private String nickname;
     private String imageUrl;
+    private String gender;
     @Enumerated(EnumType.STRING)
     private Role role;
     private LocalDateTime regdt;
@@ -48,6 +49,7 @@ public class Member {
         this.role = Role.USER;
         this.regdt = LocalDateTime.now();
         this.delyn = false;
+        this.gender = dto.getGender();
     }
 
 }
