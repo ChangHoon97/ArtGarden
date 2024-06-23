@@ -7,6 +7,8 @@ import artgarden.server.review.entity.dto.ReviewDTO;
 import artgarden.server.review.entity.dto.ReviewListDTO;
 import artgarden.server.review.entity.dto.ReviewUpdateDto;
 import artgarden.server.review.repository.ReviewRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -55,17 +57,47 @@ public class ReviewServiceImpl implements ReviewService{
     }
 
     @Transactional
-    public void updateReview(Long id, ReviewUpdateDto dto){
-        dto.setUpddt(LocalDateTime.now());
-        Review review = reviewRepository.findById(id).orElseThrow();
-        review.updateFromDto(dto);
+    public String updateReview(HttpServletRequest request, Long id, ReviewUpdateDto dto){
+        String result = "ProcessSuccess";
+        HttpSession session = request.getSession();
+        String memberid = (String) session.getAttribute("memberid");
+        Optional<Review> chkreview = reviewRepository.findById(dto.getReviewid());
+        Review review = null;
 
-        reviewRepository.save(review);
+        if(memberid == null){
+            result = "Required.Login";
+        } else if(chkreview.isEmpty()){
+            result = "No.Content";
+        } else if(!chkreview.get().getMemberid().equals(memberid)){
+            result = "Other.User";
+        } else{
+            dto.setUpddt(LocalDateTime.now());
+            review = reviewRepository.findById(id).orElseThrow();
+            review.updateFromDto(dto);
+            reviewRepository.save(review);
+        }
 
+        return result;
     }
 
     @Transactional
-    public void deleteReview(Long id){
-        reviewRepository.deleteById(id);
+    public String deleteReview(HttpServletRequest request, Long id){
+        String result = "ProcessSuccess";
+        HttpSession session = request.getSession();
+        String memberid = (String) session.getAttribute("memberid");
+
+        Optional<Review> chkreview = reviewRepository.findById(id);
+
+        if(memberid == null){
+            result = "Required.Login";
+        } else if(chkreview.isEmpty()){
+            result = "No.Content";
+        } else if(!chkreview.get().getMemberid().equals(memberid)){
+            result = "Other.User";
+        } else{
+            reviewRepository.deleteById(id);
+        }
+
+        return result;
     }
 }

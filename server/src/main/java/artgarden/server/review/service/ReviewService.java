@@ -5,6 +5,7 @@ import artgarden.server.review.entity.Review;
 import artgarden.server.review.entity.dto.ReviewDTO;
 import artgarden.server.review.entity.dto.ReviewListDTO;
 import artgarden.server.review.entity.dto.ReviewUpdateDto;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -16,9 +17,9 @@ public interface ReviewService {
 
     public void createReview(ReviewDTO dto);
 
-    public void updateReview(Long id, ReviewUpdateDto dto);
+    public String updateReview(HttpServletRequest request, Long id, ReviewUpdateDto dto);
 
-    public void deleteReview(Long id);
+    public String deleteReview(HttpServletRequest request, Long id);
 
     PageDTO<ReviewListDTO> getAllReviewByObjectId(String id, Pageable pageable);
 

@@ -24,7 +24,7 @@ public class MemberController {
 
     @Operation(summary = "회원가입", description = "/join")
     @PostMapping("/join")
-    public ResponseEntity<String> joinMember(@Valid @RequestBody MemberJoinDTO dto){
+    public ResponseEntity<?> joinMember(@Valid @RequestBody MemberJoinDTO dto){
         String result = "";
         result = memberService.insertMember(dto);
         if(!result.equals("ProcessSuccess")){
@@ -35,7 +35,7 @@ public class MemberController {
 
     @Operation(summary = "id중복확인", description = "/chkLoginid, true면 중복 있음 false면 중복 없음")
     @GetMapping(value = "chkLoginid")
-    public ResponseEntity<String> chkLoginIdDup(@RequestParam String loginid, HttpServletRequest request){
+    public ResponseEntity<?> chkLoginIdDup(@RequestParam String loginid, HttpServletRequest request){
         String result = "false";
         MemberViewDTO member = memberService.selectMemberByLoginID(loginid,request);
         if(member != null){
@@ -47,7 +47,7 @@ public class MemberController {
     @Operation(summary = "SNS로그인", description = "/oauthLoginProcess")
     @ApiResponse(responseCode = "200", description = "성공")
     @PostMapping("/oauthLoginProcess")
-    public ResponseEntity<String> oauthLoginProcess(HttpServletRequest request, @Valid @RequestBody OauthLoginDTO dto){
+    public ResponseEntity<?> oauthLoginProcess(HttpServletRequest request, @Valid @RequestBody OauthLoginDTO dto){
         String result = "";
         result = memberService.oauthLoginProcess(request, dto);
         return ResponseEntity.ok(result);
@@ -58,6 +58,9 @@ public class MemberController {
     public ResponseEntity<?> loginProcess(HttpServletRequest request, @Valid @RequestBody MemberLoginDTO dto){
         String result = "";
         result = memberService.loginProcess(request, dto);
+        if(result.equals("Not.Matched")){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
+        }
 
         return ResponseEntity.ok(result);
     }
@@ -71,7 +74,7 @@ public class MemberController {
         if(memberid != null){
             dto = memberService.selectMemberByLoginID(memberid, request);
         } else{
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Required.Login");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Required.Login");
         }
 
         return ResponseEntity.ok(dto);
@@ -79,10 +82,18 @@ public class MemberController {
 
     @Operation(summary = "회원정보수정", description = "/members")
     @PatchMapping("/members")
-    public ResponseEntity<String> updateMember(HttpServletRequest request, @Valid @RequestBody MemberViewDTO dto){
+    public ResponseEntity<?> updateMember(HttpServletRequest request, @Valid @RequestBody MemberViewDTO dto){
         String result = "";
 
         result = memberService.updateMember(request, dto);
+
+        if(result.equals("Different.Loginid")){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
+        } else if(result.equals("NotFound.Loginid")){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
+        } else if(result.equals("Required.Login")){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
+        }
 
         return ResponseEntity.ok(result);
     }
@@ -102,14 +113,14 @@ public class MemberController {
         if(result.equals("ProcessSuccess")){
             return ResponseEntity.ok(result);
         } else{
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
         }
     }
 
     @Operation(summary = "로그아웃", description = "/logout")
     @ApiResponse(responseCode = "200", description = "성공")
     @GetMapping("/memberLogout")
-    public ResponseEntity<String> logout(HttpServletRequest request){
+    public ResponseEntity<?> logout(HttpServletRequest request){
         String result = "";
         result = memberService.logout(request);
         return ResponseEntity.ok(result);

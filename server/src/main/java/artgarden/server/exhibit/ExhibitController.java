@@ -47,7 +47,7 @@ public class ExhibitController {
             String memberid = (String) session.getAttribute("memberid");
             exhibits = exhibitService.getExhibits(keyword, days, pageable, searchAreaArr, orderby,memberid);
         } else{
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Wrong.orderby");
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Wrong.Orderby");
         }
 
         return ResponseEntity.ok(exhibits);
@@ -64,7 +64,7 @@ public class ExhibitController {
 
         //null일때 예외처리
         if(exhibit == null){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No.Content");
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("No.Content");
         }
 
         return ResponseEntity.ok(exhibit);

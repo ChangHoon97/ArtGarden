@@ -10,6 +10,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -57,30 +59,63 @@ public class ReviewController {
     @GetMapping("/reviews/{id}")
     public ResponseEntity<?> getReview(@PathVariable Long id){
         Review review = reviewService.getReview(id);
+        if(review == null){
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("NO.Content");
+        }
         return ResponseEntity.ok(review);
     }
 
     @Operation(summary = "리뷰 등록", description = "/reviews")
     @ApiResponse(responseCode = "200", description = "성공")
     @PostMapping("/reviews")
-    public ResponseEntity<?> createReview(@RequestBody ReviewDTO review){
-        reviewService.createReview(review);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<?> createReview(HttpServletRequest request, @RequestBody ReviewDTO review){
+        HttpSession session = request.getSession();
+        String memberid = (String) session.getAttribute("memberid");
+        String result = "ProcesSuccess";
+        if(memberid != null){
+            reviewService.createReview(review);
+        } else{
+            result = "Required.Login";
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
+        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
     @Operation(summary = "리뷰 수정", description = "/reviews/1")
     @ApiResponse(responseCode = "200", description = "성공")
     @PatchMapping("/reviews/{id}")
-    public ResponseEntity<?> updateReview(@PathVariable Long id,@RequestBody ReviewUpdateDto review){
-        reviewService.updateReview(id, review);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<?> updateReview(HttpServletRequest request, @PathVariable Long id,@RequestBody ReviewUpdateDto review){
+        String result = "ProcessSuccess";
+
+        result = reviewService.updateReview(request, id, review);
+
+        if(result.equals("Required.Login")){
+            ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
+        } else  if(result.equals("No.Content")){
+            ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
+        } else if(result.equals("Other.User")){
+            ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
+        }
+
+        return ResponseEntity.ok(result);
     }
 
     @Operation(summary = "리뷰 삭제", description = "/reviews/1")
     @ApiResponse(responseCode = "200", description = "성공")
     @DeleteMapping("/reviews/{id}")
-    public ResponseEntity<?> deleteReview(@PathVariable Long id){
-        reviewService.deleteReview(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<?> deleteReview(HttpServletRequest request, @PathVariable Long id){
+        String result = "ProcessSuccess";
+
+        result = reviewService.deleteReview(request, id);
+
+        if(result.equals("Required.Login")){
+            ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
+        } else  if(result.equals("No.Content")){
+            ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
+        } else if(result.equals("Other.User")){
+            ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
+        }
+
+        return ResponseEntity.ok(result);
     }
 }

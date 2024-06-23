@@ -80,6 +80,9 @@ public class MemberServiceImpl implements MemberService{
         String memberid = (String)session.getAttribute("memberid");
         MemberViewDTO chkmember = memberRepository.findMemberByLoginid(memberid);
 
+        if(memberid == null){
+            return "Required.Login";
+        }
         if(!dto.getLoginid().equals(memberid)){
             result = "Different.Loginid";
         }

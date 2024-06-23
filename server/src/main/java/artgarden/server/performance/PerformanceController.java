@@ -15,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,7 +33,7 @@ public class PerformanceController {
     @Operation(summary = "공연 목록 조회(검색)", description = "/performances?keyword=키워드&status=공연중&startDate=30&page=1&size=30")
     @ApiResponse(responseCode = "200", description = "성공")
     @GetMapping("/performances")
-    public ResponseEntity<PageDTO> getPerformances(
+    public ResponseEntity<?> getPerformances(
             @Parameter(description = "제목 검색 키워드")
             @RequestParam(defaultValue = "") String keyword,
             @Parameter(description = "공연 상태(all, 공연완료, 공연중, 공연예정), all은 모든 공연상태")
@@ -47,11 +48,18 @@ public class PerformanceController {
             @RequestParam(required = false) String[] searchAreaArr,
             @Parameter(description = "정렬조건(latest(기본값), popular, scrap")
             @RequestParam(defaultValue = "latest") String orderby, HttpServletRequest request){
-        Pageable pageable = PageRequest.of(page-1, size);
-        HttpSession session = request.getSession();
-        String memberid = (String) session.getAttribute("memberid");
 
-        PageDTO<PerformanceListDTO> performances = performanceService.getPerformances(keyword, status, days, pageable, searchAreaArr, orderby, memberid);
+        PageDTO<PerformanceListDTO> performances;
+        if(orderby.equals("latest") || orderby.equals("popular") || orderby.equals("scrap")){
+            Pageable pageable = PageRequest.of(page-1, size);
+            HttpSession session = request.getSession();
+            String memberid = (String) session.getAttribute("memberid");
+
+            performances = performanceService.getPerformances(keyword, status, days, pageable, searchAreaArr, orderby, memberid);
+
+        } else{
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Wrong.Orderby");
+        }
 
         return ResponseEntity.ok(performances);
     }
@@ -59,7 +67,7 @@ public class PerformanceController {
     @Operation(summary = "공연 상세 조회", description = "/performances/PF216230")
     @ApiResponse(responseCode = "200", description = "성공")
     @GetMapping("/performances/{id}")
-    public ResponseEntity<PerformanceDetailDTO> getPerformance(@PathVariable String id, HttpServletRequest request){
+    public ResponseEntity<?> getPerformance(@PathVariable String id, HttpServletRequest request){
 
         HttpSession session = request.getSession();
         String memberid = (String)session.getAttribute("memberid");
@@ -68,7 +76,7 @@ public class PerformanceController {
 
         //null일때 예외처리
         if(performance == null){
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("No.Content");
         }
 
 
