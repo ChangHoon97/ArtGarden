@@ -1,5 +1,7 @@
 package artgarden.server.scrap;
 
+import artgarden.server.common.entity.dto.PageDTO;
+import artgarden.server.scrap.entity.dto.ScrapMyDTO;
 import artgarden.server.scrap.entity.dto.ScrapPageDTO;
 import artgarden.server.scrap.entity.dto.ScrapingDTO;
 import artgarden.server.scrap.service.ScrapService;
@@ -31,7 +33,7 @@ public class ScrapController {
                                                          HttpServletRequest request){
         HttpSession session = request.getSession();
         String memberid = (String) session.getAttribute("memberid");
-        ScrapPageDTO scrap = new ScrapPageDTO();
+        PageDTO<ScrapMyDTO> scrap = null;
         Pageable pageable = PageRequest.of(page-1, size);
         if(memberid != null){
             scrap = scrapService.selectMyScrapList(memberid, pageable);

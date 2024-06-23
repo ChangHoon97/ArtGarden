@@ -31,7 +31,7 @@ public class MemberServiceImpl implements MemberService{
             memberRepository.save(member);
             result = "ProcessSuccess";
         } else{
-            result = "Duplicate.LoginID";
+            result = "Duplicate.Loginid";
         }
         return result;
     }
@@ -45,7 +45,7 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public String loginProcess(HttpServletRequest request, MemberLoginDTO dto) {
-        String result = "LoginSuccess";
+        String result = "ProcessSuccess";
         Member member = memberRepository.findMemberByLoginidPassword(dto);
         if(member == null){
             result = "Not.Matched";

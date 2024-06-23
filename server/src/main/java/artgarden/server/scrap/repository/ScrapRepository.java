@@ -1,6 +1,7 @@
 package artgarden.server.scrap.repository;
 
 import artgarden.server.scrap.entity.Scrap;
+import artgarden.server.scrap.entity.dto.ScrapMyDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,11 +11,11 @@ import org.springframework.data.repository.query.Param;
 
 public interface ScrapRepository extends JpaRepository<Scrap, Long> {
 
-    @Query("SELECT s " +
+    @Query("SELECT new artgarden.server.scrap.entity.dto.ScrapMyDTO(s) " +
             "FROM Scrap s " +
             "WHERE s.memberid = :memberid AND s.scrapyn = true " +
             "ORDER BY s.regdt DESC")
-    Page<Scrap> findAllByMemberid(@Param("memberid") String memberid, Pageable pageable);
+    Page<ScrapMyDTO> findAllByMemberid(@Param("memberid") String memberid, Pageable pageable);
 
     @Query("SELECT s " +
             "FROM Scrap s " +

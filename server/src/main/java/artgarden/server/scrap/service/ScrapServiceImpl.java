@@ -1,5 +1,6 @@
 package artgarden.server.scrap.service;
 
+import artgarden.server.common.entity.dto.PageDTO;
 import artgarden.server.exhibit.service.ExhibitService;
 import artgarden.server.performance.service.PerformanceService;
 import artgarden.server.scrap.entity.Scrap;
@@ -28,21 +29,13 @@ public class ScrapServiceImpl implements ScrapService{
     private final ExhibitService exhibitService;
 
     @Override
-    public ScrapPageDTO selectMyScrapList(String memberid, Pageable pageable) {
+    public PageDTO<ScrapMyDTO> selectMyScrapList(String memberid, Pageable pageable) {
         ScrapPageDTO data = new ScrapPageDTO();
-        Page<Scrap> scraps = scrapRepository.findAllByMemberid(memberid, pageable);
+        Page<ScrapMyDTO> scraps = scrapRepository.findAllByMemberid(memberid, pageable);
 
-        for(Scrap scrap : scraps.getContent()){
-            data.getMyDTOList().add(new ScrapMyDTO(scrap));
-        }
+        PageDTO<ScrapMyDTO> dto = new PageDTO<>(scraps);
 
-        data.setPageNo(scraps.getNumber()+1);
-        data.setTotalPages(scraps.getTotalPages());
-        data.setPageSize(scraps.getSize());
-        data.setTotalElements(scraps.getTotalElements());
-        data.setHasNext(scraps.hasNext());
-
-        return data;
+        return dto;
     }
 
     @Override

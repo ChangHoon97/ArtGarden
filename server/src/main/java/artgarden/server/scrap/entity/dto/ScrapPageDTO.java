@@ -10,5 +10,5 @@ import java.util.List;
 @Getter
 @Setter
 public class ScrapPageDTO extends PagingDTO {
-    List<ScrapMyDTO> myDTOList = new ArrayList<>();
+    List<ScrapMyDTO> datalist = new ArrayList<>();
 }

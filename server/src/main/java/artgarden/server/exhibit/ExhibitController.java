@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ExhibitController {
     private final ExhibitService exhibitService;
 
+    @Operation(summary = "전시 목록 조회(검색)", description = "/exhibits")
     @GetMapping("/exhibits")
     public ResponseEntity<?> getExhibits(
             @Parameter(description = "제목 검색 키워드") @RequestParam(defaultValue = "") String keyword,
@@ -54,7 +55,6 @@ public class ExhibitController {
     }
 
     @Operation(summary = "전시 상세 조회", description = "/exhibits/123456")
-    @ApiResponse(responseCode = "200", description = "성공")
     @GetMapping("/exhibits/{id}")
     public ResponseEntity<?> getPerformance(@PathVariable String id, HttpServletRequest request){
 

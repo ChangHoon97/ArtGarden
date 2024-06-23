@@ -90,7 +90,7 @@ public class MemberController {
         if(result.equals("Other.User")){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
         } else if(result.equals("NotFound.Loginid")){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
         } else if(result.equals("Required.Login")){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
         }
