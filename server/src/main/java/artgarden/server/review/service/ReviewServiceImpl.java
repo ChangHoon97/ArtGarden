@@ -5,7 +5,6 @@ import artgarden.server.common.entity.dto.PageDTO;
 import artgarden.server.review.entity.Review;
 import artgarden.server.review.entity.dto.ReviewDTO;
 import artgarden.server.review.entity.dto.ReviewListDTO;
-import artgarden.server.review.entity.dto.ReviewPageDTO;
 import artgarden.server.review.entity.dto.ReviewUpdateDto;
 import artgarden.server.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;

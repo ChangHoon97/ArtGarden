@@ -48,7 +48,10 @@ public class ReviewListDTO {
     @Schema(description = "장르")
     private String genre;
 
-    public ReviewListDTO(Review review, String posterurl, String name, String genre){
+    @Schema(description = "별명")
+    private String nickname;
+
+    public ReviewListDTO(Review review, String posterurl, String name, String genre, String nickname){
         this.reviewid = review.getReviewid();
         this.objectid = review.getObjectid();
         this.content = review.getContent();
@@ -61,6 +64,7 @@ public class ReviewListDTO {
         this.posterurl = posterurl;
         this.name = name;
         this.genre = genre;
+        this.nickname = nickname;
     }
 
 }
