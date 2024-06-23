@@ -30,7 +30,6 @@ public class MemberController {
         if(!result.equals("ProcessSuccess")){
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(result);
         }
-        log.info(result);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
