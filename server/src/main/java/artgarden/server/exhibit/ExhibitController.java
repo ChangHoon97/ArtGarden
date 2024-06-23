@@ -17,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,7 +32,7 @@ public class ExhibitController {
     private final ExhibitService exhibitService;
 
     @GetMapping("/exhibits")
-    public ResponseEntity<PageDTO> getExhibits(
+    public ResponseEntity<?> getExhibits(
             @Parameter(description = "제목 검색 키워드") @RequestParam(defaultValue = "") String keyword,
             @Parameter(description = "전시 날짜(일), 오늘 ~ 오늘+days(일) 기간 검색") @RequestParam(defaultValue = "30") int days,
             @Parameter(description = "표시할 페이지") @RequestParam(defaultValue = "1") int page,
@@ -39,11 +40,15 @@ public class ExhibitController {
             @Parameter(description = "지역조건") @RequestParam(required = false) String[] searchAreaArr,
             @Parameter(description = "정렬조건(latest(기본값), popular, scrap") @RequestParam(defaultValue = "latest") String orderby,
             HttpServletRequest request){
-
-        Pageable pageable = PageRequest.of(page-1, size);
-        HttpSession session = request.getSession();
-        String memberid = (String) session.getAttribute("memberid");
-        PageDTO<ExhibitDetailDTO> exhibits = exhibitService.getExhibits(keyword, days, pageable, searchAreaArr, orderby,memberid);
+        PageDTO<ExhibitDetailDTO> exhibits = null;
+        if(orderby.equals("latest") || orderby.equals("popular") || orderby.equals("scrap")){
+            Pageable pageable = PageRequest.of(page-1, size);
+            HttpSession session = request.getSession();
+            String memberid = (String) session.getAttribute("memberid");
+            exhibits = exhibitService.getExhibits(keyword, days, pageable, searchAreaArr, orderby,memberid);
+        } else{
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body("Wrong.orderby");
+        }
 
         return ResponseEntity.ok(exhibits);
     }
@@ -51,7 +56,7 @@ public class ExhibitController {
     @Operation(summary = "전시 상세 조회", description = "/exhibits/123456")
     @ApiResponse(responseCode = "200", description = "성공")
     @GetMapping("/exhibits/{id}")
-    public ResponseEntity<ExhibitDetailDTO> getPerformance(@PathVariable String id, HttpServletRequest request){
+    public ResponseEntity<?> getPerformance(@PathVariable String id, HttpServletRequest request){
 
         HttpSession session = request.getSession();
         String memberid = (String) session.getAttribute("memberid");
@@ -59,7 +64,7 @@ public class ExhibitController {
 
         //null일때 예외처리
         if(exhibit == null){
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No.Content");
         }
 
         return ResponseEntity.ok(exhibit);
