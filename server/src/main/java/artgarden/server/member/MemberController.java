@@ -33,7 +33,7 @@ public class MemberController {
         return ResponseEntity.ok(result);
     }
 
-    @Operation(summary = "id중복확인", description = "/chkLoginid")
+    @Operation(summary = "id중복확인", description = "/chkLoginid, true면 중복 있음 false면 중복 없음")
     @GetMapping(value = "chkLoginid")
     public ResponseEntity<String> chkLoginIdDup(@RequestParam String loginid, HttpServletRequest request){
         String result = "false";
