@@ -33,6 +33,7 @@ public class MemberServiceImpl implements MemberService{
         } else{
             result = "Duplicate.Loginid";
         }
+        log.info(result);
         return result;
     }
 
