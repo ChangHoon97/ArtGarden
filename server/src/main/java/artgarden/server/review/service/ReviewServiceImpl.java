@@ -67,7 +67,7 @@ public class ReviewServiceImpl implements ReviewService{
         if(memberid == null){
             result = "Required.Login";
         } else if(chkreview.isEmpty()){
-            result = "No.Content";
+            result = "NotFound.Review";
         } else if(!chkreview.get().getMemberid().equals(memberid)){
             result = "Other.User";
         } else{
@@ -91,7 +91,7 @@ public class ReviewServiceImpl implements ReviewService{
         if(memberid == null){
             result = "Required.Login";
         } else if(chkreview.isEmpty()){
-            result = "No.Content";
+            result = "NotFound.Review";
         } else if(!chkreview.get().getMemberid().equals(memberid)){
             result = "Other.User";
         } else{

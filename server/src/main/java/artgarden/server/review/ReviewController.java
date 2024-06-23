@@ -91,8 +91,8 @@ public class ReviewController {
 
         if(result.equals("Required.Login")){
             ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
-        } else  if(result.equals("No.Content")){
-            ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
+        } else  if(result.equals("NotFound.Review")){
+            ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
         } else if(result.equals("Other.User")){
             ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
         }
@@ -110,8 +110,8 @@ public class ReviewController {
 
         if(result.equals("Required.Login")){
             ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
-        } else  if(result.equals("No.Content")){
-            ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
+        } else  if(result.equals("NotFound.Review")){
+            ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
         } else if(result.equals("Other.User")){
             ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
         }
