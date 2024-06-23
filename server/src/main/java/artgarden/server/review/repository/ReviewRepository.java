@@ -10,10 +10,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
-    @Query("SELECT r.reviewid as reviewid, r.objectid as objectid, r.content as content," +
-            "r.rate as rate, r.memberid as memberid, r.regid as regid, r.regdt as regdt," +
-            "r.updid as updid, r.upddt as upddt, " +
-            "COALESCE(p.posterurl,e.posterurl) as posterurl, COALESCE(p.name, e.name) as name, COALESCE(p.genre, e.genre) as genre " +
+    @Query("SELECT new artgarden.server.review.entity.dto.ReviewListDTO(r, COALESCE(p.posterurl,e.posterurl), COALESCE(p.name, e.name), COALESCE(p.genre, e.genre)) " +
             "FROM Review r " +
             "LEFT OUTER JOIN Performance p on p.id = :object_id " +
             "LEFT OUTER JOIN Exhibit e on e.id = :object_id " +
@@ -21,10 +18,8 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     Page<ReviewListDTO> findAllByObjectId(@Param("object_id") String object_id, Pageable pageable);
 
 
-    @Query("SELECT r.reviewid as reviewid, r.objectid as objectid, r.content as content," +
-            "r.rate as rate, r.memberid as memberid, r.regid as regid, r.regdt as regdt," +
-            "r.updid as updid, r.upddt as upddt, " +
-            "COALESCE(p.posterurl,e.posterurl) as posterurl, COALESCE(p.name, e.name) as name, COALESCE(p.genre, e.genre) as genre " +
+
+    @Query("SELECT new artgarden.server.review.entity.dto.ReviewListDTO(r, COALESCE(p.posterurl,e.posterurl), COALESCE(p.name, e.name), COALESCE(p.genre, e.genre)) " +
             "FROM Review r " +
             "LEFT OUTER JOIN Performance p on p.id = r.objectid " +
             "LEFT OUTER JOIN Exhibit e on e.id = r.objectid " +
