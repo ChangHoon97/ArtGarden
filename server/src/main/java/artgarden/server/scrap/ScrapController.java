@@ -2,7 +2,6 @@ package artgarden.server.scrap;
 
 import artgarden.server.common.entity.dto.PageDTO;
 import artgarden.server.scrap.entity.dto.ScrapMyDTO;
-import artgarden.server.scrap.entity.dto.ScrapPageDTO;
 import artgarden.server.scrap.entity.dto.ScrapingDTO;
 import artgarden.server.scrap.service.ScrapService;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -38,14 +37,14 @@ public class ScrapController {
         if(memberid != null){
             scrap = scrapService.selectMyScrapList(memberid, pageable);
         } else{
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Requried.Login");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Requried.Login");
         }
 
         return ResponseEntity.ok(scrap);
     }
 
     @GetMapping("/scrapYN")
-    public ResponseEntity<String> getScrapYN(@Parameter(description = "공연/전시/팝업 ID")
+    public ResponseEntity<?> getScrapYN(@Parameter(description = "공연/전시/팝업 ID")
                                              @RequestParam String objectid,
                                              HttpServletRequest request){
         String result = "";
@@ -55,13 +54,14 @@ public class ScrapController {
             result = scrapService.selectScrapByObjectid(memberid, objectid);
         } else{
             result = "Required.Login";
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
         }
         return ResponseEntity.ok(result);
     }
 
     //스크랩하기
     @PostMapping("/scraps")
-    public ResponseEntity<String> updateScraping(@Parameter(description = "공연/전시/팝업 ID")
+    public ResponseEntity<?> updateScraping(@Parameter(description = "공연/전시/팝업 ID")
                                                  @RequestBody ScrapingDTO dto,
                                                  HttpServletRequest request){
         HttpSession session = request.getSession();
@@ -70,8 +70,10 @@ public class ScrapController {
         Boolean isNew = session.isNew();
         String result = "ProcessFail";
         if(memberid != null){
-            System.out.println("일단 서비스단 들어간다");
             result = scrapService.updateScraping(memberid, dto);
+        } else{
+            result = "Required.Login";
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
         }
 
         return ResponseEntity.ok(result);

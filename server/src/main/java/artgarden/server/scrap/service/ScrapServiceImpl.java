@@ -6,7 +6,6 @@ import artgarden.server.performance.service.PerformanceService;
 import artgarden.server.scrap.entity.Scrap;
 import artgarden.server.scrap.entity.dto.ScrapDTO;
 import artgarden.server.scrap.entity.dto.ScrapMyDTO;
-import artgarden.server.scrap.entity.dto.ScrapPageDTO;
 import artgarden.server.scrap.entity.dto.ScrapingDTO;
 import artgarden.server.scrap.repository.ScrapRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +29,6 @@ public class ScrapServiceImpl implements ScrapService{
 
     @Override
     public PageDTO<ScrapMyDTO> selectMyScrapList(String memberid, Pageable pageable) {
-        ScrapPageDTO data = new ScrapPageDTO();
         Page<ScrapMyDTO> scraps = scrapRepository.findAllByMemberid(memberid, pageable);
 
         PageDTO<ScrapMyDTO> dto = new PageDTO<>(scraps);

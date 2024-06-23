@@ -68,7 +68,7 @@ public class MemberServiceImpl implements MemberService{
         session.setAttribute("memberid", dto.getLoginid());
         String memberid = (String) session.getAttribute("memberid");
         log.info("============== 로그인 성공 : " + memberid + " ==============");
-        result = "LoginSuccess";
+        result = "ProcessSuccess";
         return result;
     }
 

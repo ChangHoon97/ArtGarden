@@ -2,7 +2,6 @@ package artgarden.server.scrap.service;
 
 import artgarden.server.common.entity.dto.PageDTO;
 import artgarden.server.scrap.entity.dto.ScrapMyDTO;
-import artgarden.server.scrap.entity.dto.ScrapPageDTO;
 import artgarden.server.scrap.entity.dto.ScrapingDTO;
 import org.springframework.data.domain.Pageable;
 
