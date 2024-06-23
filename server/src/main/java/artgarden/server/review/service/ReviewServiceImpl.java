@@ -28,6 +28,8 @@ public class ReviewServiceImpl implements ReviewService{
         ReviewPageDTO data = new ReviewPageDTO();
         Page<ReviewListDTO> reviews = reviewRepository.findALlPage(pageable);
 
+
+
         data.setData(reviews.getContent());
         data.setPageNo(reviews.getNumber()+1);
         data.setTotalPages(reviews.getTotalPages());

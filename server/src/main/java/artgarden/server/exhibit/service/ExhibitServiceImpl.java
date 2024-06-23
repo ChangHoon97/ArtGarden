@@ -34,7 +34,8 @@ public class ExhibitServiceImpl implements ExhibitService {
             exhibits = exhibitRepository.getExhibitsScrap(keyword, expectDate, searchAreaArr, memberid, pageable);
         }
 
-        PageDTO<ExhibitDetailDTO> dto = new PageDTO(exhibits.getNumber()+1, exhibits.getSize(), exhibits.getTotalPages(), exhibits.getTotalElements(), exhibits.hasNext(), exhibits.getContent());
+        assert exhibits != null;
+        PageDTO<ExhibitDetailDTO> dto = new PageDTO<>(exhibits);
 
 
         return dto;

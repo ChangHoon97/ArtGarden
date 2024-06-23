@@ -39,11 +39,12 @@ public class PerformanceServiceImpl implements PerformanceService{
             performances = performanceRepository.getPopularPerformances(keyword, status, expectDate, pageable, searchAreaArr,memberid);
         } else if(orderby.equals("scrap")){
             performances = performanceRepository.getScrapPerformances(keyword, status, expectDate, pageable, searchAreaArr,memberid);
-        } else{
+        } else if(orderby.equals("latest")){
             performances = performanceRepository.getLatestPerformances(keyword, status, expectDate, pageable, searchAreaArr, memberid);
         }
 
-        PageDTO<PerformanceListDTO> dto = new PageDTO(performances.getNumber()+1, performances.getSize(), performances.getTotalPages(), performances.getTotalElements(), performances.hasNext(), performances.getContent());
+        assert performances != null;
+        PageDTO<PerformanceListDTO> dto = new PageDTO<>(performances);
 
         return dto;
     }

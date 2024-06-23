@@ -30,7 +30,7 @@ public class ReviewController {
     @Operation(summary = "전체 리뷰 조회", description = "/reviews")
     @ApiResponse(responseCode = "200", description = "성공")
     @GetMapping("/reviews")
-    public ResponseEntity<ReviewPageDTO> getAllReview(
+    public ResponseEntity<?> getAllReview(
             @Parameter(description = "표시할 페이지")
             @RequestParam(defaultValue = "1") int page,
             @Parameter(description = "한 페이지에 볼 게시물 수")
@@ -43,7 +43,7 @@ public class ReviewController {
     @Operation(summary = "공연별/전시별 리뷰 조회", description = "/reviews/PF123456")
     @ApiResponse(responseCode = "200", description = "성공")
     @GetMapping("/reviewList/{objectId}")
-    public ResponseEntity<ReviewPageDTO> getAllReviewByObjectId(
+    public ResponseEntity<?> getAllReviewByObjectId(
             @PathVariable String objectId,
             @Parameter(description = "표시할 페이지")
             @RequestParam(defaultValue = "1") int page,
@@ -57,7 +57,7 @@ public class ReviewController {
     @Operation(summary = "상세 리뷰 조회", description = "/reviews/1")
     @ApiResponse(responseCode = "200", description = "성공")
     @GetMapping("/reviews/{id}")
-    public ResponseEntity<Review> getReview(@PathVariable Long id){
+    public ResponseEntity<?> getReview(@PathVariable Long id){
         Review review = reviewService.getReview(id);
         return ResponseEntity.ok(review);
     }
@@ -65,7 +65,7 @@ public class ReviewController {
     @Operation(summary = "리뷰 등록", description = "/reviews")
     @ApiResponse(responseCode = "200", description = "성공")
     @PostMapping("/reviews")
-    public ResponseEntity<String> createReview(@RequestBody ReviewDTO review){
+    public ResponseEntity<?> createReview(@RequestBody ReviewDTO review){
         reviewService.createReview(review);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -73,7 +73,7 @@ public class ReviewController {
     @Operation(summary = "리뷰 수정", description = "/reviews/1")
     @ApiResponse(responseCode = "200", description = "성공")
     @PatchMapping("/reviews/{id}")
-    public ResponseEntity<String> updateReview(@PathVariable Long id,@RequestBody ReviewUpdateDto review){
+    public ResponseEntity<?> updateReview(@PathVariable Long id,@RequestBody ReviewUpdateDto review){
         reviewService.updateReview(id, review);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -81,7 +81,7 @@ public class ReviewController {
     @Operation(summary = "리뷰 삭제", description = "/reviews/1")
     @ApiResponse(responseCode = "200", description = "성공")
     @DeleteMapping("/reviews/{id}")
-    public ResponseEntity<String> deleteReview(@PathVariable Long id){
+    public ResponseEntity<?> deleteReview(@PathVariable Long id){
         reviewService.deleteReview(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

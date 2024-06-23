@@ -3,6 +3,9 @@ package artgarden.server.common.entity.dto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.data.domain.Page;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,14 +21,14 @@ public class PageDTO<T> {
     @Schema(description = "다음 페이지 존재여부", example = "true")
     public boolean hasNext;
     @Schema(description = "데이터리스트", example = "")
-    public T datalist;
+    public List<T> datalist;
 
-    public PageDTO(int pageNo, int pageSize, int totalPages, Long totalElements, boolean hasNext, T datalist){
-        this.pageNo = pageNo;
-        this.pageSize = pageSize;
-        this.totalPages = totalPages;
-        this.totalElements = totalElements;
-        this.hasNext = hasNext;
-        this.datalist = datalist;
+    public PageDTO(Page<T> vo){
+        this.pageNo = vo.getNumber()+1;
+        this.pageSize = vo.getSize();
+        this.totalPages = vo.getTotalPages();
+        this.totalElements = vo.getTotalElements();
+        this.hasNext = vo.hasNext();
+        this.datalist = vo.getContent();
     }
 }
