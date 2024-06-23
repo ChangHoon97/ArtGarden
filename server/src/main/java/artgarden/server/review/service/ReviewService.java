@@ -1,7 +1,9 @@
 package artgarden.server.review.service;
 
+import artgarden.server.common.entity.dto.PageDTO;
 import artgarden.server.review.entity.Review;
 import artgarden.server.review.entity.dto.ReviewDTO;
+import artgarden.server.review.entity.dto.ReviewListDTO;
 import artgarden.server.review.entity.dto.ReviewPageDTO;
 import artgarden.server.review.entity.dto.ReviewUpdateDto;
 import org.springframework.data.domain.Page;
@@ -11,7 +13,7 @@ import java.util.List;
 
 public interface ReviewService {
 
-    public ReviewPageDTO getAllReview(Pageable pageable);
+    public PageDTO<ReviewListDTO> getAllReview(Pageable pageable);
 
     public void createReview(ReviewDTO dto);
 
@@ -19,7 +21,7 @@ public interface ReviewService {
 
     public void deleteReview(Long id);
 
-    ReviewPageDTO getAllReviewByObjectId(String id, Pageable pageable);
+    PageDTO<ReviewListDTO> getAllReviewByObjectId(String id, Pageable pageable);
 
     Review getReview(Long id);
 }

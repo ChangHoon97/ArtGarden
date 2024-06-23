@@ -1,6 +1,7 @@
 package artgarden.server.review.service;
 
 
+import artgarden.server.common.entity.dto.PageDTO;
 import artgarden.server.review.entity.Review;
 import artgarden.server.review.entity.dto.ReviewDTO;
 import artgarden.server.review.entity.dto.ReviewListDTO;
@@ -24,36 +25,19 @@ public class ReviewServiceImpl implements ReviewService{
 
     private final ReviewRepository reviewRepository;
 
-    public ReviewPageDTO getAllReview(Pageable pageable){
-        ReviewPageDTO data = new ReviewPageDTO();
+    public PageDTO<ReviewListDTO> getAllReview(Pageable pageable){
         Page<ReviewListDTO> reviews = reviewRepository.findALlPage(pageable);
+        PageDTO<ReviewListDTO> dto = new PageDTO<>(reviews);
 
-
-
-        data.setData(reviews.getContent());
-        data.setPageNo(reviews.getNumber()+1);
-        data.setTotalPages(reviews.getTotalPages());
-        data.setPageSize(reviews.getSize());
-        data.setTotalElements(reviews.getTotalElements());
-        data.setHasNext(reviews.hasNext());
-
-        return data;
+        return dto;
     }
 
-    public ReviewPageDTO getAllReviewByObjectId(String id, Pageable pageable){
-        ReviewPageDTO data = new ReviewPageDTO();
+    public PageDTO<ReviewListDTO> getAllReviewByObjectId(String id, Pageable pageable){
+
         Page<ReviewListDTO> reviews = reviewRepository.findAllByObjectId(id, pageable);
+        PageDTO<ReviewListDTO> dto = new PageDTO<>(reviews);
 
-        if(reviews != null){
-            data.setData(reviews.getContent());
-            data.setPageNo(reviews.getNumber()+1);
-            data.setTotalPages(reviews.getTotalPages());
-            data.setPageSize(reviews.getSize());
-            data.setTotalElements(reviews.getTotalElements());
-            data.setHasNext(reviews.hasNext());
-        }
-
-        return data;
+        return dto;
     }
 
     public Review getReview(Long id){

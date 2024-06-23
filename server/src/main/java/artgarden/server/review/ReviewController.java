@@ -1,5 +1,6 @@
 package artgarden.server.review;
 
+import artgarden.server.common.entity.dto.PageDTO;
 import artgarden.server.review.entity.Review;
 import artgarden.server.review.entity.dto.ReviewDTO;
 import artgarden.server.review.entity.dto.ReviewListDTO;
@@ -36,7 +37,7 @@ public class ReviewController {
             @Parameter(description = "한 페이지에 볼 게시물 수")
             @RequestParam(defaultValue = "8") int size){
         Pageable pageable = PageRequest.of(page-1, size);
-        ReviewPageDTO reviews = reviewService.getAllReview(pageable);
+        PageDTO<ReviewListDTO> reviews = reviewService.getAllReview(pageable);
         return ResponseEntity.ok(reviews);
     }
 
@@ -50,7 +51,7 @@ public class ReviewController {
             @Parameter(description = "한 페이지에 볼 게시물 수")
             @RequestParam(defaultValue = "8") int size){
         Pageable pageable = PageRequest.of(page-1, size);
-        ReviewPageDTO reviews = reviewService.getAllReviewByObjectId(objectId, pageable);
+        PageDTO<ReviewListDTO> reviews = reviewService.getAllReviewByObjectId(objectId, pageable);
         return ResponseEntity.ok(reviews);
     }
 
