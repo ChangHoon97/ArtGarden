@@ -84,7 +84,7 @@ public class MemberServiceImpl implements MemberService{
             return "Required.Login";
         }
         if(!dto.getLoginid().equals(memberid)){
-            result = "Different.Loginid";
+            result = "Other.User";
         }
         if(chkmember == null){
             result = "NotFound.Loginid";
@@ -112,8 +112,7 @@ public class MemberServiceImpl implements MemberService{
         String result = "ProcessSuccess";
         HttpSession session = request.getSession();
         String sessionMemberid = (String) session.getAttribute("memberid");
-        System.out.println("sessionMemberid : " + sessionMemberid);
-        System.out.println("loginid : " + loginid);
+
         if(sessionMemberid.equals(loginid)){
             memberRepository.deleteMember(loginid);
         } else{

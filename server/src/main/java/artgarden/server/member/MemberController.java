@@ -87,7 +87,7 @@ public class MemberController {
 
         result = memberService.updateMember(request, dto);
 
-        if(result.equals("Different.Loginid")){
+        if(result.equals("Other.User")){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
         } else if(result.equals("NotFound.Loginid")){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(result);
