@@ -111,12 +111,14 @@ public class MemberServiceImpl implements MemberService{
     public String deleteMember(String loginid, HttpServletRequest request) {
         String result = "ProcessSuccess";
         HttpSession session = request.getSession();
-        String sessionMemberid = (String) session.getAttribute("memberid");
-
-        if(sessionMemberid.equals(loginid)){
-            memberRepository.deleteMember(loginid);
-        } else{
+        String memberid = (String) session.getAttribute("memberid");
+        MemberViewDTO chkmember = memberRepository.findMemberByLoginid(memberid);
+        if(!memberid.equals(loginid)){
             result = "Other.User";
+        } else if(chkmember == null){
+            result = "NotFound.Loginid";
+        } else{
+            memberRepository.deleteMember(loginid);
         }
 
         return result;

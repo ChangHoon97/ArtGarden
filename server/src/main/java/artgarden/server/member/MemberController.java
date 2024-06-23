@@ -110,11 +110,13 @@ public class MemberController {
             result = "Required.Login";
         }
 
-        if(result.equals("ProcessSuccess")){
-            return ResponseEntity.ok(result);
-        } else{
+        if(result.equals("Other.User") || result.equals("Required.Login")){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
+        } else if(result.equals("NotFound.Loginid")){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
         }
+
+        return ResponseEntity.ok(result);
     }
 
     @Operation(summary = "로그아웃", description = "/logout")
