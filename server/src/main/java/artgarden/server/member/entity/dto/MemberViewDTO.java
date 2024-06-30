@@ -44,7 +44,7 @@ public class MemberViewDTO {
 
     MemberViewDTO (Member member){
         this.loginid = member.getLoginid();
-        this.name = member.getLoginid();
+        this.name = member.getName();
         this.birthday = member.getBirthday();
         this.celno = member.getCelno();
         this.email = member.getEmail();
