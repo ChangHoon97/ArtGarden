@@ -13,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.SecureRandom;
+
 @Service
 @AllArgsConstructor
 @Slf4j
@@ -68,15 +70,44 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
+    @Transactional
     public String oauthLoginProcess(HttpServletRequest request, OauthLoginDTO dto) {
         String result = "";
+
+        MemberViewDTO chkmember = memberRepository.findMemberByLoginid(dto.getLoginid());
+        if(chkmember == null){
+            dto.setNickname(generateRandomNickname(7));
+            Member member = new Member(dto);
+            memberRepository.save(member);
+            log.info(dto.getName());
+            log.info(dto.getLoginid());
+            log.info(dto.getEmail());
+            log.info(dto.getNickname());
+        }
+
         HttpSession session = request.getSession();
         session.setMaxInactiveInterval(30*60);
         session.setAttribute("memberid", dto.getLoginid());
+
         String memberid = (String) session.getAttribute("memberid");
         log.info("============== 로그인 성공 : " + memberid + " ==============");
         result = "ProcessSuccess";
         return result;
+    }
+
+    private String generateRandomNickname(int length){
+        String Characters = "abcdfghijklmnopqrstuvwxyz0123456789";
+        SecureRandom random = new SecureRandom();
+        StringBuilder sb = new StringBuilder(length);
+
+        do{
+            for(int i = 0; i< length; i++){
+                int randomIndex = random.nextInt(Characters.length());
+                sb.append(Characters.charAt(randomIndex));
+            }
+        } while(memberRepository.findMemberByNickname(sb.toString()) != null);
+
+        return sb.toString();
     }
 
     @Override

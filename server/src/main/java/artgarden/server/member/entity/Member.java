@@ -1,6 +1,7 @@
 package artgarden.server.member.entity;
 
 import artgarden.server.member.entity.dto.MemberJoinDTO;
+import artgarden.server.member.entity.dto.OauthLoginDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -52,4 +53,13 @@ public class Member {
         //this.gender = dto.getGender();
     }
 
+    public Member(OauthLoginDTO dto){
+        this.loginid = dto.getLoginid();
+        this.name = dto.getName();
+        this.email = dto.getEmail();
+        this.nickname = dto.getNickname();
+        this.role = Role.USER;
+        this.regdt = LocalDateTime.now();
+        this.delyn = false;
+    }
 }
