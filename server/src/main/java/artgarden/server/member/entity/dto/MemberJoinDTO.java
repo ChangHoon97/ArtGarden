@@ -26,13 +26,13 @@ public class MemberJoinDTO {
     @Pattern(regexp = "^[가-힣a-zA-Z]{1,30}$", message = "1~30자 이내의 한글,영문으로 이루어져야합니다.")
     private String name;
 
-    @Past(message = "생년월일은 오늘보다 과거여야 합니다.")
-    /*@Pattern(regexp = "\"^(19|20)\\\\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\\\d|3[01])$\"")*/
-    private LocalDate birthday;
+    /*@Past(message = "생년월일은 오늘보다 과거여야 합니다.")
+    *//*@Pattern(regexp = "\"^(19|20)\\\\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\\\d|3[01])$\"")*//*
+    private LocalDate birthday;*/
 
-    @NotBlank(message = "전화번호는 필수 입력 값입니다.")
+    /*@NotBlank(message = "전화번호는 필수 입력 값입니다.")
     @Pattern(regexp = "^\\d{3}-\\d{3,4}-\\d{4}$", message = "전화번호는 010-000-0000 혹은 010-0000-0000 형식이어야 합니다")
-    private String celno;
+    private String celno;*/
 
     @NotBlank(message = "이메일은 필수 입력 값입니다.")
     @Email(message = "올바르지 않은 이메일 형식입니다.")
@@ -42,7 +42,7 @@ public class MemberJoinDTO {
     @Pattern(regexp = "^[가-힣a-zA-Z0-9]{2,10}$", message = "2~10자 이내의 한글,영문으로 이루어져야합니다.")
     private String nickname;
 
-    @NotBlank(message = "성별은 필수 입력 값입니다.")
-    private String gender;
+    /*@NotBlank(message = "성별은 필수 입력 값입니다.")
+    private String gender;*/
 
 }

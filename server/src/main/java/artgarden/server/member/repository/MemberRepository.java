@@ -27,7 +27,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     Member findMemberByLoginidPassword(@Param("dto")MemberLoginDTO dto);
 
     @Query("UPDATE Member m " +
-            "SET m.name = :#{#dto.name}, m.birthday = :#{#dto.birthday}, m.celno = :#{#dto.celno}, m.email = :#{#dto.email}, m.nickname = :#{#dto.nickname} " +
+            "SET m.name = :#{#dto.name}, m.email = :#{#dto.email}, m.nickname = :#{#dto.nickname} " +
             "WHERE m.loginid = :#{#dto.loginid}")
     @Modifying
     void updateMember(@Param("dto") MemberViewDTO dto);

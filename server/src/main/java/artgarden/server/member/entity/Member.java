@@ -41,15 +41,15 @@ public class Member {
         this.loginid = dto.getLoginid();
         this.password = dto.getPassword();
         this.name = dto.getName();
-        this.birthday = dto.getBirthday();
-        this.celno = dto.getCelno();
+        //this.birthday = dto.getBirthday();
+        //this.celno = dto.getCelno();
         this.email = dto.getEmail();
         this.nickname = dto.getNickname();
         this.imageUrl = null;
         this.role = Role.USER;
         this.regdt = LocalDateTime.now();
         this.delyn = false;
-        this.gender = dto.getGender();
+        //this.gender = dto.getGender();
     }
 
 }

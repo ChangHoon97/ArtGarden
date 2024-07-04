@@ -26,8 +26,8 @@ public class MemberViewDTO {
     @Pattern(regexp = "^[가-힣a-zA-Z]{1,30}$", message = "1~30자 이내의 한글,영문으로 이루어져야합니다.")
     private String name;
 
-    @Past(message = "생년월일은 오늘보다 과거여야 합니다.")
-    /*@Pattern(regexp = "\"^(19|20)\\\\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\\\d|3[01])$\"")*/
+    /*@Past(message = "생년월일은 오늘보다 과거여야 합니다.")
+    *//*@Pattern(regexp = "\"^(19|20)\\\\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12]\\\\d|3[01])$\"")*//*
     private LocalDate birthday;
 
     @NotBlank(message = "전화번호는 필수 입력 값입니다.")
@@ -36,7 +36,7 @@ public class MemberViewDTO {
 
     @NotBlank(message = "이메일은 필수 입력 값입니다.")
     @Email(message = "올바르지 않은 이메일 형식입니다.")
-    private String email;
+    private String email;*/
 
     @NotBlank(message = "별명은 필수 입력 값입니다.")
     @Pattern(regexp = "^[가-힣a-zA-Z0-9]{2,10}$", message = "2~10자 이내의 한글,영문으로 이루어져야합니다.")
@@ -45,9 +45,9 @@ public class MemberViewDTO {
     MemberViewDTO (Member member){
         this.loginid = member.getLoginid();
         this.name = member.getName();
-        this.birthday = member.getBirthday();
-        this.celno = member.getCelno();
-        this.email = member.getEmail();
+        //this.birthday = member.getBirthday();
+        //this.celno = member.getCelno();
+        //this.email = member.getEmail();
         this.nickname = member.getNickname();
     }
 }
