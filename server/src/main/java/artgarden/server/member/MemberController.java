@@ -55,7 +55,17 @@ public class MemberController {
         return ResponseEntity.ok(result);
     }
 
-
+    @Operation(summary = "현재 로그인 여부확인", description = "/chkNickname, true면 로그인 상태 false면 비로그인 상태")
+    @GetMapping(value = "chkLogin")
+    public ResponseEntity<?> chkLogin(HttpServletRequest request){
+        String result = "false";
+        HttpSession session = request.getSession();
+        String membernum = (String) session.getAttribute("memberid");
+        if(membernum != null || !membernum.equals("")){
+            result = "true";
+        }
+        return ResponseEntity.ok(result);
+    }
 
     @Operation(summary = "SNS로그인", description = "/oauthLoginProcess")
     @ApiResponse(responseCode = "200", description = "성공")
