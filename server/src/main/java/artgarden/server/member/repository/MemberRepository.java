@@ -18,6 +18,11 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     @Query("SELECT new artgarden.server.member.entity.dto.MemberViewDTO(m) " +
             "FROM Member m " +
+            "WHERE m.nickname = :nickname AND m.delyn = false")
+    MemberViewDTO findMemberByNickname(@Param("nickname") String nickname);
+
+    @Query("SELECT new artgarden.server.member.entity.dto.MemberViewDTO(m) " +
+            "FROM Member m " +
             "WHERE m.loginid = :loginid")
     MemberViewDTO fdinAllMember(@Param("loginid") String loginid);
 

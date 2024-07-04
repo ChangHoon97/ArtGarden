@@ -41,9 +41,21 @@ public class MemberController {
         if(member != null){
             result = "true";
         }
-        log.info(result);
         return ResponseEntity.ok(result);
     }
+
+    @Operation(summary = "nickname중복확인", description = "/chkNickname, true면 중복 있음 false면 중복 없음")
+    @GetMapping(value = "chkNickname")
+    public ResponseEntity<?> chkNickname(@RequestParam String nickname, HttpServletRequest request){
+        String result = "false";
+        MemberViewDTO member = memberService.selectMemberByNickname(nickname,request);
+        if(member != null){
+            result = "true";
+        }
+        return ResponseEntity.ok(result);
+    }
+
+
 
     @Operation(summary = "SNS로그인", description = "/oauthLoginProcess")
     @ApiResponse(responseCode = "200", description = "성공")

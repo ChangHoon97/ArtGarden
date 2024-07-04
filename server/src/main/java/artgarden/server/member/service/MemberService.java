@@ -12,6 +12,8 @@ public interface MemberService {
 
     MemberViewDTO selectMemberByLoginID(String loginid, HttpServletRequest request);
 
+    MemberViewDTO selectMemberByNickname(String nickname, HttpServletRequest request);
+
     String loginProcess(HttpServletRequest request, MemberLoginDTO dto);
     String oauthLoginProcess(HttpServletRequest request, OauthLoginDTO dto);
 

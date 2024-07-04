@@ -44,6 +44,12 @@ public class MemberServiceImpl implements MemberService{
         return member;
     }
 
+    public MemberViewDTO selectMemberByNickname(String nickname, HttpServletRequest request){
+        MemberViewDTO member = memberRepository.findMemberByLoginid(nickname);
+
+        return member;
+    }
+
     @Override
     public String loginProcess(HttpServletRequest request, MemberLoginDTO dto) {
         String result = "ProcessSuccess";
