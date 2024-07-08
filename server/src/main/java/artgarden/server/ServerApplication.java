@@ -19,6 +19,7 @@ public class ServerApplication {
 	public void init() {
 		// timezone 설정
 		TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
+		System.out.println("Restart Commit");
 	}
 
 }

@@ -1,24 +1,21 @@
 package artgarden.server.config;
 
-import artgarden.server.entity.Role;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
+import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -51,11 +48,17 @@ public class SecurityConfig {
                     @Override
                     public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                         CorsConfiguration config = new CorsConfiguration();
-                        config.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
+                        /*config.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
+                        config.setAllowedOrigins(Collections.singletonList("https://localhost:3000"));
+                        config.setAllowedOrigins(Collections.singletonList("http://localhost:3060"));
+                        config.setAllowedOrigins(Collections.singletonList("https://localhost:3060"));
+                        config.setAllowedOrigins(Arrays.asList("https://artgarden.co.kr","https://artgarden.site"));*/
+                        config.setAllowedOrigins(Arrays.asList("https://artgarden.co.kr", "https://artgarden.site","http://localhost:3000", "https://localhost:3000", "http://localhost:3060", "https://localhost:3060"));
                         config.setAllowedMethods(Collections.singletonList("*"));
                         config.setAllowCredentials(true);
                         config.setAllowedHeaders(Collections.singletonList("*"));
                         config.setMaxAge(3600L);
+                        config.setAllowedHeaders(List.of("*"));
                         return config;
                     }
                 }))
