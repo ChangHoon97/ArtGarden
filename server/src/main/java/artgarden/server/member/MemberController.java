@@ -37,7 +37,7 @@ public class MemberController {
     @GetMapping(value = "chkLoginid")
     public ResponseEntity<?> chkLoginIdDup(@RequestParam String loginid, HttpServletRequest request){
         String result = "false";
-        MemberViewDTO member = memberService.selectMemberByLoginID(loginid,request);
+        MemberViewDTO member = memberService.selectMemberByLoginIDNoDelete(loginid,request);
         if(member != null){
             result = "true";
         }
@@ -61,7 +61,7 @@ public class MemberController {
         String result = "false";
         HttpSession session = request.getSession();
         String membernum = (String) session.getAttribute("memberid");
-        if(membernum != null || !membernum.equals("")){
+        if(membernum != null && !membernum.equals("")){
             result = "true";
         }
         return ResponseEntity.ok(result);

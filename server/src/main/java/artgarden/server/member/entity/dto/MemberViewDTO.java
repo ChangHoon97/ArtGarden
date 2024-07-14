@@ -32,11 +32,11 @@ public class MemberViewDTO {
 
     @NotBlank(message = "전화번호는 필수 입력 값입니다.")
     @Pattern(regexp = "^\\d{3}-\\d{3,4}-\\d{4}$", message = "전화번호는 010-000-0000 혹은 010-0000-0000 형식이어야 합니다")
-    private String celno;
+    private String celno;*/
 
     @NotBlank(message = "이메일은 필수 입력 값입니다.")
     @Email(message = "올바르지 않은 이메일 형식입니다.")
-    private String email;*/
+    private String email;
 
     @NotBlank(message = "별명은 필수 입력 값입니다.")
     @Pattern(regexp = "^[가-힣a-zA-Z0-9]{2,10}$", message = "2~10자 이내의 한글,영문으로 이루어져야합니다.")

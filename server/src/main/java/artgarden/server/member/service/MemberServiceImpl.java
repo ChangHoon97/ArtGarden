@@ -52,6 +52,12 @@ public class MemberServiceImpl implements MemberService{
         return member;
     }
 
+    public MemberViewDTO selectMemberByLoginIDNoDelete(String loginid, HttpServletRequest request){
+        MemberViewDTO member = memberRepository.findMemberByLoginidNoDelete(loginid);
+
+        return member;
+    }
+
     @Override
     public String loginProcess(HttpServletRequest request, MemberLoginDTO dto) {
         String result = "ProcessSuccess";
