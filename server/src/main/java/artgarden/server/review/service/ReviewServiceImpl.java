@@ -10,6 +10,7 @@ import artgarden.server.review.repository.ReviewRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ import java.util.Optional;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Slf4j
 public class ReviewServiceImpl implements ReviewService{
 
     private final ReviewRepository reviewRepository;
@@ -68,7 +70,7 @@ public class ReviewServiceImpl implements ReviewService{
             result = "Required.Login";
         } else if(chkreview.isEmpty()){
             result = "NotFound.Review";
-        } else if(!chkreview.get().getMemberid().equals(memberid)){
+        } else if(!chkreview.get().getRegid().equals(memberid)){
             result = "Other.User";
         } else{
             dto.setUpddt(LocalDateTime.now());
