@@ -26,10 +26,10 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
             "WHERE m.nickname = :nickname AND m.delyn = false")
     MemberViewDTO findMemberByNickname(@Param("nickname") String nickname);
 
-    @Query("SELECT m " +
+    @Query("SELECT new artgarden.server.member.entity.dto.MemberViewDTO(m) " +
             "FROM Member m " +
             "WHERE m.loginid = :#{#dto.loginid} AND m.password = :#{#dto.password} AND m.delyn = false")
-    Member findMemberByLoginidPassword(@Param("dto")MemberLoginDTO dto);
+    MemberViewDTO findMemberByLoginidPassword(@Param("dto")MemberLoginDTO dto);
 
     @Query("UPDATE Member m " +
             "SET m.name = :#{#dto.name}, m.email = :#{#dto.email}, m.nickname = :#{#dto.nickname} " +

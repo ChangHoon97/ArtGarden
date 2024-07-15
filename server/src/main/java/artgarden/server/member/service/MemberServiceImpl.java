@@ -59,46 +59,39 @@ public class MemberServiceImpl implements MemberService{
     }
 
     @Override
-    public String loginProcess(HttpServletRequest request, MemberLoginDTO dto) {
+    public MemberViewDTO loginProcess(HttpServletRequest request, MemberLoginDTO dto) {
         String result = "ProcessSuccess";
-        Member member = memberRepository.findMemberByLoginidPassword(dto);
+        MemberViewDTO member = memberRepository.findMemberByLoginidPassword(dto);
         if(member == null){
-            result = "Not.Matched";
+            member = new MemberViewDTO();
+            member.setMsg("Not.Matched");
         } else{
             HttpSession session = request.getSession();
             session.setMaxInactiveInterval(30*60);
             session.setAttribute("memberid", dto.getLoginid());
-            String memberid = (String) session.getAttribute("memberid");
-            log.info("============== 로그인 성공 : " + memberid + " ==============");
         }
 
-        return result;
+        return member;
     }
 
     @Override
     @Transactional
-    public String oauthLoginProcess(HttpServletRequest request, OauthLoginDTO dto) {
+    public MemberViewDTO oauthLoginProcess(HttpServletRequest request, OauthLoginDTO dto) {
         String result = "";
 
         MemberViewDTO chkmember = memberRepository.findMemberByLoginid(dto.getLoginid());
-        if(chkmember == null){
+        if(chkmember == null){  //신규가입하는 회원일 경우 회원 정보 insert 이후 다시 조회
             dto.setNickname(generateRandomNickname(7));
             Member member = new Member(dto);
             memberRepository.save(member);
-            log.info(dto.getName());
-            log.info(dto.getLoginid());
-            log.info(dto.getEmail());
-            log.info(dto.getNickname());
+            chkmember = memberRepository.findMemberByLoginid(dto.getLoginid());
         }
 
         HttpSession session = request.getSession();
         session.setMaxInactiveInterval(30*60);
-        session.setAttribute("memberid", dto.getLoginid());
+        session.setAttribute("memberid", chkmember.getLoginid());
 
-        String memberid = (String) session.getAttribute("memberid");
-        log.info("============== 로그인 성공 : " + memberid + " ==============");
-        result = "ProcessSuccess";
-        return result;
+        return chkmember;
     }
 
     private String generateRandomNickname(int length){

@@ -16,8 +16,8 @@ public interface MemberService {
 
     MemberViewDTO selectMemberByLoginIDNoDelete(String loginid, HttpServletRequest request);
 
-    String loginProcess(HttpServletRequest request, MemberLoginDTO dto);
-    String oauthLoginProcess(HttpServletRequest request, OauthLoginDTO dto);
+    MemberViewDTO loginProcess(HttpServletRequest request, MemberLoginDTO dto);
+    MemberViewDTO oauthLoginProcess(HttpServletRequest request, OauthLoginDTO dto);
 
     String updateMember(HttpServletRequest request, MemberViewDTO dto);
 
