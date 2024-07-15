@@ -72,6 +72,7 @@ public class ReviewServiceImpl implements ReviewService{
             result = "Other.User";
         } else{
             dto.setUpddt(LocalDateTime.now());
+            dto.setUpdid(memberid);
             review = reviewRepository.findById(id).orElseThrow();
             review.updateFromDto(dto);
             reviewRepository.save(review);
