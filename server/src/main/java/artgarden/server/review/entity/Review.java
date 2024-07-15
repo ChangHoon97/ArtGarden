@@ -36,7 +36,7 @@ public class Review {
         this.content = dto.getContent();
         this.rate = dto.getRate();
         this.updid = dto.getUpdid();
-        this.upddt = dto.getUpddt();
+        this.upddt = LocalDateTime.now();
     }
 
 }

@@ -90,11 +90,11 @@ public class ReviewController {
         result = reviewService.updateReview(request, id, review);
 
         if(result.equals("Required.Login")){
-            ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
         } else  if(result.equals("NotFound.Review")){
-            ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
         } else if(result.equals("Other.User")){
-            ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
         }
 
         return ResponseEntity.ok(result);
@@ -109,11 +109,11 @@ public class ReviewController {
         result = reviewService.deleteReview(request, id);
 
         if(result.equals("Required.Login")){
-            ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
         } else  if(result.equals("NotFound.Review")){
-            ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
         } else if(result.equals("Other.User")){
-            ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
         }
 
         return ResponseEntity.ok(result);
