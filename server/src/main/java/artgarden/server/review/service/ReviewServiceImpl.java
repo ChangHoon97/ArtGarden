@@ -3,9 +3,9 @@ package artgarden.server.review.service;
 
 import artgarden.server.common.entity.dto.PageDTO;
 import artgarden.server.review.entity.Review;
-import artgarden.server.review.entity.dto.ReviewDTO;
+import artgarden.server.review.entity.dto.ReviewCreateDTO;
 import artgarden.server.review.entity.dto.ReviewListDTO;
-import artgarden.server.review.entity.dto.ReviewUpdateDto;
+import artgarden.server.review.entity.dto.ReviewUpdateDTO;
 import artgarden.server.review.repository.ReviewRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -50,8 +49,12 @@ public class ReviewServiceImpl implements ReviewService{
     }
 
     @Transactional
-    public void createReview(ReviewDTO dto){
+    public void createReview(HttpServletRequest request, ReviewCreateDTO dto){
+        HttpSession session = request.getSession();
+        String memberid = (String)session.getAttribute("memberid");
+        dto.setRegid(memberid);
         dto.setRegdt(LocalDateTime.now());
+
         Review review = new Review();
         review.createFromDto(dto);
 
@@ -59,7 +62,7 @@ public class ReviewServiceImpl implements ReviewService{
     }
 
     @Transactional
-    public String updateReview(HttpServletRequest request, Long id, ReviewUpdateDto dto){
+    public String updateReview(HttpServletRequest request, Long id, ReviewUpdateDTO dto){
         String result = "ProcessSuccess";
         HttpSession session = request.getSession();
         String memberid = (String) session.getAttribute("memberid");
@@ -70,7 +73,7 @@ public class ReviewServiceImpl implements ReviewService{
             result = "Required.Login";
         } else if(chkreview.isEmpty()){
             result = "NotFound.Review";
-        } else if(!chkreview.get().getRegid().equals(memberid)){
+        } else if(!chkreview.get().getMemberid().equals(memberid)){
             result = "Other.User";
         } else{
             dto.setUpddt(LocalDateTime.now());

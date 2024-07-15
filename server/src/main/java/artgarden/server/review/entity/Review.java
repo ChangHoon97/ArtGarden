@@ -1,7 +1,7 @@
 package artgarden.server.review.entity;
 
-import artgarden.server.review.entity.dto.ReviewDTO;
-import artgarden.server.review.entity.dto.ReviewUpdateDto;
+import artgarden.server.review.entity.dto.ReviewCreateDTO;
+import artgarden.server.review.entity.dto.ReviewUpdateDTO;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -24,7 +24,7 @@ public class Review {
     private String updid;
     private LocalDateTime upddt;
 
-    public void createFromDto(ReviewDTO dto){
+    public void createFromDto(ReviewCreateDTO dto){
         this.objectid = dto.getObjectid();
         this.content = dto.getContent();
         this.rate = dto.getRate();
@@ -33,7 +33,7 @@ public class Review {
         this.regdt = dto.getRegdt();
     }
 
-    public void updateFromDto(ReviewUpdateDto dto){
+    public void updateFromDto(ReviewUpdateDTO dto){
         this.content = dto.getContent();
         this.rate = dto.getRate();
         this.updid = dto.getUpdid();

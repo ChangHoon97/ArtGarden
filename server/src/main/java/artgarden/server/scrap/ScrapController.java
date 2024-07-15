@@ -66,8 +66,7 @@ public class ScrapController {
                                                  HttpServletRequest request){
         HttpSession session = request.getSession();
         String memberid = (String) session.getAttribute("memberid");
-        String sessionid = (String) session.getId();
-        Boolean isNew = session.isNew();
+
         String result = "ProcessFail";
         if(memberid != null){
             result = scrapService.updateScraping(memberid, dto);

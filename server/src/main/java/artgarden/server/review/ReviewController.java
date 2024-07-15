@@ -2,9 +2,9 @@ package artgarden.server.review;
 
 import artgarden.server.common.entity.dto.PageDTO;
 import artgarden.server.review.entity.Review;
-import artgarden.server.review.entity.dto.ReviewDTO;
+import artgarden.server.review.entity.dto.ReviewCreateDTO;
 import artgarden.server.review.entity.dto.ReviewListDTO;
-import artgarden.server.review.entity.dto.ReviewUpdateDto;
+import artgarden.server.review.entity.dto.ReviewUpdateDTO;
 import artgarden.server.review.service.ReviewService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -18,8 +18,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -68,13 +66,12 @@ public class ReviewController {
     @Operation(summary = "리뷰 등록", description = "/reviews")
     @ApiResponse(responseCode = "200", description = "성공")
     @PostMapping("/reviews")
-    public ResponseEntity<?> createReview(HttpServletRequest request, @RequestBody ReviewDTO review){
+    public ResponseEntity<?> createReview(HttpServletRequest request, @RequestBody ReviewCreateDTO review){
         HttpSession session = request.getSession();
         String memberid = (String) session.getAttribute("memberid");
         String result = "ProcesSuccess";
-        review.setRegid(memberid);
         if(memberid != null){
-            reviewService.createReview(review);
+            reviewService.createReview(request, review);
         } else{
             result = "Required.Login";
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result);
@@ -85,7 +82,7 @@ public class ReviewController {
     @Operation(summary = "리뷰 수정", description = "/reviews/1")
     @ApiResponse(responseCode = "200", description = "성공")
     @PatchMapping("/reviews/{id}")
-    public ResponseEntity<?> updateReview(HttpServletRequest request, @PathVariable Long id,@RequestBody ReviewUpdateDto review){
+    public ResponseEntity<?> updateReview(HttpServletRequest request, @PathVariable Long id,@RequestBody ReviewUpdateDTO review){
         String result = "ProcessSuccess";
 
         result = reviewService.updateReview(request, id, review);
