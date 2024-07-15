@@ -47,7 +47,7 @@ public class MemberViewDTO {
         this.name = member.getName();
         //this.birthday = member.getBirthday();
         //this.celno = member.getCelno();
-        //this.email = member.getEmail();
+        this.email = member.getEmail();
         this.nickname = member.getNickname();
     }
 }
