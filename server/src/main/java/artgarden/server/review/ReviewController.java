@@ -72,6 +72,7 @@ public class ReviewController {
         HttpSession session = request.getSession();
         String memberid = (String) session.getAttribute("memberid");
         String result = "ProcesSuccess";
+        review.setRegid(memberid);
         if(memberid != null){
             reviewService.createReview(review);
         } else{

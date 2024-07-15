@@ -29,6 +29,7 @@ public class Review {
         this.content = dto.getContent();
         this.rate = dto.getRate();
         this.memberid = dto.getMemberid();
+        this.regid = dto.getRegid();
         this.regdt = dto.getRegdt();
     }
 
