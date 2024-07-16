@@ -56,7 +56,7 @@ public class MemberController {
         return ResponseEntity.ok(result);
     }
 
-    @Operation(summary = "현재 로그인 여부확인", description = "/chkNickname, true면 로그인 상태 false면 비로그인 상태")
+    @Operation(summary = "현재 로그인 여부확인", description = "/chkLogin, true면 로그인 상태 false면 비로그인 상태")
     @GetMapping(value = "chkLogin")
     public ResponseEntity<?> chkLogin(HttpServletRequest request){
         String result = "false";
