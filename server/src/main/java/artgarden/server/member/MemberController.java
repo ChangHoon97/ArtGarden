@@ -6,7 +6,9 @@ import artgarden.server.member.service.MemberService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -71,19 +73,26 @@ public class MemberController {
     @Operation(summary = "SNS로그인", description = "/oauthLoginProcess")
     @ApiResponse(responseCode = "200", description = "성공")
     @PostMapping("/oauthLoginProcess")
-    public ResponseEntity<?> oauthLoginProcess(HttpServletRequest request, @Valid @RequestBody OauthLoginDTO dto){
+    public ResponseEntity<?> oauthLoginProcess(HttpServletRequest request,  @Valid @RequestBody OauthLoginDTO dto){
         MemberViewDTO result = memberService.oauthLoginProcess(request, dto);
         return ResponseEntity.ok(result);
     }
 
     @Operation(summary = "일반로그인", description="/loginProcess")
     @PostMapping("/loginProcess")
-    public ResponseEntity<?> loginProcess(HttpServletRequest request, @Valid @RequestBody MemberLoginDTO dto){
+    public ResponseEntity<?> loginProcess(HttpServletRequest request, HttpServletResponse response, @Valid @RequestBody MemberLoginDTO dto){
 
+        HttpSession session = request.getSession();
         MemberViewDTO result = memberService.loginProcess(request, dto);
         if(UtilBean.checkNullString(result.getMsg()).equals("Not.Matched")){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result.getMsg());
         }
+        Cookie cookie = new Cookie("sessionId", session.getId());
+        cookie.setHttpOnly(true);
+        cookie.setPath("/");
+        cookie.setMaxAge(7*24*60*60);
+
+        response.addCookie(cookie);
 
         return ResponseEntity.ok(result);
     }
