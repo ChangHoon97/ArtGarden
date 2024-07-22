@@ -80,19 +80,13 @@ public class MemberController {
 
     @Operation(summary = "일반로그인", description="/loginProcess")
     @PostMapping("/loginProcess")
-    public ResponseEntity<?> loginProcess(HttpServletRequest request, HttpServletResponse response, @Valid @RequestBody MemberLoginDTO dto){
+    public ResponseEntity<?> loginProcess(HttpServletRequest request, @Valid @RequestBody MemberLoginDTO dto){
 
         HttpSession session = request.getSession();
         MemberViewDTO result = memberService.loginProcess(request, dto);
         if(UtilBean.checkNullString(result.getMsg()).equals("Not.Matched")){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(result.getMsg());
         }
-        Cookie cookie = new Cookie("sessionId", session.getId());
-        cookie.setHttpOnly(true);
-        cookie.setPath("/");
-        cookie.setMaxAge(7*24*60*60);
-
-        response.addCookie(cookie);
 
         return ResponseEntity.ok(result);
     }
