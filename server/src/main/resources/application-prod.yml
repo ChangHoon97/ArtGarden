@@ -22,4 +22,4 @@ server:
     session:
       cookie:
         secure: false
-        same-site: Lax
+        same-site: None
