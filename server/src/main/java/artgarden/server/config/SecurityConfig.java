@@ -20,27 +20,7 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
     /*@Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, HandlerMappingIntrospector introspector) throws Exception{
-        http
-                .csrf(AbstractHttpConfigurer::disable)
-                .headers((headerConfig) ->
-                        headerConfig.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable)
-                )
-                .authorizeHttpRequests((authorizeRequests) ->
-                        authorizeRequests
-//                                .requestMatchers(new MvcRequestMatcher(introspector,"login/**")).permitAll()
-                                .requestMatchers(new MvcRequestMatcher(introspector, "/")).permitAll()
-//                                .requestMatchers("/posts/**", "/api/v1/posts/**").hasRole(Role.USER.name())
-//                                .requestMatchers("/admins/**","/api/v1/admins/**").hasRole(Role.ADMIN.name())
-                                .anyRequest().permitAll()
-                );
-
-        return http.build();
-    }*/
-
-    @Bean
     SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
 
         // http://localhost:4200 에 대한 CORS 허용
@@ -48,17 +28,11 @@ public class SecurityConfig {
                     @Override
                     public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                         CorsConfiguration config = new CorsConfiguration();
-                        /*config.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
-                        config.setAllowedOrigins(Collections.singletonList("https://localhost:3000"));
-                        config.setAllowedOrigins(Collections.singletonList("http://localhost:3060"));
-                        config.setAllowedOrigins(Collections.singletonList("https://localhost:3060"));
-                        config.setAllowedOrigins(Arrays.asList("https://artgarden.co.kr","https://artgarden.site"));*/
                         config.setAllowedOrigins(Arrays.asList("https://artgarden.co.kr", "https://artgarden.site","http://localhost:3000", "https://localhost:3000", "http://localhost:3060", "https://localhost:3060"));
                         config.setAllowedMethods(Collections.singletonList("*"));
                         config.setAllowCredentials(true);
                         config.setAllowedHeaders(Collections.singletonList("*"));
                         config.setMaxAge(3600L);
-                        config.setAllowedHeaders(List.of("*"));
                         return config;
                     }
                 }))
@@ -84,7 +58,41 @@ public class SecurityConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);    // 모든 경로에 Cors설정
         return source;
+    }*/
+
+    @Bean
+    SecurityFilterChain defaultSecurityFilterChain(HttpSecurity http) throws Exception {
+
+        http.cors(Customizer.withDefaults()) // CORS 설정을 별도의 Bean에서 관리
+                .csrf(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests((requests) -> requests
+                        .requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
+                .formLogin(Customizer.withDefaults())
+                .httpBasic(Customizer.withDefaults());
+
+        return http.build();
     }
 
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.setAllowedOriginPatterns(Arrays.asList(
+                "https://artgarden.co.kr",
+                "https://artgarden.site",
+                "http://localhost:3000",
+                "https://localhost:3000",
+                "http://localhost:3060",
+                "https://localhost:3060"
+        ));
+        config.setAllowedMethods(Collections.singletonList("*"));
+        config.setAllowedHeaders(Collections.singletonList("*"));
+        config.setMaxAge(3600L);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+
+        return source;
+    }
 }
 
