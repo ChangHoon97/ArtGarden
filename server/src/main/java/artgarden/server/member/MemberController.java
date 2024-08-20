@@ -108,7 +108,7 @@ public class MemberController {
 
     @Operation(summary = "회원정보수정", description = "/members")
     @PatchMapping("/members")
-    public ResponseEntity<?> updateMember(HttpServletRequest request, @Valid @RequestBody MemberViewDTO dto){
+    public ResponseEntity<?> updateMember(HttpServletRequest request, @Valid @RequestBody MemberUpdateDTO dto){
         String result = "";
 
         result = memberService.updateMember(request, dto);

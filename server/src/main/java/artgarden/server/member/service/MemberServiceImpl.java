@@ -1,10 +1,7 @@
 package artgarden.server.member.service;
 
 import artgarden.server.member.entity.Member;
-import artgarden.server.member.entity.dto.MemberJoinDTO;
-import artgarden.server.member.entity.dto.MemberLoginDTO;
-import artgarden.server.member.entity.dto.MemberViewDTO;
-import artgarden.server.member.entity.dto.OauthLoginDTO;
+import artgarden.server.member.entity.dto.*;
 import artgarden.server.member.repository.MemberRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -111,7 +108,7 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     @Transactional
-    public String updateMember(HttpServletRequest request, MemberViewDTO dto) {
+    public String updateMember(HttpServletRequest request, MemberUpdateDTO dto) {
         String result = "ProcessSuccess";
         HttpSession session = request.getSession();
         String memberid = (String)session.getAttribute("memberid");

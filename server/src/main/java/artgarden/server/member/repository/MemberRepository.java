@@ -2,6 +2,7 @@ package artgarden.server.member.repository;
 
 import artgarden.server.member.entity.Member;
 import artgarden.server.member.entity.dto.MemberLoginDTO;
+import artgarden.server.member.entity.dto.MemberUpdateDTO;
 import artgarden.server.member.entity.dto.MemberViewDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -32,10 +33,10 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     MemberViewDTO findMemberByLoginidPassword(@Param("dto")MemberLoginDTO dto);
 
     @Query("UPDATE Member m " +
-            "SET m.name = :#{#dto.name}, m.email = :#{#dto.email}, m.nickname = :#{#dto.nickname} " +
+            "SET m.nickname = :#{#dto.nickname} " +
             "WHERE m.loginid = :#{#dto.loginid}")
     @Modifying
-    void updateMember(@Param("dto") MemberViewDTO dto);
+    void updateMember(@Param("dto") MemberUpdateDTO dto);
 
     @Query("UPDATE Member m SET m.delyn = true WHERE m.loginid = :loginid")
     @Modifying

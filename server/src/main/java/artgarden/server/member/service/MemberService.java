@@ -1,10 +1,7 @@
 package artgarden.server.member.service;
 
 import artgarden.server.member.entity.Member;
-import artgarden.server.member.entity.dto.MemberJoinDTO;
-import artgarden.server.member.entity.dto.MemberLoginDTO;
-import artgarden.server.member.entity.dto.MemberViewDTO;
-import artgarden.server.member.entity.dto.OauthLoginDTO;
+import artgarden.server.member.entity.dto.*;
 import jakarta.servlet.http.HttpServletRequest;
 
 public interface MemberService {
@@ -19,7 +16,7 @@ public interface MemberService {
     MemberViewDTO loginProcess(HttpServletRequest request, MemberLoginDTO dto);
     MemberViewDTO oauthLoginProcess(HttpServletRequest request, OauthLoginDTO dto);
 
-    String updateMember(HttpServletRequest request, MemberViewDTO dto);
+    String updateMember(HttpServletRequest request, MemberUpdateDTO dto);
 
     String logout(HttpServletRequest request);
 
