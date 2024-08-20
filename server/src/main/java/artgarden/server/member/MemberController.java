@@ -44,6 +44,9 @@ public class MemberController {
         if(member != null){
             result = "true";
         }
+        if(member != null){
+            result = "true";
+        }
         return ResponseEntity.ok(result);
     }
 
