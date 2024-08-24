@@ -38,6 +38,7 @@ public class KopisController {
     public ResponseEntity<String> manualOngoingUpdate(){
 
         kopisService.updateOngoing();
+        int a = 0;
 
         return ResponseEntity.ok("Data save successfully");
     }
