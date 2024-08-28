@@ -44,7 +44,7 @@ public class MemberServiceImpl implements MemberService{
     }
 
     public MemberViewDTO selectMemberByNickname(String nickname, HttpServletRequest request){
-        MemberViewDTO member = memberRepository.findMemberByLoginid(nickname);
+        MemberViewDTO member = memberRepository.findMemberByNickname(nickname);
 
         return member;
     }
