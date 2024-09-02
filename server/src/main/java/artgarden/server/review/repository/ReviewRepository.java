@@ -15,7 +15,8 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
             "LEFT OUTER JOIN Member m on r.memberid = m.loginid " +
             "LEFT OUTER JOIN Performance p on p.id = :object_id " +
             "LEFT OUTER JOIN Exhibit e on e.id = :object_id " +
-            "WHERE r.objectid = :object_id")
+            "WHERE r.objectid = :object_id " +
+            "ORDER BY r.regdt DESC")
     Page<ReviewListDTO> findAllByObjectId(@Param("object_id") String object_id, Pageable pageable);
 
 
