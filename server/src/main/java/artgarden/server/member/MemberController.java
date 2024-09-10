@@ -40,7 +40,7 @@ public class MemberController {
     @GetMapping(value = "chkLoginid")
     public ResponseEntity<?> chkLoginIdDup(@RequestParam String loginid, HttpServletRequest request){
         String result = "false";
-        MemberViewDTO member = memberService.selectMemberByLoginIDNoDelete(loginid,request);
+        MemberViewDTO member = memberService.selectMemberByLoginID(loginid,request);
         if(member != null){
             result = "true";
         }
