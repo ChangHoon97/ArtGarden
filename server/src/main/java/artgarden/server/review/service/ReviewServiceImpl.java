@@ -38,7 +38,7 @@ public class ReviewServiceImpl implements ReviewService{
 
         Page<ReviewListDTO> reviews = reviewRepository.findAllByObjectId(id, pageable);
         PageDTO<ReviewListDTO> dto = new PageDTO<>(reviews);
-        int a = 1;
+
         return dto;
     }
 
