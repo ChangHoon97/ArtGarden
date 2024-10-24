@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
@@ -34,14 +35,20 @@ public class RankController {
     @GetMapping("/ranks/{rankDate}")
     public ResponseEntity<List<RankListDto>> getRank(
             @Parameter(description = "조회 날짜, rankDate-7 ~ rankDate 기간의 순위 조회")
-            @PathVariable String rankDate){
+            @PathVariable String rankDate,
+            @Parameter(description = "랭킹 몇위까지 조회 할 것인지(최대 10, 기본 10)")
+            @RequestParam(defaultValue = "10") int size){
         LocalDate dates = StringToLocalDate(rankDate);
         WeeklyRank weeklyRank = rankService.findByRankDate(dates);
 
         List<String> performIds = weeklyRank.getPerformId();
         List<RankListDto> dtoList = new ArrayList<>();
 
-        for(int i=0; i<9; i++){     // FE요청사항 : 응답 데이터 9개로 해주세요
+        if(size > 10){
+            size = 10;
+        }
+
+        for(int i=0; i<size; i++){     // FE요청사항 : 응답 데이터 9개로 해주세요
             String performId = performIds.get(i);
             if(performanceService.findById(performId) == null){
                 kopisService.saveSinglePerformance(performId);
