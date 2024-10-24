@@ -26,8 +26,10 @@ public class PerformanceServiceImpl implements PerformanceService{
         return performanceRepository.findById(id);
     }
     public PerformanceDetailDTO getPerformanceDetail(String id, String memberid){
+        PerformanceDetailDTO dto = performanceRepository.getPerformanceDetail(id, memberid);
+        performanceRepository.updateVisitCnt(id);
 
-        return performanceRepository.getPerformanceDetail(id, memberid);
+        return dto;
     }
 
     public PageDTO<PerformanceListDTO> getPerformances(String keyword, String status, int days, Pageable pageable, String[] searchAreaArr, String orderby, String memberid){

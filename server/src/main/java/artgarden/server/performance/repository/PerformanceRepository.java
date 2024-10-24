@@ -104,5 +104,10 @@ public interface PerformanceRepository extends JpaRepository<Performance, Long> 
     @Query("UPDATE Performance p SET p.scrapcnt = p.scrapcnt+1 WHERE p.id = :performid")
     void updateScrapCntASC(@Param("performid") String id);
 
+    @Modifying
+    @Transactional
+    @Query("UPDATE Performance p SET p.visitcnt = p.visitcnt+1 WHERE p.id = :performid")
+    void updateVisitCnt(@Param("performid") String id);
+
 
 }
