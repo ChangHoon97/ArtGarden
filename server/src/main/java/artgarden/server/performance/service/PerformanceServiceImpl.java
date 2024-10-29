@@ -25,6 +25,8 @@ public class PerformanceServiceImpl implements PerformanceService{
     public Performance findById(String id){
         return performanceRepository.findById(id);
     }
+
+    @Transactional
     public PerformanceDetailDTO getPerformanceDetail(String id, String memberid){
         PerformanceDetailDTO dto = performanceRepository.getPerformanceDetail(id, memberid);
         performanceRepository.updateVisitCnt(id);
