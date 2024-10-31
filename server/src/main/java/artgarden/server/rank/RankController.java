@@ -40,7 +40,8 @@ public class RankController {
             @Parameter(description = "랭킹 몇위까지 조회 할 것인지(최대 10, 기본 10)")
             @RequestParam(defaultValue = "10") int size){
         LocalDate dates = StringToLocalDate(rankDate);
-        WeeklyRank weeklyRank = rankService.findByRankDate(dates);
+        WeeklyRank weeklyRank = new WeeklyRank();
+        weeklyRank = rankService.findByRankDate(dates);
 
         List<String> performIds = new ArrayList<>();
         List<RankListDto> dtoList = new ArrayList<>();
