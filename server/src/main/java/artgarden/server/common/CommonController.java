@@ -27,6 +27,7 @@ public class CommonController {
     @GetMapping("/healthcheck")
     public ResponseEntity<String> home(){
         String result = "ok";
+        String result1 = "ok";
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
