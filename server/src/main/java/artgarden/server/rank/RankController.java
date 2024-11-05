@@ -44,7 +44,7 @@ public class RankController {
 
         List<String> performIds = new ArrayList<>();
         List<RankListDto> dtoList = new ArrayList<>();
-        if(weeklyRank.getPerformId() != null) {
+        if(weeklyRank != null && weeklyRank.getPerformId() != null) {
             performIds = weeklyRank.getPerformId();
 
             if(size > 10){
