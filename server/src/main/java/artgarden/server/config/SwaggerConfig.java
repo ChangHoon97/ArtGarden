@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@OpenAPIDefinition(info = @Info(title = "ArtGarden", description = "공연 정보 서비스", version = "1.0.0"), servers = {@Server(url="https://artgarden.site", description = "")})
+@OpenAPIDefinition(info = @Info(title = "ArtGarden", description = "공연 정보 서비스", version = "1.0.0"), servers = {@Server(url="https://artgarden.life", description = "")})
 @RequiredArgsConstructor
 public class SwaggerConfig {
 
