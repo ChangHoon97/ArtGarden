@@ -51,6 +51,9 @@ public class MemberServiceImpl implements MemberService{
         return memberRepository.findMemberByLoginidNoDelete(loginid);
     }
 
+    /*
+     * 로그인
+     */
     @Override
     public MemberViewDTO loginProcess(HttpServletRequest request, MemberLoginDTO dto) {
         String result = "ProcessSuccess";
@@ -67,6 +70,9 @@ public class MemberServiceImpl implements MemberService{
         return member;
     }
 
+    /*
+     * SNS로그인 + 회원가입
+     */
     @Override
     @Transactional
     public MemberViewDTO oauthLoginProcess(HttpServletRequest request, OauthLoginDTO dto) {
@@ -74,7 +80,7 @@ public class MemberServiceImpl implements MemberService{
 
         MemberViewDTO chkmember = memberRepository.findMemberByLoginid(dto.getLoginid());
         if(chkmember == null){  //신규가입하는 회원일 경우 회원 정보 insert 이후 다시 조회
-            dto.setNickname(generateRandomNickname(7));
+            dto.setNickname(generateRandomNickname(5));
             Member member = new Member(dto);
             memberRepository.save(member);
             chkmember = memberRepository.findMemberByLoginid(dto.getLoginid());
@@ -97,11 +103,14 @@ public class MemberServiceImpl implements MemberService{
                 int randomIndex = random.nextInt(Characters.length());
                 sb.append(Characters.charAt(randomIndex));
             }
-        } while(memberRepository.findMemberByNickname(sb.toString()) != null);
+        } while(memberRepository.findMemberByNickname("회원"+ sb) != null);
 
-        return sb.toString();
+        return "회원"+ sb;
     }
 
+    /*
+     * 회원정보 수정
+     */
     @Override
     @Transactional
     public String updateMember(HttpServletRequest request, MemberUpdateDTO dto) {
@@ -127,6 +136,9 @@ public class MemberServiceImpl implements MemberService{
         return result;
     }
 
+    /*
+     * 로그아웃
+     */
     @Override
     public String logout(HttpServletRequest request) {
         String result = "";
@@ -136,6 +148,9 @@ public class MemberServiceImpl implements MemberService{
         return result;
     }
 
+    /*
+     * 회월탈퇴
+     */
     @Override
     @Transactional
     public String deleteMember(String loginid, HttpServletRequest request) {

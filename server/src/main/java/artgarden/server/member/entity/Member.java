@@ -30,6 +30,7 @@ public class Member {
     private LocalDateTime regdt;
     @ColumnDefault("false")
     private boolean delyn;
+    private SnsType snstype;
 
     protected Member() {
     }
@@ -50,6 +51,7 @@ public class Member {
         this.role = Role.USER;
         this.regdt = LocalDateTime.now();
         this.delyn = false;
+        this.snstype = SnsType.LOCAL;
         //this.gender = dto.getGender();
     }
 
@@ -61,5 +63,6 @@ public class Member {
         this.role = Role.USER;
         this.regdt = LocalDateTime.now();
         this.delyn = false;
+        this.snstype = dto.getSnstype();
     }
 }

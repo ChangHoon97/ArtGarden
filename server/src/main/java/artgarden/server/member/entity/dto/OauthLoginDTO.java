@@ -1,5 +1,6 @@
 package artgarden.server.member.entity.dto;
 
+import artgarden.server.member.entity.SnsType;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
@@ -23,5 +24,6 @@ public class OauthLoginDTO {
     private String email;
 
     private String nickname;
+    private SnsType snstype;
 
 }
