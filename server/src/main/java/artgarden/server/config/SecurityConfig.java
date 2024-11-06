@@ -79,7 +79,7 @@ public class SecurityConfig {
         config.setAllowCredentials(true);
         config.setAllowedOriginPatterns(Arrays.asList(
                 "https://artgarden.co.kr",
-                "https://artgarden.site",
+                "https://artgarden.life",
                 "http://localhost:3000",
                 "https://localhost:3000",
                 "http://localhost:3060",
