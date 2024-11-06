@@ -38,21 +38,17 @@ public class MemberServiceImpl implements MemberService{
 
     public MemberViewDTO selectMemberByLoginID(String loginid, HttpServletRequest request){
 
-        MemberViewDTO member = memberRepository.findMemberByLoginid(loginid);
-
-        return member;
+        return memberRepository.findMemberByLoginid(loginid);
     }
 
     public MemberViewDTO selectMemberByNickname(String nickname, HttpServletRequest request){
-        MemberViewDTO member = memberRepository.findMemberByNickname(nickname);
 
-        return member;
+        return memberRepository.findMemberByNickname(nickname);
     }
 
     public MemberViewDTO selectMemberByLoginIDNoDelete(String loginid, HttpServletRequest request){
-        MemberViewDTO member = memberRepository.findMemberByLoginidNoDelete(loginid);
 
-        return member;
+        return memberRepository.findMemberByLoginidNoDelete(loginid);
     }
 
     @Override
