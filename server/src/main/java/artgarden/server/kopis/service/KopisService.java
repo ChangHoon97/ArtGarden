@@ -7,13 +7,9 @@ import java.util.List;
 
 public interface KopisService {
 
-    public void updateUpcoming(String standardDate);
+    public void updatePerformance(String startDate, String endDate, String performStatus);
 
-    public void updateOngoing();
-
-    public void deletePerformed(LocalDate standardDate);
-
-    public void updatePerformStatus();
+    public void updateEndPerformStatus();
 
     public void updateRank(String ststype, String rankDate);
 

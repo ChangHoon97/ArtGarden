@@ -39,29 +39,16 @@ public class KopisServiceImpl implements  KopisService{
     private final PerformanceRepository performanceRepository;
     private final RankRepository rankRepository;
 
-    //오늘~ 한달 뒤 공연 정보 업데이트
+    //공연 정보 업데이트
     @Transactional
-    public void updateUpcoming(String standardDate){
-        List<Performance> performanceList = getPerformanceList(UtilBean.formatDate(LocalDate.now()), standardDate, "01");   //01: 공연예정
+    public void updatePerformance(String startDate, String endDate, String performStatus){  //performaStatus : 01(공연예정), 02(공연중), 03(공연완료)
+        List<Performance> performanceList = getPerformanceList(startDate, endDate, performStatus);
         performanceRepository.saveAll(performanceList);
-    }
-
-    //오늘 공연중인 정보 업데이트
-    @Transactional
-    public void updateOngoing(){
-        List<Performance> performanceList = getPerformanceList(UtilBean.formatDate(LocalDate.now()), UtilBean.formatDate(LocalDate.now()), "02"); //02: 공연중
-        performanceRepository.saveAll(performanceList);
-    }
-
-    //standardDate 이전 공연 정보 삭제
-    @Transactional
-    public void deletePerformed(LocalDate standardDate){
-        performanceRepository.deleteByEndDateBefore(standardDate);
     }
 
     //endDate가 지난 공연 상태 공연완료로 변경
     @Transactional
-    public void updatePerformStatus(){
+    public void updateEndPerformStatus(){
         performanceRepository.updatePerformStatusForExpiredPerformances(LocalDate.now());
     }
 
@@ -96,14 +83,14 @@ public class KopisServiceImpl implements  KopisService{
 
     @Transactional
     public List<Performance> getPerformanceList(String startDate, String endDate, String performStatus){
-        // performId가 모두 저장되는 String 리스트
-        HashMap<String, String> performIdList = getPerformanceId(startDate, endDate, performStatus);
+        // performId가 모두 저장되는 HashMap 리스트
+        HashMap<String, String> performIdList = getPerformanceIdList(startDate, endDate, performStatus);
 
         //OpenApi에서 performId를 이용해 performDetail을 리스트에 저장
-        return getPerformanceDetail(performIdList);
+        return getPerformanceDetailList(performIdList);
     }
 
-    private HashMap<String, String> getPerformanceId(String startDate, String endDate, String performStatus) {
+    private HashMap<String, String> getPerformanceIdList(String startDate, String endDate, String performStatus) {
         HashMap<String, String> performIdList = new HashMap<String, String>();
         int cpage = 1;
         while(true) {
@@ -138,7 +125,7 @@ public class KopisServiceImpl implements  KopisService{
         return performIdList;
     }
 
-    private List<Performance> getPerformanceDetail(HashMap<String, String> performIdList){
+    private List<Performance> getPerformanceDetailList(HashMap<String, String> performIdList){
         List<Performance> performances = new ArrayList<>();
 
         for(String id : performIdList.keySet()){

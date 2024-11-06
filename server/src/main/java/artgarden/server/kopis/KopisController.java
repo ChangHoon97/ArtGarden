@@ -26,9 +26,8 @@ public class KopisController {
     @Operation(summary = "이후 한달간 공연 예정 상태의 공연 저장", description = "/manual/performance/upcoming")
     @GetMapping("/manual/performance/upcoming")
     public ResponseEntity<String> manualUpcomingUpdate(){
-        String standardDate = UtilBean.formatDate(LocalDate.now().plusMonths(1));
 
-        kopisService.updateUpcoming(standardDate);
+        kopisService.updatePerformance(UtilBean.formatDate(LocalDate.now()), UtilBean.formatDate(LocalDate.now().plusMonths(1)), "01"); //한달 이후까지 공연 예정인 공연 업데이트
 
         return ResponseEntity.ok("Data save successfully");
     }
@@ -37,8 +36,7 @@ public class KopisController {
     @GetMapping("/manual/performance/pfongoing")
     public ResponseEntity<String> manualOngoingUpdate(){
 
-        kopisService.updateOngoing();
-        int a = 0;
+        kopisService.updatePerformance(UtilBean.formatDate(LocalDate.now()), UtilBean.formatDate(LocalDate.now()), "02"); // 오늘 공연중인 공연 업데이트
 
         return ResponseEntity.ok("Data save successfully");
     }
@@ -46,8 +44,7 @@ public class KopisController {
     @Operation(summary = "해당날짜로 까지 1주일간의 공연 순위 저장", description = "/manual/performance/rank/20231114")
     @GetMapping("/manual/performance/rank/{rankDate}")
     public ResponseEntity<String> manualRankUpdate(@PathVariable String rankDate){
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
-//        String standardDate = LocalDate.now().minusDays(1).format(formatter);
+
         kopisService.updateRank("week",rankDate);
 
         return ResponseEntity.ok("Data save successfully");

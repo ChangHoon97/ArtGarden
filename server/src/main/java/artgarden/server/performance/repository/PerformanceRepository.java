@@ -27,12 +27,6 @@ public interface PerformanceRepository extends JpaRepository<Performance, Long> 
 
     @Transactional
     @Modifying
-    @Query("DELETE FROM Performance e " +
-            "WHERE e.enddate <= :deleteDateStandard")
-    void deleteByEndDateBefore(LocalDate deleteDateStandard);
-
-    @Transactional
-    @Modifying
     @Query("UPDATE Performance e SET e.performstatus = '공연완료' " +
             "WHERE e.enddate <= :today AND e.performstatus <> '공연완료'")
     void updatePerformStatusForExpiredPerformances(LocalDate today);
