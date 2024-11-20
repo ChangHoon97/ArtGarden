@@ -19,6 +19,4 @@ public interface KopisService {
 
     public void updateGenreCode();
 
-    public List<Performance> getPerformanceList(String startDate, String endDate, String performStatus);
-
 }

@@ -33,7 +33,7 @@ public class KopisController {
     }
 
     @Operation(summary = "현재 공연중 상태인 공연 저장", description = "/manual/performance/pfongoing")
-    @GetMapping("/manual/performance/pfongoing")
+    @GetMapping("/manual/performance/ongoing")
     public ResponseEntity<String> manualOngoingUpdate(){
 
         kopisService.updatePerformance(UtilBean.formatDate(LocalDate.now()), UtilBean.formatDate(LocalDate.now()), "02"); // 오늘 공연중인 공연 업데이트

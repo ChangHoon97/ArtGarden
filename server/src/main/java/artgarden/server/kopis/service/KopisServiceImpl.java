@@ -42,7 +42,13 @@ public class KopisServiceImpl implements  KopisService{
     //공연 정보 업데이트
     @Transactional
     public void updatePerformance(String startDate, String endDate, String performStatus){  //performaStatus : 01(공연예정), 02(공연중), 03(공연완료)
-        List<Performance> performanceList = getPerformanceList(startDate, endDate, performStatus);
+
+        //기간에 해당하는 공연ID 리스트 가져오기
+        HashMap<String, String> performanceIdList = getPerformanceIdList(startDate, endDate, performStatus);
+
+        //공연ID로 공연 상세 정보 저장
+        List<Performance> performanceList = getPerformanceDetailList(performanceIdList);
+
         performanceRepository.saveAll(performanceList);
     }
 
@@ -79,15 +85,6 @@ public class KopisServiceImpl implements  KopisService{
     @Transactional
     public void updateGenreCode(){
         performanceRepository.updateGenreCode();
-    }
-
-    @Transactional
-    public List<Performance> getPerformanceList(String startDate, String endDate, String performStatus){
-        // performId가 모두 저장되는 HashMap 리스트
-        HashMap<String, String> performIdList = getPerformanceIdList(startDate, endDate, performStatus);
-
-        //OpenApi에서 performId를 이용해 performDetail을 리스트에 저장
-        return getPerformanceDetailList(performIdList);
     }
 
     private HashMap<String, String> getPerformanceIdList(String startDate, String endDate, String performStatus) {
