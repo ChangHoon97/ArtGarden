@@ -3,12 +3,14 @@ package artgarden.server.performance.entity;
 import artgarden.server.performance.entity.dto.PerformanceApiDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Getter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -51,6 +53,14 @@ public class Performance {
     private String area;
     @Schema(description = "지역코드", example = "AREA01")
     private String areacd;
+    @Schema(description = "공연 런타임", example = "1시간 30분")
+    private String runtime;
+    @Schema(description = "소개 이미지 목록")
+    @ElementCollection
+    private List<String> infoimage;
+    @Schema(description = "예매처URL", example = "http://www.대학로티켓.com/univticket/tuniv/ccontents/view.do?rbsIdx=27&contentsCode=20160925003")
+    @ElementCollection
+    private List<String>  reservationurl;
     @Schema(description = "공연 게시글 조회수", example = "127")
     private int visitcnt;
     @Schema(description = "공연 스크랩 수", example = "13")
@@ -82,6 +92,9 @@ public class Performance {
         this.openrun = dto.getOpenRun();
         this.area = dto.getArea();
         this.areacd = dto.getAreacd();
+        this.runtime = dto.getRuntime();
+        this.infoimage = dto.getInfoimage();
+        this.reservationurl = dto.getReservationurl();
         this.regdt = dto.getRegdt();
         this.regid = dto.getRegid();
     }

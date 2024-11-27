@@ -2,11 +2,13 @@ package artgarden.server.performance.entity.dto;
 
 import artgarden.server.performance.entity.Performance;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.ElementCollection;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 @Getter
 @Setter
@@ -45,6 +47,12 @@ public class PerformanceDetailDTO {
     private int scrapcnt;
     @Schema(description = "지역", example ="대구")
     private String area;
+    @Schema(description = "공연 런타임", example = "1시간 30분")
+    private String runtime;
+    @Schema(description = "소개 이미지 목록")
+    private List<String> infoimage;
+    @Schema(description = "예매처URL", example = "http://www.대학로티켓.com/univticket/tuniv/ccontents/view.do?rbsIdx=27&contentsCode=20160925003")
+    private List<String>  reservationurl;
     @Schema(description = "회원의 찜여부", example ="true")
     private boolean scrapyn;
 
@@ -64,6 +72,9 @@ public class PerformanceDetailDTO {
         this.setVisitcnt(performance.getVisitcnt());
         this.setScrapcnt(performance.getScrapcnt());
         this.setArea(performance.getArea());
+        this.setRuntime(performance.getRuntime());
+        this.setInfoimage(performance.getInfoimage());
+        this.setReservationurl(performance.getReservationurl());
         this.setScrapyn(scrapyn);
 
         if(performance.getOpenrun().equals("Y")){

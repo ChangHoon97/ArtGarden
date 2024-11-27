@@ -245,6 +245,9 @@ public class KopisServiceImpl implements  KopisService{
             String posterUrl = getElementTextContent(performanceElement, "poster");
             String openRun = getElementTextContent(performanceElement, "openrun");
             String area = getElementTextContent(performanceElement, "area");
+            String runtime = getElementTextContent(performanceElement, "prfruntime");
+            List<String> infoimage = getElementTextContents(performanceElement, "styurl");
+            List<String> reservationurl = getElementTextContents(performanceElement, "relateurl");
             if(performIdList != null && area == null){
                 area = performIdList.get(id);
             }
@@ -260,7 +263,7 @@ public class KopisServiceImpl implements  KopisService{
             LocalDate endDate = LocalDate.parse(end, formatter);
 
 
-            return new PerformanceApiDTO(id, name, startDate, endDate, place, time, parsedage, price, casting, production, genre, genrecd, performStatus, posterUrl, openRun, area, areacd, regid, regdt);
+            return new PerformanceApiDTO(id, name, startDate, endDate, place, time, parsedage, price, casting, production, genre, genrecd, performStatus, posterUrl, openRun, area, areacd, runtime, infoimage, reservationurl, regid, regdt);
         }catch(Exception e){
             e.printStackTrace();
             return null;
@@ -278,6 +281,18 @@ public class KopisServiceImpl implements  KopisService{
             }
         }
         return "";
+    }
+
+    // 여러 태그의 텍스트 내용 가져오기
+    private static List<String> getElementTextContents(Element parentElement, String tagName) {
+        NodeList nodeList = parentElement.getElementsByTagName(tagName);
+        List<String> textContents = new ArrayList<>();
+
+        for (int i = 0; i < nodeList.getLength(); i++) {
+            textContents.add(nodeList.item(i).getTextContent().trim());
+        }
+
+        return textContents;
     }
 
     private RankApiDto rankXmlParsing(String responsebody, LocalDate rankDate){

@@ -8,6 +8,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -31,6 +32,9 @@ public class PerformanceApiDTO {
     private String openRun;
     private String area;
     private String areacd;
+    private String runtime;
+    private List<String> infoimage;
+    private List<String> reservationurl;
     private String regid;
     private LocalDateTime regdt;
 }
