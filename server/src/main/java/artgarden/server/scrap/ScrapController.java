@@ -39,7 +39,6 @@ public class ScrapController {
         } else{
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Requried.Login");
         }
-        int a = 0;
 
         return ResponseEntity.ok(scrap);
     }
