@@ -15,7 +15,7 @@ env:
   PROJECT_NAME: artgarden
   BUCKET_NAME: artgardens3
   CODE_DEPLOY_APP_NAME: artgarden
-  DEPLOYMENT_GROUP_NAME: artgarden_codedeploy
+  DEPLOYMENT_GROUP_NAME: artgarden_deploy
 
 jobs:
   build:
