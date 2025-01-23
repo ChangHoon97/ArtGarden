@@ -79,7 +79,7 @@ public class SecurityConfig {
         config.setAllowCredentials(true);
         config.setAllowedOriginPatterns(Arrays.asList(
                 "https://artgarden.co.kr",
-                "https://artgarden.life",
+                "https://artgarden.site",
                 "http://localhost:3000",
                 "https://localhost:3000",
                 "http://localhost:3060",
@@ -91,7 +91,6 @@ public class SecurityConfig {
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
-        int a = 1;
 
         return source;
     }
