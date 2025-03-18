@@ -78,7 +78,6 @@ public class PerformanceController {
         if(performance == null){
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body("No.Content");
         }
-        //git update
 
 
         return ResponseEntity.ok(performance);
