@@ -10,12 +10,6 @@ public class FrankController {
     public String showFakePayPage(){
         return "fakepay.html";
     }
-
-    @GetMapping("/mbsNews")
-    public String showFakePayPage2(){
-        return "mbs.html";
-    }
-
     @GetMapping("/americeNews")
     public String showFakePayPage3(){
         return "americe.html";
@@ -29,15 +23,5 @@ public class FrankController {
     @GetMapping("/josunNews")
     public String showFakePayPage5(){
         return "josun.html";
-    }
-
-    @GetMapping("/mongsilNews")
-    public String showFakePayPage6(){
-        return "mongsil.html";
-    }
-
-    @GetMapping("/daebongNews")
-    public String showFakePayPage7(){
-        return "daebong.html";
     }
 }
