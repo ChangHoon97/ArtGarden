@@ -25,4 +25,9 @@ public class FrankController {
     public String showFakePayPage4(){
         return "americs.html";
     }
+
+    @GetMapping("/josunNews")
+    public String showFakePayPage5(){
+        return "josun.html";
+    }
 }
