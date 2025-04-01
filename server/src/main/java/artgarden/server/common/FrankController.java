@@ -15,4 +15,14 @@ public class FrankController {
     public String showFakePayPage2(){
         return "mbs.html";
     }
+
+    @GetMapping("/americeNews")
+    public String showFakePayPage3(){
+        return "americe.html";
+    }
+
+    @GetMapping("/americsNews")
+    public String showFakePayPage4(){
+        return "americs.html";
+    }
 }
