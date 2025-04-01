@@ -8,7 +8,11 @@ public class FrankController {
 
     @GetMapping("/breakingNews")
     public String showFakePayPage(){
-        System.out.println("#########");
         return "fakepay.html";
+    }
+
+    @GetMapping("/mbsNews")
+    public String showFakePayPage2(){
+        return "mbs.html";
     }
 }
