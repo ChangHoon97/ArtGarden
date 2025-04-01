@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class FrankController {
 
-    @GetMapping("/fake-pay")
+    @GetMapping("/breakingNews")
     public String showFakePayPage(){
         System.out.println("#########");
         return "fakepay.html";
