@@ -33,6 +33,7 @@ public class CommonController {
     @Operation(summary = "코드 리스트")
     @GetMapping("/codeList")
     public ResponseEntity<CodeDTO> codeList(@RequestParam String cdtype, @RequestParam String uppcd, @RequestParam Integer cddepth ){
+        int a = 1;
         return ResponseEntity.status(HttpStatus.OK).body(commonService.getCodeList(cdtype, uppcd, cddepth));
     }
 }
